@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>あなたの声は何タイプ？</title>
+  <!-- Security -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; connect-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none';">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", sans-serif;
+      background-color: #F8F7F4;
+      color: #333;
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 440px;
+    }
+
+    /* ── Heading ── */
+    .heading {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .heading h1 {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .heading .sub {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #999;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── Cards shared ── */
+    .link-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-decoration: none;
+      color: #333;
+      background-color: #FFFFFF;
+      border-radius: 14px;
+      padding: 20px 22px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+      transition: box-shadow 0.2s ease, transform 0.15s ease;
+    }
+
+    .link-card:hover {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+    }
+
+    .link-card:active {
+      transform: scale(0.98);
+    }
+
+    .card-text {
+      flex: 1;
+    }
+
+    .card-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: #B0A99F;
+      letter-spacing: 0.06em;
+      margin-bottom: 4px;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.5;
+      letter-spacing: 0.02em;
+    }
+
+    .card-arrow {
+      flex-shrink: 0;
+      margin-left: 16px;
+    }
+
+    .card-arrow svg {
+      width: 20px;
+      height: 20px;
+      color: #CCC;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    .link-card:hover .card-arrow svg {
+      color: #999;
+      transform: translateX(3px);
+    }
+
+    /* ── Form section ── */
+    .forms {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* ── Membership section ── */
+    .membership {
+      margin-top: 40px;
+    }
+
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .section-divider .line {
+      flex: 1;
+      height: 1px;
+      background-color: #E0DDD8;
+    }
+
+    .section-divider .label {
+      font-size: 11px;
+      color: #B0A99F;
+      letter-spacing: 0.1em;
+      white-space: nowrap;
+    }
+
+    .membership .card-title {
+      font-size: 15px;
+    }
+
+    .membership .card-sub {
+      font-size: 12px;
+      color: #999;
+      margin-top: 3px;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      margin-top: 52px;
+      font-size: 10px;
+      color: #C5C1BA;
+      letter-spacing: 0.06em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="heading">
+      <h1>あなたの声は何タイプ？</h1>
+      <div class="sub">無料で声を診断してみよう</div>
+    </div>
+
+    <!-- 診断フォーム 2つ -->
+    <div class="forms">
+      <a href="https://micarp1221git.github.io/voice-karte-form/" target="_blank" rel="noopener noreferrer" class="link-card">
+        <div class="card-text">
+          <div class="card-label">診断フォーム</div>
+          <div class="card-title">動物タイプ別診断「声カルテ」</div>
+        </div>
+        <div class="card-arrow">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+          </svg>
+        </div>
+      </a>
+
+      <a href="https://micarp1221git.github.io/scouter-form/" target="_blank" rel="noopener noreferrer" class="link-card">
+        <div class="card-text">
+          <div class="card-label">診断フォーム</div>
+          <div class="card-title">マーケター戦闘力スカウター</div>
+        </div>
+        <div class="card-arrow">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+          </svg>
+        </div>
+      </a>
+    </div>
+
+    <!-- メンバーシップ（離して配置） -->
+    <div class="membership">
+      <div class="section-divider">
+        <div class="line"></div>
+        <div class="label">MEMBERSHIP</div>
+        <div class="line"></div>
+      </div>
+
+      <a href="https://note.com/micarp/membership" target="_blank" rel="noopener noreferrer" class="link-card">
+        <div class="card-text">
+          <div class="card-title">noteメンバーシップ</div>
+          <div class="card-sub">声の処方箋</div>
+        </div>
+        <div class="card-arrow">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+          </svg>
+        </div>
+      </a>
+    </div>
+
+    <div class="footer">&copy; 2026 Experisent</div>
+  </div>
+</body>
+</html>
