@@ -611,26 +611,28 @@
   var TYPE_ID = (new URLSearchParams(location.search).get('type') || 'consult')
                   .replace(/[^a-zA-Z0-9_\-]/g, '');
 
-  /* JSONPでGASを呼ぶ。<script>タグ経由なのでCORSの制約を受けず、
-     訪問者のGoogleログイン状態にも左右されない。 */
+  /* GASを fetch で呼ぶ。credentials:'omit' で Googleのログインcookieを一切送らない
+     ため、訪問者が複数Googleアカウントにログインしていても「アカウント振り分け」
+     に巻き込まれず、匿名アクセス（＝所有者として実行）で確実に動く。
+     GAS側は access-control-allow-origin:* を返すのでCORSも通る。 */
   function callGas(params, onOk, onErr) {
-    var cb = 'jsonp_' + Math.floor(Math.random() * 1e9);
-    params.callback = cb;
     var qs = Object.keys(params).map(function (k) {
       var v = (params[k] == null) ? '' : params[k];
       return encodeURIComponent(k) + '=' + encodeURIComponent(v);
     }).join('&');
-    var s = document.createElement('script');
-    var timer = setTimeout(function () { cleanup(); if (onErr) onErr(); }, 25000);
-    function cleanup() {
-      clearTimeout(timer);
-      try { delete window[cb]; } catch (e) { window[cb] = undefined; }
-      if (s.parentNode) s.parentNode.removeChild(s);
-    }
-    window[cb] = function (data) { cleanup(); if (onOk) onOk(data); };
-    s.onerror = function () { cleanup(); if (onErr) onErr(); };
-    s.src = GAS_EXEC_URL + (GAS_EXEC_URL.indexOf('?') < 0 ? '?' : '&') + qs;
-    document.body.appendChild(s);
+    var url = GAS_EXEC_URL + (GAS_EXEC_URL.indexOf('?') < 0 ? '?' : '&') + qs;
+    var done = false;
+    var timer = setTimeout(function () {
+      if (done) return; done = true; if (onErr) onErr();
+    }, 25000);
+    fetch(url, { method: 'GET', credentials: 'omit', redirect: 'follow' })
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (done) return; done = true; clearTimeout(timer); if (onOk) onOk(data);
+      })
+      .catch(function () {
+        if (done) return; done = true; clearTimeout(timer); if (onErr) onErr();
+      });
   }
 
   // アプリの状態
