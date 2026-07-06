@@ -543,7 +543,7 @@
         </dl>
       </div>
       <p class="policy">
-        この日時を<b>60分間仮押さえ</b>したうえで、決済ページへご案内します。<br>
+        この日時を<b>45分間仮押さえ</b>したうえで、決済ページへご案内します。<br>
         お名前・メールアドレスは<b>決済ページで</b>ご入力いただきます。<br>
         決済完了後、ご予約確定メール（Zoomリンク記載）が自動で届きます。
       </p>
@@ -588,7 +588,7 @@
         <!-- 決済つき種別（フロー=payment）: 仮押さえ完了→決済誘導 -->
         <div id="holdPayBlock" style="display:none; margin-top:8px;">
           <p class="done-text" style="margin-bottom:14px;">
-            この枠を<b>60分間</b>仮押さえしました。<br>
+            この枠を<b>45分間</b>仮押さえしました。<br>
             下のボタンから決済ページへお進みください。<br>
             （お名前・メールアドレスは決済ページでご入力ください）
           </p>
@@ -596,7 +596,20 @@
              style="text-decoration:none; box-sizing:border-box;">決済ページへ進む</a>
           <p class="done-text" style="font-size:12px; margin-top:10px;">
             決済が完了すると、ご予約確定メール（Zoomリンク記載）が自動で届きます。<br>
-            ※60分以内にお手続きが完了しない場合、仮押さえは解除されます。<br>
+            ※45分以内にお手続きが完了しない場合、仮押さえは解除されます。<br>
+            うまく進めない場合は mail@info.voice-mika.com までご連絡ください。
+          </p>
+        </div>
+
+        <!-- 決済ボタン押下後の案内（holdPayBlockと入れ替わりで表示） -->
+        <div id="holdPayAfter" style="display:none; margin-top:8px;">
+          <p class="done-text" style="margin-bottom:14px;">
+            決済ページを別のタブで開きました。ありがとうございます。<br>
+            お手続きが完了すると、ご予約確定メール（Zoomリンク記載）が自動で届きます。
+          </p>
+          <p class="done-text" style="font-size:12px; margin-top:10px;">
+            決済ページが開かなかった場合は、
+            <a id="holdPayRetry" href="#" target="_blank" rel="noopener">こちらからもう一度お試しください</a>。<br>
             うまく進めない場合は mail@info.voice-mika.com までご連絡ください。
           </p>
         </div>
@@ -996,6 +1009,13 @@
       var pay = res.hold.paymentLink;
       if (pay && /^https?:\/\//.test(pay)) {
         $('holdPayBtn').href = pay;
+        $('holdPayRetry').href = pay;
+        $('holdPayBtn').onclick = function () {
+          setTimeout(function () {
+            $('holdPayBlock').style.display = 'none';
+            $('holdPayAfter').style.display = 'block';
+          }, 400);
+        };
         $('holdPayBlock').style.display = 'block';
       } else {
         // 決済リンク未設定（SETTINGSの設定漏れ）の保険
