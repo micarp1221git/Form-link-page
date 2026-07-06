@@ -533,6 +533,24 @@
       <button type="button" class="btn btn-ghost" data-back="time">&#8249; 時間を選び直す</button>
     </section>
 
+    <!-- STEP3'（決済つき種別・フロー=payment）: 仮押さえ確認 -->
+    <section class="view" id="view-payhold">
+      <h2>ご予約内容の確認</h2>
+      <div class="summary">
+        <dl>
+          <dt>メニュー</dt><dd id="phType"></dd>
+          <dt>日時</dt><dd class="big" id="phWhen"></dd>
+        </dl>
+      </div>
+      <p class="policy">
+        この日時を<b>60分間仮押さえ</b>したうえで、決済ページへご案内します。<br>
+        お名前・メールアドレスは<b>決済ページで</b>ご入力いただきます。<br>
+        決済完了後、ご予約確定メール（Zoomリンク記載）が自動で届きます。
+      </p>
+      <button type="button" class="btn btn-primary" id="doHold">この日時で仮押さえして決済へ進む</button>
+      <button type="button" class="btn btn-ghost" data-back="time">&#8249; 時間を選び直す</button>
+    </section>
+
     <!-- STEP4: 確認 -->
     <section class="view" id="view-confirm">
       <h2>ご予約内容の確認</h2>
@@ -559,13 +577,29 @@
           <circle cx="50" cy="50" r="41"/>
           <path d="M32 52 L45 64 L69 38"/>
         </svg>
-        <div class="done-title">ご予約が完了しました</div>
+        <div class="done-title" id="doneTitle">ご予約が完了しました</div>
         <div class="picked-date" style="margin-top:16px;" id="doneWhen"></div>
-        <p class="done-text">
+        <p class="done-text" id="doneTextDefault">
           確認メールを <b id="doneEmail"></b> 宛にお送りしました。<br>
           数分たっても届かない場合は、迷惑メールフォルダをご確認ください。<br><br>
           当日お会いできるのを楽しみにしています。
         </p>
+
+        <!-- 決済つき種別（フロー=payment）: 仮押さえ完了→決済誘導 -->
+        <div id="holdPayBlock" style="display:none; margin-top:8px;">
+          <p class="done-text" style="margin-bottom:14px;">
+            この枠を<b>60分間</b>仮押さえしました。<br>
+            下のボタンから決済ページへお進みください。<br>
+            （お名前・メールアドレスは決済ページでご入力ください）
+          </p>
+          <a id="holdPayBtn" class="btn btn-primary" href="#" target="_blank" rel="noopener"
+             style="text-decoration:none; box-sizing:border-box;">決済ページへ進む</a>
+          <p class="done-text" style="font-size:12px; margin-top:10px;">
+            決済が完了すると、ご予約確定メール（Zoomリンク記載）が自動で届きます。<br>
+            ※60分以内にお手続きが完了しない場合、仮押さえは解除されます。<br>
+            うまく進めない場合は mail@info.voice-mika.com までご連絡ください。
+          </p>
+        </div>
 
         <!-- 決済ボタン（決済リンクがある種別のときだけ表示） -->
         <div id="payBlock" style="display:none; margin-top:22px;">
@@ -680,11 +714,13 @@
 
   // ビュー切り替え
   function showView(name) {
-    var views = ['date', 'time', 'form', 'confirm', 'done'];
+    var views = ['date', 'time', 'form', 'confirm', 'payhold', 'done'];
     views.forEach(function (v) {
       $('view-' + v).classList.toggle('on', v === name);
     });
-    setStep(views.indexOf(name) + 1);
+    // payhold（仮押さえ確認）はステップ3扱い、doneはステップ表示を消す
+    var stepMap = { date: 1, time: 2, form: 3, confirm: 4, payhold: 3, done: 5 };
+    setStep(stepMap[name] || 1);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -711,6 +747,13 @@
     $('head').style.display = 'block';
     $('steps').style.display = 'flex';
 
+    // 決済つき種別はステップ名を差し替え（入力/確認 → 仮押さえ/決済）
+    if (state.type.flow === 'payment') {
+      var dots = document.querySelectorAll('.step-dot');
+      if (dots[2]) dots[2].lastChild.textContent = '仮押さえ';
+      if (dots[3]) dots[3].lastChild.textContent = '決済';
+    }
+
     // 空きが1日もない場合
     var dates = Object.keys(state.days).sort();
     if (!dates.length) {
@@ -732,7 +775,7 @@
   function onFatal(msg) {
     showLoading(false);
     if (typeof msg === 'string' && msg) $('fatalMsg').textContent = msg;
-    ['date', 'time', 'form', 'confirm', 'done'].forEach(function (v) {
+    ['date', 'time', 'form', 'confirm', 'payhold', 'done'].forEach(function (v) {
       $('view-' + v).classList.remove('on');
     });
     $('head').style.display = 'none';
@@ -838,7 +881,16 @@
     }
     $('pickedDateTime').textContent = jaDate(state.selDate) + ' ' + state.selTime + '〜';
     // ほんの少し「選べた」感を見せてから次へ
-    setTimeout(function () { showView('form'); }, 180);
+    // 決済つき種別（フロー=payment）は入力の代わりに仮押さえ確認へ
+    setTimeout(function () {
+      if (state.type && state.type.flow === 'payment') {
+        $('phType').textContent = state.type.name + '（' + state.type.durationMin + '分・Zoom）';
+        $('phWhen').textContent = jaDateFull(state.selDate) + ' ' + state.selTime + '〜';
+        showView('payhold');
+      } else {
+        showView('form');
+      }
+    }, 180);
   }
 
   /* ---------- 入力 → 確認 ---------- */
@@ -912,6 +964,63 @@
     }
 
     // その他のエラー
+    alert((res && res.message) || 'エラーが発生しました。時間をおいてお試しください。');
+  }
+
+  /* ---------- 仮押さえ→決済誘導（決済つき種別・フロー=payment） ---------- */
+  $('doHold').addEventListener('click', function () {
+    $('doHold').disabled = true;
+    showLoading(true, '枠を仮押さえしています…');
+    callGas({
+      action: 'hold',
+      type: TYPE_ID,
+      date: state.selDate,
+      time: state.selTime
+    }, onHeld, function () {
+      showLoading(false);
+      $('doHold').disabled = false;
+      alert('通信エラーが発生しました。電波の良い場所で再度お試しください。');
+    });
+  });
+
+  function onHeld(res) {
+    showLoading(false);
+    $('doHold').disabled = false;
+
+    if (res && res.ok) {
+      // 完了画面を「仮押さえ完了→決済へ」仕様に切り替えて表示
+      $('doneTitle').textContent = '仮押さえが完了しました';
+      $('doneWhen').textContent = res.hold.dateLabel + ' ' + res.hold.time + '〜';
+      $('doneTextDefault').style.display = 'none';
+      $('payBlock').style.display = 'none';
+      var pay = res.hold.paymentLink;
+      if (pay && /^https?:\/\//.test(pay)) {
+        $('holdPayBtn').href = pay;
+        $('holdPayBlock').style.display = 'block';
+      } else {
+        // 決済リンク未設定（SETTINGSの設定漏れ）の保険
+        $('doneTextDefault').style.display = '';
+        $('doneTextDefault').innerHTML =
+          '決済ページの設定に問題があるようです。<br>' +
+          'お手数ですが mail@info.voice-mika.com までご連絡ください。';
+      }
+      showView('done');
+      return;
+    }
+
+    if (res && res.code === 'SLOT_TAKEN') {
+      // 直前に埋まった → 最新の空きに更新して日付選択からやり直し
+      state.days = res.days || {};
+      state.selDate = null;
+      state.selTime = null;
+      renderCalendar();
+      var n = $('noticeDate');
+      n.textContent = res.message;
+      n.classList.add('on');
+      showView('date');
+      return;
+    }
+
     alert((res && res.message) || 'エラーが発生しました。時間をおいてお試しください。');
   }
 
