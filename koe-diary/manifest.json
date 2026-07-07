@@ -1,0 +1,19 @@
+{
+  "name": "声の育成日記",
+  "short_name": "声育日記",
+  "description": "毎日ひとこと録音して、声の成長をきろくするボイトレ日記。音声は端末の中だけで処理されます。",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#FFF8F5",
+  "theme_color": "#E8815B",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["education", "health", "lifestyle"]
+}

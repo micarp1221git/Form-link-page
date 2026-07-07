@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>声の育成日記</title>
+<meta name="description" content="毎日ひとこと録音して、声の成長をきろくするボイトレ日記。ボイストレーナーみか監修。">
+<meta name="theme-color" content="#E8815B">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="声育日記">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+
+<!-- OGP / SNS Share -->
+<meta property="og:title" content="声の育成日記">
+<meta property="og:description" content="毎日ひとこと録音して、声の成長をきろくするボイトレ日記">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+
+<style>
+/* ==========================================================
+   Design Tokens（ブランド共通：#E8815B / #FFF8F5 / #3D3535）
+   ========================================================== */
+:root {
+  --primary: #E8815B;
+  --primary-dark: #C75F35;      /* 3Dボタンの底・チャートの線（背景に対して3:1以上を検証済み） */
+  --primary-soft: #F0A184;
+  --primary-mist: #FBE9E0;
+  --on-primary: #fff;
+
+  --background: #FFF8F5;
+  --surface: #FFFFFF;
+  --ink: #3D3535;
+  --ink-soft: #6E5F5A;
+  --ink-mute: #9B8A84;
+  --line: #F3DFD6;
+  --line-strong: #E8CFC2;
+
+  --good: #7BA05B;              /* 前回比の上向きなど、ささやかな肯定に */
+
+  --shadow-sm: 0 1px 3px rgba(232,129,91,0.08);
+  --shadow-md: 0 3px 14px rgba(232,129,91,0.12);
+  --shadow-lg: 0 6px 22px rgba(232,129,91,0.16);
+
+  --rounded: 12px;
+  --rounded-lg: 18px;
+  --rounded-xl: 26px;
+
+  --font-body: 'Noto Sans JP', -apple-system, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', sans-serif;
+  --font-display: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif;
+}
+
+/* ==========================================================
+   Reset & Base
+   ========================================================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { height: 100%; -webkit-tap-highlight-color: transparent; }
+body {
+  font-family: var(--font-body);
+  background:
+    radial-gradient(ellipse 90% 40% at 50% -5%, rgba(240,161,132,0.14), transparent 70%),
+    var(--background);
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
+}
+button { font-family: inherit; }
+
+/* ==========================================================
+   Screens
+   ========================================================== */
+.screen {
+  display: none;
+  min-height: 100vh;
+  padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+  animation: fadeIn .3s ease;
+}
+.screen.active { display: flex; flex-direction: column; }
+.screen.no-nav { padding-bottom: env(safe-area-inset-bottom, 0px); }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================
+   Header
+   ========================================================== */
+.app-header {
+  background: linear-gradient(140deg, var(--primary) 0%, var(--primary-soft) 100%);
+  color: var(--on-primary);
+  padding: calc(30px + env(safe-area-inset-top, 0px)) 20px 22px;
+  border-radius: 0 0 var(--rounded-xl) var(--rounded-xl);
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+.app-header::after { /* 日記帳らしい、うっすら点線の飾り */
+  content: '';
+  position: absolute; inset: 8px;
+  border: 1.5px dashed rgba(255,255,255,0.28);
+  border-radius: calc(var(--rounded-xl) - 6px);
+  pointer-events: none;
+}
+.header-row { display: flex; align-items: center; justify-content: space-between; }
+.app-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  display: flex; align-items: center; gap: 8px;
+}
+.app-title .sprout { font-size: 22px; }
+.header-date { font-size: 12px; opacity: .92; margin-top: 3px; letter-spacing: .5px; }
+.streak-badge {
+  background: rgba(255,255,255,0.22);
+  border: 1.5px solid rgba(255,255,255,0.45);
+  border-radius: 999px;
+  padding: 5px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.app-body { flex: 1; padding: 18px 18px 8px; }
+
+.section-label {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  letter-spacing: 1.5px;
+  margin: 18px 2px 8px;
+  display: flex; align-items: center; gap: 8px;
+}
+.section-label::after { content:''; flex:1; height:1px; background: var(--line-strong); }
+
+/* ==========================================================
+   Cards
+   ========================================================== */
+.card {
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: var(--rounded-lg);
+  padding: 18px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 12px;
+}
+.phrase-card {
+  text-align: center;
+  padding: 26px 18px 22px;
+  border: 1.5px solid var(--line-strong);
+  box-shadow: var(--shadow-md);
+  position: relative;
+}
+.phrase-kicker {
+  display: inline-block;
+  font-size: 11px; font-weight: 700;
+  color: var(--primary-dark);
+  background: var(--primary-mist);
+  border-radius: 999px;
+  padding: 3px 14px;
+  letter-spacing: 1.5px;
+  margin-bottom: 12px;
+}
+.phrase-text {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1.55;
+  color: var(--ink);
+}
+.phrase-hint { font-size: 12px; color: var(--ink-mute); margin-top: 8px; }
+
+/* ==========================================================
+   Buttons
+   ========================================================== */
+.btn-primary {
+  display: block; width: 100%;
+  padding: 15px;
+  background: var(--primary);
+  color: var(--on-primary);
+  font-size: 15px; font-weight: 700;
+  border: none;
+  border-bottom: 4px solid var(--primary-dark);
+  border-radius: var(--rounded-lg);
+  cursor: pointer;
+  transition: all .15s;
+}
+.btn-primary:active { transform: translateY(2px); border-bottom-width: 2px; }
+.btn-outline {
+  display: block; width: 100%;
+  padding: 14px;
+  background: var(--surface);
+  color: var(--primary-dark);
+  font-size: 15px; font-weight: 700;
+  border: 2px solid var(--line-strong);
+  border-bottom: 4px solid var(--line-strong);
+  border-radius: var(--rounded-lg);
+  cursor: pointer;
+  transition: all .15s;
+}
+.btn-outline:active { transform: translateY(2px); border-bottom-width: 2px; }
+.btn-ghost {
+  display: block; width: 100%;
+  padding: 12px;
+  background: none; border: none;
+  color: var(--ink-mute);
+  font-size: 13px;
+  cursor: pointer;
+}
+.btn-pill {
+  border: none;
+  background: var(--surface);
+  color: var(--ink-mute);
+  font-size: 13px; font-weight: 700;
+  padding: 7px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  border: 1.5px solid var(--line);
+  transition: all .2s;
+}
+.btn-pill.active {
+  background: var(--primary);
+  color: var(--on-primary);
+  border-color: var(--primary);
+  border-bottom: 3px solid var(--primary-dark);
+}
+
+/* ==========================================================
+   Bottom Navigation（3タブ＋中央録音ボタン）
+   ========================================================== */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--surface);
+  border-top: 1.5px solid var(--line);
+  display: flex; align-items: stretch;
+  padding: 6px 6px calc(8px + env(safe-area-inset-bottom, 0px));
+  z-index: 50;
+}
+.bottom-nav.hidden { display: none; }
+.nav-item {
+  flex: 1;
+  background: none; border: none;
+  color: var(--ink-mute);
+  font-size: 10px; font-weight: 700;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 6px 0 2px;
+  cursor: pointer;
+}
+.nav-item .nav-icon { font-size: 20px; line-height: 1.2; }
+.nav-item.active { color: var(--primary-dark); }
+.nav-center { flex: 1; display: flex; justify-content: center; }
+.nav-record-btn {
+  width: 66px; height: 66px;
+  margin-top: -30px;
+  border-radius: 50%;
+  background: linear-gradient(160deg, var(--primary), #DE6F45);
+  color: var(--on-primary);
+  border: 4px solid var(--background);
+  border-bottom: 7px solid var(--primary-dark);
+  box-shadow: var(--shadow-lg);
+  font-size: 26px;
+  cursor: pointer;
+  transition: all .15s;
+}
+.nav-record-btn:active { transform: translateY(2px); border-bottom-width: 5px; }
+
+/* ==========================================================
+   Recording Screen
+   ========================================================== */
+.record-stage {
+  flex: 1;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 20px;
+  text-align: center;
+}
+.record-phrase {
+  font-family: var(--font-display);
+  font-size: 24px; font-weight: 900; line-height: 1.6;
+  margin: 12px 0 4px;
+}
+.record-timer {
+  font-size: 36px; font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  color: var(--primary-dark);
+  font-family: var(--font-display);
+  margin-top: 14px;
+}
+.record-timer small { font-size: 15px; color: var(--ink-mute); font-weight: 700; }
+.wave-wrap {
+  width: 100%; max-width: 340px; height: 88px;
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: var(--rounded-lg);
+  margin: 16px auto 0;
+  overflow: hidden;
+}
+.wave-wrap canvas { width: 100%; height: 100%; display: block; }
+.big-record-btn {
+  width: 96px; height: 96px;
+  border-radius: 50%;
+  background: linear-gradient(160deg, var(--primary), #DE6F45);
+  color: #fff;
+  border: none;
+  border-bottom: 7px solid var(--primary-dark);
+  font-size: 38px;
+  cursor: pointer;
+  margin-top: 26px;
+  box-shadow: var(--shadow-lg);
+  transition: all .15s;
+}
+.big-record-btn:active { transform: translateY(2px); border-bottom-width: 5px; }
+.big-record-btn.recording {
+  animation: pulse 1.2s ease-in-out infinite;
+  background: linear-gradient(160deg, #DE6F45, var(--primary-dark));
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(232,129,91,0.45), var(--shadow-lg); }
+  50%      { box-shadow: 0 0 0 18px rgba(232,129,91,0), var(--shadow-lg); }
+}
+.record-hint { font-size: 13px; color: var(--ink-mute); margin-top: 12px; min-height: 20px; }
+
+.progress-track {
+  width: 100%; max-width: 340px;
+  height: 8px;
+  background: var(--primary-mist);
+  border-radius: 999px;
+  overflow: hidden;
+  margin: 14px auto 0;
+}
+.progress-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--primary), var(--primary-soft));
+  border-radius: 999px;
+}
+
+/* ==========================================================
+   Result Screen（メーター）
+   ========================================================== */
+.result-header {
+  background: linear-gradient(140deg, var(--primary), var(--primary-soft));
+  color: #fff;
+  padding: calc(28px + env(safe-area-inset-top, 0px)) 20px 24px;
+  border-radius: 0 0 var(--rounded-xl) var(--rounded-xl);
+  text-align: center;
+}
+.result-kicker { font-size: 12px; letter-spacing: 2px; opacity: .92; font-weight: 700; }
+.result-phrase {
+  font-family: var(--font-display);
+  font-size: 19px; font-weight: 900; margin-top: 8px; line-height: 1.5;
+}
+.result-sub { font-size: 12px; opacity: .9; margin-top: 6px; }
+
+.meter-row { margin-bottom: 16px; }
+.meter-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+.meter-name { font-size: 13px; font-weight: 700; color: var(--ink-soft); }
+.meter-value {
+  font-family: var(--font-display);
+  font-size: 19px; font-weight: 900; color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.meter-value small { font-size: 11px; color: var(--ink-mute); font-weight: 700; margin-left: 2px; }
+.meter-track {
+  height: 12px;
+  background: var(--primary-mist);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.meter-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--primary-soft), var(--primary));
+  border-radius: 999px;
+  transition: width .9s cubic-bezier(.22,1,.36,1);
+}
+.meter-note { font-size: 11px; color: var(--ink-mute); margin-top: 4px; }
+.delta-chip {
+  display: inline-block;
+  font-size: 11px; font-weight: 700;
+  border-radius: 999px;
+  padding: 1px 9px;
+  margin-left: 6px;
+  background: var(--primary-mist);
+  color: var(--primary-dark);
+}
+.delta-chip.up { background: #EDF3E4; color: #5C7B41; }
+
+/* ピッチ位置バー（高い/低いは優劣ではないので、メーターでなく「位置」表示） */
+.pitch-scale {
+  position: relative;
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #F6E3D9, var(--primary-mist), #F6E3D9);
+  margin-top: 2px;
+}
+.pitch-dot {
+  position: absolute; top: 50%;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: 3px solid #fff;
+  box-shadow: var(--shadow-sm);
+  transform: translate(-50%, -50%);
+  transition: left .9s cubic-bezier(.22,1,.36,1);
+}
+.pitch-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--ink-mute); margin-top: 4px; }
+
+/* アドバイスカード */
+.advice-card {
+  background: linear-gradient(150deg, #FFF3EC, #FFFDFB);
+  border: 1.5px solid var(--line-strong);
+  border-radius: var(--rounded-lg);
+  padding: 18px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 12px;
+}
+.advice-kicker {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 700;
+  color: var(--primary-dark);
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+.advice-title {
+  font-family: var(--font-display);
+  font-size: 16px; font-weight: 900;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+.advice-text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.9; }
+.advice-source { font-size: 10.5px; color: var(--ink-mute); margin-top: 10px; }
+
+/* ==========================================================
+   Log Screen（チャート・Before/After・履歴）
+   ========================================================== */
+.pills-row {
+  display: flex; gap: 8px;
+  margin-bottom: 10px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+.chart-wrap { position: relative; }
+.chart-wrap svg { width: 100%; height: auto; display: block; }
+.chart-tooltip {
+  position: absolute;
+  background: var(--ink);
+  color: #fff;
+  font-size: 11px; font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 8px;
+  pointer-events: none;
+  transform: translate(-50%, -130%);
+  white-space: nowrap;
+  display: none;
+  z-index: 5;
+}
+.chart-empty {
+  text-align: center;
+  color: var(--ink-mute);
+  font-size: 13px;
+  padding: 36px 12px;
+  line-height: 1.9;
+}
+
+.ba-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; align-items: center; }
+.ba-col { text-align: center; }
+.ba-when { font-size: 11px; color: var(--ink-mute); font-weight: 700; margin-bottom: 4px; }
+.ba-val {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+.ba-arrow { font-size: 20px; color: var(--primary); }
+.ba-metric { font-size: 12px; font-weight: 700; color: var(--ink-soft); margin: 12px 0 2px; }
+.ba-metric:first-child { margin-top: 0; }
+
+.history-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 11px 2px;
+  border-bottom: 1px dashed var(--line-strong);
+  font-size: 13px;
+}
+.history-item:last-child { border-bottom: none; }
+.history-date { font-weight: 700; color: var(--ink-soft); }
+.history-vals { color: var(--ink-mute); font-size: 12px; font-variant-numeric: tabular-nums; }
+
+/* 準備中カード（拡張枠の見た目） */
+.locked-card {
+  border: 1.5px dashed var(--line-strong);
+  background: rgba(255,255,255,0.6);
+  border-radius: var(--rounded-lg);
+  padding: 16px 18px;
+  margin-bottom: 12px;
+  display: flex; align-items: center; gap: 12px;
+  color: var(--ink-mute);
+}
+.locked-card .lock-icon { font-size: 22px; }
+.locked-card .lock-title { font-size: 13.5px; font-weight: 700; color: var(--ink-soft); }
+.locked-card .lock-desc { font-size: 11.5px; }
+
+/* ==========================================================
+   Overlay / Spinner / Confetti
+   ========================================================== */
+.overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(61,53,53,0.45);
+  z-index: 100;
+  align-items: center; justify-content: center;
+  padding: 20px;
+}
+.overlay.active { display: flex; }
+.dialog {
+  background: var(--surface);
+  border-radius: var(--rounded-xl);
+  padding: 30px 24px;
+  text-align: center;
+  max-width: 320px; width: 100%;
+  box-shadow: var(--shadow-lg);
+}
+.dialog-icon { font-size: 44px; margin-bottom: 12px; }
+.dialog-title { font-family: var(--font-display); font-size: 17px; font-weight: 900; margin-bottom: 8px; }
+.dialog-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.8; margin-bottom: 20px; }
+
+.spinner-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(255,248,245,0.96);
+  z-index: 90;
+  align-items: center; justify-content: center;
+  flex-direction: column; gap: 16px;
+}
+.spinner-overlay.active { display: flex; }
+.spinner {
+  width: 48px; height: 48px;
+  border: 4px solid var(--primary-mist);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner-text { font-size: 14px; color: var(--ink-soft); font-weight: 700; }
+
+.confetti-container {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 200; overflow: hidden;
+}
+.confetti-piece {
+  position: absolute;
+  width: 10px; height: 10px; top: -20px;
+  animation: confettiFall 2.5s ease-in forwards;
+}
+@keyframes confettiFall {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+/* ==========================================================
+   Footer
+   ========================================================== */
+.app-footer {
+  padding: 18px 20px 8px;
+  text-align: center;
+}
+.privacy-note {
+  font-size: 11px; color: var(--ink-mute);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  display: inline-block;
+  padding: 5px 16px;
+  margin-bottom: 10px;
+}
+.app-footer a { color: var(--primary-dark); text-decoration: none; font-size: 12.5px; font-weight: 700; }
+.footer-credit { font-size: 10.5px; color: var(--ink-mute); margin-top: 6px; }
+
+.text-center { text-align: center; }
+.mt-sm { margin-top: 8px; }
+.mt-md { margin-top: 16px; }
+.mt-lg { margin-top: 24px; }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     SCREEN: HOME（今日の一言）
+     ============================================================ -->
+<div id="screen-home" class="screen active">
+  <header class="app-header">
+    <div class="header-row">
+      <div>
+        <h1 class="app-title"><span class="sprout">🌱</span>声の育成日記</h1>
+        <p class="header-date" id="home-date"></p>
+      </div>
+      <span class="streak-badge" id="streak-badge">🔥 0日</span>
+    </div>
+  </header>
+
+  <main class="app-body">
+    <p class="section-label">きょうの一言</p>
+    <div class="card phrase-card">
+      <span class="phrase-kicker" id="phrase-kicker">毎日おなじ文だから、育ちがわかる</span>
+      <p class="phrase-text" id="phrase-text">ありがとうございます</p>
+      <p class="phrase-hint" id="phrase-hint"></p>
+      <button class="btn-primary mt-lg" onclick="goRecord()">🎙 この一言を録音する</button>
+      <button class="btn-ghost" onclick="cyclePhrase()">別の一言にする</button>
+    </div>
+
+    <p class="section-label">そだち</p>
+    <div class="card" id="home-stats">
+      <div style="display:flex; justify-content:space-around; text-align:center;">
+        <div>
+          <div style="font-family:var(--font-display); font-size:24px; font-weight:900;" id="stat-days">0</div>
+          <div style="font-size:11px; color:var(--ink-mute); font-weight:700;">きろくした日</div>
+        </div>
+        <div>
+          <div style="font-family:var(--font-display); font-size:24px; font-weight:900;" id="stat-total">0</div>
+          <div style="font-size:11px; color:var(--ink-mute); font-weight:700;">録音の回数</div>
+        </div>
+        <div>
+          <div style="font-family:var(--font-display); font-size:24px; font-weight:900;" id="stat-best-streak">0</div>
+          <div style="font-size:11px; color:var(--ink-mute); font-weight:700;">最長れんぞく</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════
+         拡張ポイント①：課金コース枠（ランクアップコース）
+         みかさんの構想：「noteメンシプ的なランクアップコース・課金」
+         data.json の premiumCourses にコースを追加すると
+         renderCourses() がここへカードを描画する。
+         決済はGitHub Pagesでは持てないので、v1では
+         note メンバーシップ等の外部リンク + 合言葉解錠を想定。
+         ════════════════════════════════════════════════════════ -->
+    <p class="section-label">これからの機能</p>
+    <div id="courses-slot"></div>
+
+    <!-- ════════════════════════════════════════════════════════
+         拡張ポイント②：練習コンテンツ配信枠（週の練習配信）
+         みかさんの構想：「週の練習配信」「あえいうえお等の
+         基本発声練習をいつでも一緒に」
+         data.json の weeklyContent に週次コンテンツを追加すると
+         renderWeekly() がここへ最新週のカードを描画する。
+         ════════════════════════════════════════════════════════ -->
+    <div id="weekly-slot"></div>
+  </main>
+
+  <footer class="app-footer">
+    <p class="privacy-note">🔒 録音した音声は端末の中だけで処理。外部に送信されません</p>
+    <br>
+    <a href="https://note.com/micarp" target="_blank" rel="noopener">ボイストレーナーみか</a>
+    <p class="footer-credit">by ボイストレーナーみか</p>
+  </footer>
+</div>
+
+<!-- ============================================================
+     SCREEN: RECORD（録音）
+     ============================================================ -->
+<div id="screen-record" class="screen no-nav">
+  <main class="record-stage">
+    <span class="phrase-kicker">きょうの一言</span>
+    <p class="record-phrase" id="record-phrase">ありがとうございます</p>
+    <p class="phrase-hint" id="record-phrase-hint"></p>
+
+    <div class="wave-wrap"><canvas id="wave-canvas"></canvas></div>
+    <div class="progress-track"><div class="progress-fill" id="record-progress"></div></div>
+    <p class="record-timer"><span id="record-timer">0.0</span><small> 秒</small></p>
+
+    <button class="big-record-btn" id="btn-record" onclick="toggleRecording()">🎙</button>
+    <p class="record-hint" id="record-hint">タップして録音スタート</p>
+
+    <button class="btn-ghost mt-md" onclick="cancelRecording()">← やめてホームに戻る</button>
+  </main>
+</div>
+
+<!-- ============================================================
+     SCREEN: RESULT（結果とアドバイス）
+     ============================================================ -->
+<div id="screen-result" class="screen no-nav">
+  <header class="result-header">
+    <p class="result-kicker">きょうの声、きろくしました</p>
+    <p class="result-phrase" id="result-phrase">ありがとうございます</p>
+    <p class="result-sub" id="result-sub"></p>
+  </header>
+
+  <main class="app-body">
+    <div class="card">
+      <!-- 声の高さ：高い低いは優劣ではないので「位置」として表示 -->
+      <div class="meter-row">
+        <div class="meter-head">
+          <span class="meter-name">🎵 声の高さ</span>
+          <span class="meter-value" id="val-pitch">— <small>Hz</small></span>
+        </div>
+        <div class="pitch-scale"><div class="pitch-dot" id="pitch-dot" style="left:50%"></div></div>
+        <div class="pitch-labels"><span>ひくめ</span><span>たかめ</span></div>
+        <p class="meter-note" id="pitch-note-name"></p>
+      </div>
+
+      <div class="meter-row">
+        <div class="meter-head">
+          <span class="meter-name">🧘 安定感</span>
+          <span class="meter-value"><span id="val-stability">0</span><small>/100</small><span id="delta-stability"></span></span>
+        </div>
+        <div class="meter-track"><div class="meter-fill" id="bar-stability"></div></div>
+        <p class="meter-note">声の高さと大きさの、ゆれの少なさ</p>
+      </div>
+
+      <div class="meter-row" style="margin-bottom:4px;">
+        <div class="meter-head">
+          <span class="meter-name">📣 響き</span>
+          <span class="meter-value"><span id="val-resonance">0</span><small>/100</small><span id="delta-resonance"></span></span>
+        </div>
+        <div class="meter-track"><div class="meter-fill" id="bar-resonance"></div></div>
+        <p class="meter-note" id="resonance-note">声のエネルギーの目安（マイクとの距離でも変わります）</p>
+      </div>
+    </div>
+
+    <!-- 今日のアドバイス（ファクトブック由来・日替わりローテーション） -->
+    <div class="advice-card">
+      <span class="advice-kicker">🌱 きょうのアドバイス <span id="advice-theme" style="background:var(--primary-mist); border-radius:999px; padding:1px 10px;"></span></span>
+      <p class="advice-title" id="advice-title"></p>
+      <p class="advice-text" id="advice-text"></p>
+      <p class="advice-source" id="advice-source"></p>
+    </div>
+
+    <button class="btn-outline" onclick="goRecord()">もう一度録音する</button>
+    <button class="btn-primary mt-sm" onclick="showScreen('log'); renderLogScreen();">きろくを見る →</button>
+    <button class="btn-ghost" onclick="shareResult()">きょうの結果をシェア</button>
+  </main>
+</div>
+
+<!-- ============================================================
+     SCREEN: LOG（きろく：推移チャート＋Before/After＋履歴）
+     ============================================================ -->
+<div id="screen-log" class="screen">
+  <header class="app-header">
+    <div class="header-row">
+      <div>
+        <h1 class="app-title"><span class="sprout">📖</span>きろく</h1>
+        <p class="header-date">声の推移と、はじめた日とのくらべっこ</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-body">
+    <p class="section-label">推移</p>
+    <div class="pills-row" id="metric-pills">
+      <button class="btn-pill active" data-metric="st" onclick="setChartMetric('st')">安定感</button>
+      <button class="btn-pill" data-metric="re" onclick="setChartMetric('re')">響き</button>
+      <button class="btn-pill" data-metric="hz" onclick="setChartMetric('hz')">声の高さ</button>
+    </div>
+    <div class="pills-row" id="period-pills">
+      <button class="btn-pill active" data-period="7" onclick="setChartPeriod(7)">7日</button>
+      <button class="btn-pill" data-period="30" onclick="setChartPeriod(30)">30日</button>
+    </div>
+    <div class="card">
+      <div class="chart-wrap" id="chart-wrap">
+        <div class="chart-tooltip" id="chart-tooltip"></div>
+        <div id="chart-slot"></div>
+      </div>
+    </div>
+
+    <p class="section-label">Before / After</p>
+    <div class="card" id="ba-card">
+      <p class="chart-empty">2回以上きろくすると、<br>「はじめた日の声」とくらべられます</p>
+    </div>
+
+    <p class="section-label">これまでのきろく</p>
+    <div class="card" id="history-card">
+      <p class="chart-empty">まだきろくがありません</p>
+    </div>
+
+    <button class="btn-ghost" onclick="openOverlay('confirm-overlay')">きろくをぜんぶ消す</button>
+  </main>
+</div>
+
+<!-- ============================================================
+     Bottom Navigation
+     ============================================================ -->
+<nav class="bottom-nav" id="bottom-nav">
+  <button class="nav-item active" id="nav-home" onclick="showScreen('home'); renderHome();">
+    <span class="nav-icon">🏠</span>ホーム
+  </button>
+  <div class="nav-center">
+    <button class="nav-record-btn" onclick="goRecord()" aria-label="録音する">🎙</button>
+  </div>
+  <button class="nav-item" id="nav-log" onclick="showScreen('log'); renderLogScreen();">
+    <span class="nav-icon">📖</span>きろく
+  </button>
+</nav>
+
+<!-- ============================================================
+     Overlays
+     ============================================================ -->
+<div class="spinner-overlay" id="spinner">
+  <div class="spinner"></div>
+  <p class="spinner-text">声を分析中…</p>
+</div>
+
+<div class="overlay" id="confirm-overlay">
+  <div class="dialog">
+    <div class="dialog-icon">🗑</div>
+    <h2 class="dialog-title">きろくをぜんぶ消しますか？</h2>
+    <p class="dialog-desc">これまでの録音のきろく（数値）と連続日数が消えます。この操作は取り消せません。</p>
+    <button class="btn-primary" onclick="resetAllData()">消す</button>
+    <button class="btn-ghost mt-sm" onclick="closeOverlay('confirm-overlay')">やめておく</button>
+  </div>
+</div>
+
+<div class="overlay" id="mic-overlay">
+  <div class="dialog">
+    <div class="dialog-icon">🎙</div>
+    <h2 class="dialog-title">マイクが使えませんでした</h2>
+    <p class="dialog-desc">ブラウザの設定でこのページのマイクを「許可」にしてから、もう一度お試しください。録音した音声は端末の中だけで処理されます。</p>
+    <button class="btn-primary" onclick="closeOverlay('mic-overlay')">わかりました</button>
+  </div>
+</div>
+
+<div class="overlay" id="silent-overlay">
+  <div class="dialog">
+    <div class="dialog-icon">🌬</div>
+    <h2 class="dialog-title">声が見つかりませんでした</h2>
+    <p class="dialog-desc">録音が短すぎたか、声が小さかったみたいです。マイクに少し近づいて、もう一度どうぞ。完璧じゃなくてOKです。</p>
+    <button class="btn-primary" onclick="closeOverlay('silent-overlay')">もう一度やる</button>
+  </div>
+</div>
+
+<div class="confetti-container" id="confetti"></div>
+
+<script>
+/* ============================================================
+   声の育成日記 v0
+   毎日「固定の一言」を録音 → 端末内で声を分析 → アドバイス →
+   きろくが育つ。音声データは端末外へ一切送信しない。
+   ============================================================ */
+
+/* ==========================================================
+   データ（data.json を読む。file:// などで読めない場合は
+   埋め込みフォールバックで動く）
+   ========================================================== */
+const FALLBACK_DATA = {
+  phrases: [
+    { id: 'arigatou', text: 'ありがとうございます', hint: '感謝がとどく声で、ゆっくりどうぞ', targetSec: 2.5 },
+    { id: 'ohayou', text: 'おはようございます、今日もよろしくお願いします', hint: '朝いちばんの声を想像して', targetSec: 4.5 },
+    { id: 'otsukare', text: 'おつかれさまでした、ゆっくり休んでくださいね', hint: '誰かをねぎらう、やわらかい声で', targetSec: 4.5 }
+  ],
+  advice: [
+    { id: 'adv-head-position', factId: 'F-B18', grade: 'B', theme: '姿勢',
+      title: '声を出す前に、頭の位置をひとつ戻す',
+      text: '頭が前に出た姿勢（いわゆるスマホ首）だと、それだけで息が入りにくくなるという研究があります。声は息が土台。録音の前に、後頭部をすっと上に引き上げるイメージで頭の位置を整えてみてください。' },
+    { id: 'adv-long-exhale', factId: 'F-B13', grade: 'B', theme: '呼吸',
+      title: '落ち着きたい日は、吐く息を長く',
+      text: '吸う息より吐く息を長くすると、体が落ち着きモードに切り替わりやすい、という研究があります。緊張しているかも、という日は、録音の前に「軽く吸って、倍の長さで吐く」を2〜3回どうぞ。' },
+    { id: 'adv-lip-trill', factId: 'F-B24', grade: 'B', theme: 'ウォームアップ',
+      title: '唇ブルブル（リップロール）で力みをオフ',
+      text: 'リップロールをすると、声帯の余計な力みが抜けて軽い声が出しやすくなる、という研究があります。録音の前に1分だけ、唇をブルブルさせてみてください。うまく続かなくてもOK、それも練習です。' }
+  ],
+  premiumCourses: [],
+  weeklyContent: [],
+  demoAudio: null
+};
+let DATA = FALLBACK_DATA;
+
+async function loadAppData() {
+  try {
+    const res = await fetch('data.json', { cache: 'no-cache' });
+    if (res.ok) DATA = await res.json();
+  } catch (e) {
+    console.warn('data.json が読めないため埋め込みデータで動作します', e);
+  }
+}
+
+/* ==========================================================
+   状態・定数
+   ========================================================== */
+const CONFIG = {
+  maxRecordSec: 8,          // 自動停止までの秒数
+  minRecordSec: 0.6,        // これ未満は短すぎとして再録
+  analysisRate: 16000,      // 分析用に間引くサンプルレート（軽くするため）
+  pitchMinHz: 65,           // 分析するピッチの下限（低い男性声）
+  pitchMaxHz: 450,          // 上限（高い女性声）
+  frameSize: 1024,          // ピッチ分析フレーム（16kHzで64ms）
+  silenceRMS: 0.008         // これ未満は無音扱い
+};
+
+const LS_KEYS = { logs: 'koeiku_logs_v1', streak: 'koeiku_streak_v1', phraseShift: 'koeiku_phrase_shift_v1' };
+
+const state = {
+  stream: null, audioCtx: null, sourceNode: null, processorNode: null, analyserNode: null,
+  rawSamples: [], isRecording: false, recordStartTime: 0,
+  timerInterval: null, animFrameId: null, autoStopTimer: null,
+  currentPhrase: null, lastResult: null,
+  chartMetric: 'st', chartPeriod: 7
+};
+
+/* ==========================================================
+   LocalStorage
+   ========================================================== */
+function saveData(key, data) { localStorage.setItem(key, JSON.stringify(data)); }
+function loadData(key, fallback) {
+  try { const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; }
+  catch { return fallback; }
+}
+function getLogs() { return loadData(LS_KEYS.logs, []); }
+
+/* ==========================================================
+   日付ユーティリティ
+   ========================================================== */
+function todayStr() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+function daysSinceEpoch() { return Math.floor(Date.now() / 86400000 + new Date().getTimezoneOffset() / -1440); }
+function fmtDateJP(dstr) {
+  const [y, m, d] = dstr.split('-').map(Number);
+  return `${m}月${d}日`;
+}
+
+/* ==========================================================
+   今日の一言（固定文ローテーション）
+   日付で決まる基本ローテ＋「別の一言にする」でのシフト
+   ========================================================== */
+function getTodayPhrase() {
+  const shift = loadData(LS_KEYS.phraseShift, 0);
+  const idx = (daysSinceEpoch() + shift) % DATA.phrases.length;
+  return DATA.phrases[idx];
+}
+function cyclePhrase() {
+  saveData(LS_KEYS.phraseShift, (loadData(LS_KEYS.phraseShift, 0) + 1) % DATA.phrases.length);
+  renderHome();
+}
+
+/* ==========================================================
+   今日のアドバイス（ファクトブック由来・日替わりローテーション）
+   将来：スコアが低い項目に合わせたアドバイス選択に拡張予定
+   ========================================================== */
+function getTodayAdvice() {
+  return DATA.advice[daysSinceEpoch() % DATA.advice.length];
+}
+
+/* ==========================================================
+   ストリーク（連続日数）
+   ========================================================== */
+function getStreak() { return loadData(LS_KEYS.streak, { current: 0, best: 0, lastDate: null }); }
+function bumpStreak() {
+  const s = getStreak();
+  const today = todayStr();
+  if (s.lastDate === today) return { streak: s, isNewDay: false };
+  const y = new Date(Date.now() - 86400000);
+  const yesterday = `${y.getFullYear()}-${String(y.getMonth() + 1).padStart(2, '0')}-${String(y.getDate()).padStart(2, '0')}`;
+  s.current = (s.lastDate === yesterday) ? s.current + 1 : 1;
+  s.best = Math.max(s.best, s.current);
+  s.lastDate = today;
+  saveData(LS_KEYS.streak, s);
+  return { streak: s, isNewDay: true };
+}
+
+/* ==========================================================
+   画面遷移
+   ========================================================== */
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  const nav = document.getElementById('bottom-nav');
+  // 録音中・結果表示中はナビ非表示（プレイブック原則）
+  nav.classList.toggle('hidden', name === 'record' || name === 'result');
+  document.getElementById('nav-home').classList.toggle('active', name === 'home');
+  document.getElementById('nav-log').classList.toggle('active', name === 'log');
+  window.scrollTo(0, 0);
+}
+function openOverlay(id) { document.getElementById(id).classList.add('active'); }
+function closeOverlay(id) { document.getElementById(id).classList.remove('active'); }
+
+/* ==========================================================
+   ホーム描画
+   ========================================================== */
+function renderHome() {
+  const d = new Date();
+  const wd = ['日', '月', '火', '水', '木', '金', '土'][d.getDay()];
+  document.getElementById('home-date').textContent = `${d.getMonth() + 1}月${d.getDate()}日（${wd}）`;
+
+  const p = getTodayPhrase();
+  state.currentPhrase = p;
+  document.getElementById('phrase-text').textContent = p.text;
+  document.getElementById('phrase-hint').textContent = p.hint || '';
+
+  const s = getStreak();
+  // 昨日以前で途切れていても「最長」は残す（ゼロにしない原則）
+  const today = todayStr();
+  const y = new Date(Date.now() - 86400000);
+  const yesterday = `${y.getFullYear()}-${String(y.getMonth() + 1).padStart(2, '0')}-${String(y.getDate()).padStart(2, '0')}`;
+  const liveStreak = (s.lastDate === today || s.lastDate === yesterday) ? s.current : 0;
+  document.getElementById('streak-badge').textContent = `🔥 ${liveStreak}日`;
+
+  const logs = getLogs();
+  const days = new Set(logs.map(l => l.d)).size;
+  document.getElementById('stat-days').textContent = days;
+  document.getElementById('stat-total').textContent = logs.length;
+  document.getElementById('stat-best-streak').textContent = s.best;
+
+  renderCourses();
+  renderWeekly();
+}
+
+/* ════════════════════════════════════════════════════════════
+   拡張ポイント①：課金コース枠の描画
+   data.json の premiumCourses が空のあいだは「準備中」カード。
+   コースを追加すると自動でカード化される。
+   想定データ形： { id, title, desc, locked: true, url }
+   ════════════════════════════════════════════════════════════ */
+function renderCourses() {
+  const slot = document.getElementById('courses-slot');
+  const courses = DATA.premiumCourses || [];
+  if (courses.length === 0) {
+    slot.innerHTML = `
+      <div class="locked-card">
+        <span class="lock-icon">🎓</span>
+        <div>
+          <div class="lock-title">ランクアップコース（準備中）</div>
+          <div class="lock-desc">週の練習配信つきの、育成コースをただいま準備中です</div>
+        </div>
+      </div>`;
+    return;
+  }
+  slot.innerHTML = courses.map(c => `
+    <div class="card" style="display:flex; align-items:center; gap:12px;">
+      <span style="font-size:22px;">${c.locked ? '🔒' : '🎓'}</span>
+      <div style="flex:1;">
+        <div style="font-size:13.5px; font-weight:700;">${c.title}</div>
+        <div style="font-size:11.5px; color:var(--ink-mute);">${c.desc || ''}</div>
+      </div>
+      ${c.url ? `<a href="${c.url}" target="_blank" rel="noopener" style="font-size:12px; font-weight:700; color:var(--primary-dark); text-decoration:none;">見る →</a>` : ''}
+    </div>`).join('');
+}
+
+/* ════════════════════════════════════════════════════════════
+   拡張ポイント②：週の練習配信枠の描画
+   data.json の weeklyContent に最新週を追加すると表示される。
+   想定データ形： { week: '2026-W28', title, steps: [] }
+   「あえいうえお」等の基本発声練習メニューもここに載せる想定。
+   ════════════════════════════════════════════════════════════ */
+function renderWeekly() {
+  const slot = document.getElementById('weekly-slot');
+  const weekly = DATA.weeklyContent || [];
+  if (weekly.length === 0) { slot.innerHTML = ''; return; }
+  const latest = weekly[weekly.length - 1];
+  slot.innerHTML = `
+    <div class="card">
+      <span class="phrase-kicker">今週の練習</span>
+      <p style="font-family:var(--font-display); font-size:16px; font-weight:900; margin-top:6px;">${latest.title}</p>
+      <ol style="font-size:13px; color:var(--ink-soft); margin:10px 0 0 20px; line-height:2;">
+        ${(latest.steps || []).map(s => `<li>${s}</li>`).join('')}
+      </ol>
+    </div>`;
+}
+
+/* ════════════════════════════════════════════════════════════
+   拡張ポイント③：デモ音声の音程調整枠（v0はスタブ）
+   みかさんの構想：「デモ音声の高さをユーザーの声域に合わせる」
+   実装方針：
+     1. data.json の demoAudio = { url, baseHz } を用意する
+     2. ユーザーの中央ピッチ getUserMedianHz() を取る（実装済み）
+     3. AudioBufferSourceNode.playbackRate（またはdetune）で
+        比率 userHz / baseHz に合わせて再生する
+        （速度も変わるのが気になる場合は v2 でグラニュラー処理）
+   ════════════════════════════════════════════════════════════ */
+function getUserMedianHz() {
+  const hzList = getLogs().map(l => l.hz).filter(h => h > 0).sort((a, b) => a - b);
+  if (hzList.length === 0) return null;
+  return hzList[Math.floor(hzList.length / 2)];
+}
+async function playDemoAtUserPitch() {
+  if (!DATA.demoAudio) { console.info('demoAudio 未設定（拡張ポイント③）'); return; }
+  const userHz = getUserMedianHz();
+  if (!userHz) return;
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const buf = await ctx.decodeAudioData(await (await fetch(DATA.demoAudio.url)).arrayBuffer());
+  const src = ctx.createBufferSource();
+  src.buffer = buf;
+  src.playbackRate.value = userHz / DATA.demoAudio.baseHz;
+  src.connect(ctx.destination);
+  src.start();
+}
+
+/* ==========================================================
+   録音フロー
+   ========================================================== */
+function goRecord() {
+  const p = state.currentPhrase || getTodayPhrase();
+  state.currentPhrase = p;
+  document.getElementById('record-phrase').textContent = p.text;
+  document.getElementById('record-phrase-hint').textContent = p.hint || '';
+  document.getElementById('record-timer').textContent = '0.0';
+  document.getElementById('record-progress').style.width = '0%';
+  document.getElementById('record-hint').textContent = 'タップして録音スタート';
+  showScreen('record');
+}
+
+async function toggleRecording() {
+  if (state.isRecording) { stopRecording(); return; }
+  // マイク許可（ユーザー操作の中で行う：iOS Safari対策）
+  if (!state.stream) {
+    try {
+      state.stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    } catch {
+      openOverlay('mic-overlay');
+      return;
+    }
+  }
+  startRecording();
+}
+
+async function startRecording() {
+  if (!state.audioCtx) state.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (state.audioCtx.state === 'suspended') await state.audioCtx.resume();
+
+  state.rawSamples = [];
+  state.sourceNode = state.audioCtx.createMediaStreamSource(state.stream);
+  state.analyserNode = state.audioCtx.createAnalyser();
+  state.analyserNode.fftSize = 2048;
+  state.sourceNode.connect(state.analyserNode);
+
+  // 生サンプルの取り込み（早口言葉アプリで実証済みのScriptProcessor方式）
+  const proc = state.audioCtx.createScriptProcessor(4096, 1, 1);
+  proc.onaudioprocess = (e) => {
+    if (!state.isRecording) return;
+    state.rawSamples.push(new Float32Array(e.inputBuffer.getChannelData(0)));
+  };
+  state.sourceNode.connect(proc);
+  proc.connect(state.audioCtx.destination);
+  state.processorNode = proc;
+
+  state.isRecording = true;
+  state.recordStartTime = performance.now();
+  state.timerInterval = setInterval(() => {
+    const t = (performance.now() - state.recordStartTime) / 1000;
+    document.getElementById('record-timer').textContent = t.toFixed(1);
+    // プログレスバーは前にしか進まない
+    document.getElementById('record-progress').style.width = Math.min(100, t / CONFIG.maxRecordSec * 100) + '%';
+  }, 100);
+  state.autoStopTimer = setTimeout(() => { if (state.isRecording) stopRecording(); }, CONFIG.maxRecordSec * 1000);
+
+  drawLiveWaveform();
+  const btn = document.getElementById('btn-record');
+  btn.classList.add('recording');
+  btn.textContent = '⏹';
+  document.getElementById('record-hint').textContent = '言い終わったらタップで停止';
+}
+
+function stopRecording() {
+  if (!state.isRecording) return;
+  state.isRecording = false;
+  const durationSec = (performance.now() - state.recordStartTime) / 1000;
+  clearInterval(state.timerInterval);
+  clearTimeout(state.autoStopTimer);
+  cancelAnimationFrame(state.animFrameId);
+  teardownAudioNodes();
+
+  const btn = document.getElementById('btn-record');
+  btn.classList.remove('recording');
+  btn.textContent = '🎙';
+
+  if (durationSec < CONFIG.minRecordSec) {
+    document.getElementById('record-hint').textContent = 'ちょっと短いみたい。もう少しゆっくりどうぞ';
+    return;
+  }
+
+  // 分析（スピナーを見せてから重い処理へ）
+  document.getElementById('spinner').classList.add('active');
+  setTimeout(() => {
+    const samples = mergeRawSamples();
+    const result = analyzeVoice(samples, state.audioCtx.sampleRate);
+    document.getElementById('spinner').classList.remove('active');
+    if (!result) { openOverlay('silent-overlay'); return; }
+    finishSession(result);
+  }, 60);
+}
+
+function cancelRecording() {
+  if (state.isRecording) {
+    state.isRecording = false;
+    clearInterval(state.timerInterval);
+    clearTimeout(state.autoStopTimer);
+    cancelAnimationFrame(state.animFrameId);
+    teardownAudioNodes();
+    const btn = document.getElementById('btn-record');
+    btn.classList.remove('recording');
+    btn.textContent = '🎙';
+  }
+  showScreen('home');
+  renderHome();
+}
+
+function teardownAudioNodes() {
+  if (state.processorNode) { state.processorNode.disconnect(); state.processorNode = null; }
+  if (state.sourceNode) { state.sourceNode.disconnect(); state.sourceNode = null; }
+}
+
+function mergeRawSamples() {
+  const total = state.rawSamples.reduce((s, b) => s + b.length, 0);
+  const merged = new Float32Array(total);
+  let off = 0;
+  for (const buf of state.rawSamples) { merged.set(buf, off); off += buf.length; }
+  return merged;
+}
+
+/* ==========================================================
+   ライブ波形（録音中のフィードバック）
+   ========================================================== */
+function drawLiveWaveform() {
+  if (!state.isRecording) return;
+  const canvas = document.getElementById('wave-canvas');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.parentElement.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  ctx.scale(dpr, dpr);
+  const W = rect.width, H = rect.height;
+
+  const bufLen = state.analyserNode.frequencyBinCount;
+  const dataArray = new Uint8Array(bufLen);
+  state.analyserNode.getByteTimeDomainData(dataArray);
+  ctx.clearRect(0, 0, W, H);
+
+  const barCount = 40;
+  const gap = 3;
+  const barW = (W - (barCount - 1) * gap) / barCount;
+  const step = Math.floor(bufLen / barCount);
+  for (let i = 0; i < barCount; i++) {
+    let sum = 0;
+    for (let j = 0; j < step; j++) sum += Math.abs((dataArray[i * step + j] - 128) / 128);
+    const barH = Math.max(3, (sum / step) * H * 2.6);
+    const x = i * (barW + gap);
+    const y = (H - barH) / 2;
+    const grad = ctx.createLinearGradient(x, y, x, y + barH);
+    grad.addColorStop(0, '#E8815B');
+    grad.addColorStop(1, '#F0A184');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(x, y, barW, barH, 2); else ctx.rect(x, y, barW, barH);
+    ctx.fill();
+  }
+  state.animFrameId = requestAnimationFrame(drawLiveWaveform);
+}
+
+/* ==========================================================
+   声の分析（すべて端末内で完結）
+   ピッチ＝自己相関法、安定感＝ピッチ/音量のゆれ、響き＝RMS
+   ========================================================== */
+function analyzeVoice(samples, sampleRate) {
+  if (!samples || samples.length < sampleRate * 0.3) return null;
+
+  // --- 1. 分析を軽くするため約16kHzに間引き（平均でデシメーション） ---
+  const factor = Math.max(1, Math.round(sampleRate / CONFIG.analysisRate));
+  const rate = sampleRate / factor;
+  const ds = new Float32Array(Math.floor(samples.length / factor));
+  for (let i = 0; i < ds.length; i++) {
+    let sum = 0;
+    for (let j = 0; j < factor; j++) sum += samples[i * factor + j];
+    ds[i] = sum / factor;
+  }
+
+  // --- 2. RMSエンベロープ（50ms窓）→ 冒頭と末尾の無音をトリム ---
+  const win = Math.round(rate * 0.05);
+  const env = [];
+  for (let i = 0; i < ds.length; i += win) {
+    let sum = 0;
+    const end = Math.min(i + win, ds.length);
+    for (let j = i; j < end; j++) sum += ds[j] * ds[j];
+    env.push(Math.sqrt(sum / (end - i)));
+  }
+  const maxRMS = Math.max(...env);
+  if (maxRMS < CONFIG.silenceRMS) return null; // 無音
+  const thr = Math.max(CONFIG.silenceRMS, maxRMS * 0.12);
+  let first = env.findIndex(v => v >= thr);
+  let last = env.length - 1;
+  while (last > first && env[last] < thr) last--;
+  if (first < 0 || last - first < 3) return null;
+
+  const voiced = ds.subarray(first * win, Math.min((last + 1) * win, ds.length));
+  const voicedEnv = env.slice(first, last + 1);
+  const durationSec = voiced.length / rate;
+
+  // --- 3. ピッチ（フレームごとの自己相関 → 中央値） ---
+  const f0s = [];
+  const N = CONFIG.frameSize;
+  for (let pos = 0; pos + N <= voiced.length; pos += N) {
+    const frame = voiced.subarray(pos, pos + N);
+    const f0 = framePitchACF(frame, rate);
+    if (f0 > 0) f0s.push(f0);
+  }
+  let medianHz = 0, pitchCV = null;
+  if (f0s.length >= 3) {
+    const sorted = [...f0s].sort((a, b) => a - b);
+    const med = sorted[Math.floor(sorted.length / 2)];
+    // オクターブ誤検出などの外れ値を除いてから平均・ばらつきを計算
+    const kept = f0s.filter(f => f > med / 1.35 && f < med * 1.35);
+    if (kept.length >= 3) {
+      const mean = kept.reduce((s, v) => s + v, 0) / kept.length;
+      const sd = Math.sqrt(kept.reduce((s, v) => s + (v - mean) ** 2, 0) / kept.length);
+      medianHz = Math.round(med);
+      pitchCV = sd / mean;
+    } else {
+      medianHz = Math.round(med);
+    }
+  }
+
+  // --- 4. 安定感（ピッチのゆれ65% ＋ 音量のゆれ35%） ---
+  //     話し言葉には自然な抑揚があるので、ゆれ＝悪ではない。
+  //     「同じ一言」を毎日録るからこそ、相対変化に意味が出る。
+  let stability = 50;
+  {
+    let pScore = 55;
+    if (pitchCV !== null) {
+      pScore = clamp(Math.round(100 - Math.max(0, pitchCV * 100 - 3) * 3.2), 10, 98);
+    }
+    const eMean = voicedEnv.reduce((s, v) => s + v, 0) / voicedEnv.length;
+    const eSD = Math.sqrt(voicedEnv.reduce((s, v) => s + (v - eMean) ** 2, 0) / voicedEnv.length);
+    const vCV = eSD / (eMean || 1);
+    const vScore = clamp(Math.round(100 - Math.max(0, vCV * 100 - 25) * 0.9), 10, 98);
+    stability = Math.round(pScore * 0.65 + vScore * 0.35);
+  }
+
+  // --- 5. 響き（発声部分の平均RMS。マイク距離の影響は正直に注記） ---
+  let sum2 = 0;
+  for (let i = 0; i < voiced.length; i++) sum2 += voiced[i] * voiced[i];
+  const rms = Math.sqrt(sum2 / voiced.length);
+  const resonance = clamp(Math.round((rms / 0.11) * 82), 5, 98);
+
+  return { hz: medianHz, st: stability, re: resonance, sec: Math.round(durationSec * 10) / 10 };
+}
+
+/* 自己相関法によるフレーム単位のピッチ検出 */
+function framePitchACF(buf, rate) {
+  const N = buf.length;
+  let c0 = 0;
+  for (let i = 0; i < N; i++) c0 += buf[i] * buf[i];
+  if (Math.sqrt(c0 / N) < CONFIG.silenceRMS) return 0; // 静かなフレームは飛ばす
+
+  const minLag = Math.floor(rate / CONFIG.pitchMaxHz);
+  const maxLag = Math.min(Math.floor(rate / CONFIG.pitchMinHz), N - 2);
+  if (maxLag <= minLag) return 0;
+
+  // ラグごとの正規化自己相関（窓が縮む分を補正）
+  const corr = new Float32Array(maxLag + 2);
+  for (let lag = minLag - 1; lag <= maxLag + 1; lag++) {
+    let c = 0;
+    for (let i = 0; i < N - lag; i++) c += buf[i] * buf[i + lag];
+    corr[lag] = c / (c0 * (N - lag) / N);
+  }
+  let bestCorr = 0;
+  for (let lag = minLag; lag <= maxLag; lag++) if (corr[lag] > bestCorr) bestCorr = corr[lag];
+  if (bestCorr < 0.5) return 0; // 声帯振動らしさが弱い
+
+  // 周期の2倍・3倍のラグ（サブハーモニクス）を誤って拾わないよう、
+  // 最大値の85%以上に達する「最初の山」を基本周期として採用する
+  let lag0 = -1;
+  for (let lag = minLag; lag <= maxLag; lag++) {
+    if (corr[lag] >= bestCorr * 0.85 && corr[lag] >= corr[lag - 1] && corr[lag] >= corr[lag + 1]) { lag0 = lag; break; }
+  }
+  if (lag0 < 0) return 0;
+
+  // 放物線補間でピークを小数ラグまで詰める
+  const c1 = corr[lag0 - 1], c2 = corr[lag0], c3 = corr[lag0 + 1];
+  const denom = c1 - 2 * c2 + c3;
+  const shift = denom !== 0 ? 0.5 * (c1 - c3) / denom : 0;
+  return rate / (lag0 + clamp(shift, -1, 1));
+}
+
+function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+/* Hz → 音名（例：ラ / A3） */
+function hzToNoteName(hz) {
+  if (!hz || hz <= 0) return '';
+  const NAMES_JP = ['ド', 'ド♯', 'レ', 'レ♯', 'ミ', 'ファ', 'ファ♯', 'ソ', 'ソ♯', 'ラ', 'ラ♯', 'シ'];
+  const NAMES_EN = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+  const midi = Math.round(69 + 12 * Math.log2(hz / 440));
+  const idx = ((midi % 12) + 12) % 12;
+  const octave = Math.floor(midi / 12) - 1;
+  return `${NAMES_JP[idx]}（${NAMES_EN[idx]}${octave}）あたり`;
+}
+
+/* ==========================================================
+   セッション完了：保存 → 結果画面
+   ========================================================== */
+function finishSession(result) {
+  const logs = getLogs();
+  const prev = logs.length > 0 ? logs[logs.length - 1] : null;
+  const entry = {
+    ts: Date.now(),
+    d: todayStr(),
+    ph: state.currentPhrase.id,
+    hz: result.hz, st: result.st, re: result.re, sec: result.sec
+  };
+  logs.push(entry);
+  saveData(LS_KEYS.logs, logs);
+  const { isNewDay } = bumpStreak();
+  state.lastResult = { entry, prev, isNewDay };
+
+  renderResult(entry, prev);
+  showScreen('result');
+  // その日はじめての録音をお祝い（点数ではなく「録った事実」を祝う）
+  if (isNewDay) setTimeout(showConfetti, 500);
+}
+
+function renderResult(entry, prev) {
+  document.getElementById('result-phrase').textContent = `「${state.currentPhrase.text}」`;
+  const s = getStreak();
+  document.getElementById('result-sub').textContent =
+    `${fmtDateJP(entry.d)} ・ 長さ ${entry.sec}秒 ・ 🔥 ${s.current}日連続`;
+
+  // 声の高さ：80〜400Hzの対数スケール上の「位置」として表示
+  const pitchEl = document.getElementById('val-pitch');
+  const dot = document.getElementById('pitch-dot');
+  const noteEl = document.getElementById('pitch-note-name');
+  if (entry.hz > 0) {
+    pitchEl.innerHTML = `${entry.hz} <small>Hz</small>`;
+    const pos = clamp((Math.log2(entry.hz / 80)) / Math.log2(400 / 80), 0, 1);
+    dot.style.left = (6 + pos * 88) + '%';
+    noteEl.textContent = `音でいうと ${hzToNoteName(entry.hz)}。高い低いに良し悪しはありません`;
+  } else {
+    pitchEl.innerHTML = `— <small>Hz</small>`;
+    dot.style.left = '50%';
+    noteEl.textContent = '今回はピッチをうまく拾えませんでした（静かな環境だと拾いやすいです）';
+  }
+
+  // 安定感・響き：メーター＋前回比チップ
+  setMeter('stability', entry.st, prev ? prev.st : null);
+  setMeter('resonance', entry.re, prev ? prev.re : null);
+
+  // 今日のアドバイス（ファクトブック由来）
+  const adv = getTodayAdvice();
+  document.getElementById('advice-theme').textContent = adv.theme;
+  document.getElementById('advice-title').textContent = adv.title;
+  document.getElementById('advice-text').textContent = adv.text;
+  document.getElementById('advice-source').textContent =
+    `出典：声のファクトブック ${adv.factId}（エビデンス級${adv.grade}）※研究にもとづく目安です`;
+}
+
+function setMeter(name, value, prevValue) {
+  document.getElementById('val-' + name).textContent = value;
+  const bar = document.getElementById('bar-' + name);
+  bar.style.width = '0%';
+  requestAnimationFrame(() => requestAnimationFrame(() => { bar.style.width = value + '%'; }));
+  const chip = document.getElementById('delta-' + name);
+  chip.innerHTML = '';
+  if (prevValue != null) {
+    const diff = value - prevValue;
+    const el = document.createElement('span');
+    el.className = 'delta-chip' + (diff > 0 ? ' up' : '');
+    el.textContent = diff > 0 ? `前回より +${diff}` : diff < 0 ? `前回より ${diff}` : '前回とおなじ';
+    chip.appendChild(el);
+  }
+}
+
+/* ==========================================================
+   きろく画面：チャート・Before/After・履歴
+   ========================================================== */
+const METRIC_DEFS = {
+  st: { label: '安定感', unit: '', fixed: [0, 100] },
+  re: { label: '響き', unit: '', fixed: [0, 100] },
+  hz: { label: '声の高さ', unit: 'Hz', fixed: null }
+};
+
+function setChartMetric(m) {
+  state.chartMetric = m;
+  document.querySelectorAll('#metric-pills .btn-pill').forEach(b =>
+    b.classList.toggle('active', b.dataset.metric === m));
+  drawChart();
+}
+function setChartPeriod(p) {
+  state.chartPeriod = p;
+  document.querySelectorAll('#period-pills .btn-pill').forEach(b =>
+    b.classList.toggle('active', Number(b.dataset.period) === p));
+  drawChart();
+}
+
+function renderLogScreen() {
+  drawChart();
+  renderBeforeAfter();
+  renderHistory();
+}
+
+/* 日ごとに「その日最後の録音」を代表値にする */
+function dailySeries() {
+  const byDay = {};
+  for (const l of getLogs()) byDay[l.d] = l; // 後勝ち＝その日最後
+  return Object.values(byDay).sort((a, b) => a.d < b.d ? -1 : 1);
+}
+
+function drawChart() {
+  const slot = document.getElementById('chart-slot');
+  const tooltip = document.getElementById('chart-tooltip');
+  tooltip.style.display = 'none';
+
+  const metric = state.chartMetric;
+  const period = state.chartPeriod;
+  const def = METRIC_DEFS[metric];
+
+  // 直近N日ぶんの日付枠を作り、記録がある日に点を置く
+  const series = dailySeries();
+  const dayMap = {};
+  for (const s of series) dayMap[s.d] = s;
+  const days = [];
+  for (let i = period - 1; i >= 0; i--) {
+    const d = new Date(Date.now() - i * 86400000);
+    days.push(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`);
+  }
+  const points = [];
+  days.forEach((d, i) => {
+    const e = dayMap[d];
+    if (e && (metric !== 'hz' || e.hz > 0)) points.push({ i, d, v: e[metric] });
+  });
+
+  if (points.length === 0) {
+    slot.innerHTML = `<p class="chart-empty">この期間のきろくはまだありません。<br>きょうの一言から、はじめてみてください 🌱</p>`;
+    return;
+  }
+
+  // レイアウト
+  const W = 340, H = 190, padL = 38, padR = 12, padT = 14, padB = 26;
+  const plotW = W - padL - padR, plotH = H - padT - padB;
+
+  // Y軸レンジ
+  let yMin, yMax;
+  if (def.fixed) { [yMin, yMax] = def.fixed; }
+  else {
+    const vs = points.map(p => p.v);
+    const lo = Math.min(...vs), hi = Math.max(...vs);
+    const pad = Math.max(10, (hi - lo) * 0.25);
+    yMin = Math.max(0, Math.floor((lo - pad) / 10) * 10);
+    yMax = Math.ceil((hi + pad) / 10) * 10;
+    if (yMax === yMin) yMax = yMin + 20;
+  }
+  const xOf = i => padL + (period === 1 ? plotW / 2 : (i / (period - 1)) * plotW);
+  const yOf = v => padT + plotH - ((v - yMin) / (yMax - yMin)) * plotH;
+
+  // Yティック（3本）
+  const ticks = [yMin, (yMin + yMax) / 2, yMax];
+
+  // X軸ラベル（最初・まん中・最後の日付）
+  const xLabels = [0, Math.floor((period - 1) / 2), period - 1].map(i => ({ i, t: fmtDateJP(days[i]) }));
+
+  const linePath = points.map((p, k) => `${k === 0 ? 'M' : 'L'}${xOf(p.i).toFixed(1)},${yOf(p.v).toFixed(1)}`).join(' ');
+  const areaPath = points.length > 1
+    ? `${linePath} L${xOf(points[points.length - 1].i).toFixed(1)},${padT + plotH} L${xOf(points[0].i).toFixed(1)},${padT + plotH} Z`
+    : '';
+
+  slot.innerHTML = `
+  <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${def.label}の推移（${period}日）">
+    ${ticks.map(t => `
+      <line x1="${padL}" y1="${yOf(t)}" x2="${W - padR}" y2="${yOf(t)}" stroke="#F3DFD6" stroke-width="1"/>
+      <text x="${padL - 6}" y="${yOf(t) + 3.5}" text-anchor="end" font-size="9.5" fill="#9B8A84">${Math.round(t)}</text>
+    `).join('')}
+    ${xLabels.map(l => `
+      <text x="${xOf(l.i)}" y="${H - 8}" text-anchor="middle" font-size="9.5" fill="#9B8A84">${l.t}</text>
+    `).join('')}
+    ${areaPath ? `<path d="${areaPath}" fill="rgba(232,129,91,0.12)"/>` : ''}
+    ${points.length > 1 ? `<path d="${linePath}" fill="none" stroke="#C75F35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>` : ''}
+    ${points.map(p => `
+      <circle cx="${xOf(p.i).toFixed(1)}" cy="${yOf(p.v).toFixed(1)}" r="4.5" fill="#C75F35" stroke="#FFF8F5" stroke-width="2"
+        data-d="${p.d}" data-v="${p.v}" class="chart-dot" style="cursor:pointer"/>
+    `).join('')}
+  </svg>`;
+
+  // タップで値を表示（点のヒットエリアはSVG全体からの最近傍で拾う）
+  const svg = slot.querySelector('svg');
+  svg.addEventListener('pointerdown', (ev) => {
+    const rect = svg.getBoundingClientRect();
+    const sx = (ev.clientX - rect.left) / rect.width * W;
+    let nearest = null, nd = Infinity;
+    for (const p of points) {
+      const dist = Math.abs(xOf(p.i) - sx);
+      if (dist < nd) { nd = dist; nearest = p; }
+    }
+    if (!nearest || nd > 40) { tooltip.style.display = 'none'; return; }
+    tooltip.textContent = `${fmtDateJP(nearest.d)}：${nearest.v}${def.unit}`;
+    tooltip.style.left = (xOf(nearest.i) / W * 100) + '%';
+    tooltip.style.top = (yOf(nearest.v) / H * 100) + '%';
+    tooltip.style.display = 'block';
+  });
+}
+
+/* Before / After：いちばん最初のきろく vs 最新のきろく */
+function renderBeforeAfter() {
+  const card = document.getElementById('ba-card');
+  const logs = getLogs();
+  if (logs.length < 2) {
+    card.innerHTML = `<p class="chart-empty">2回以上きろくすると、<br>「はじめた日の声」とくらべられます</p>`;
+    return;
+  }
+  const first = logs[0], latest = logs[logs.length - 1];
+  const daysBetween = Math.max(1, Math.round((latest.ts - first.ts) / 86400000));
+  const row = (label, a, b, unit) => {
+    const diff = b - a;
+    const chip = diff !== 0
+      ? `<span class="delta-chip${diff > 0 ? ' up' : ''}">${diff > 0 ? '+' : ''}${diff}${unit}</span>`
+      : `<span class="delta-chip">かわらず</span>`;
+    return `
+      <p class="ba-metric">${label} ${chip}</p>
+      <div class="ba-grid">
+        <div class="ba-col"><div class="ba-when">はじめた日（${fmtDateJP(first.d)}）</div><div class="ba-val">${a}<small style="font-size:11px; color:var(--ink-mute);">${unit}</small></div></div>
+        <div class="ba-arrow">→</div>
+        <div class="ba-col"><div class="ba-when">いちばん最近（${fmtDateJP(latest.d)}）</div><div class="ba-val">${b}<small style="font-size:11px; color:var(--ink-mute);">${unit}</small></div></div>
+      </div>`;
+  };
+  let html = `<p style="font-size:12px; color:var(--ink-soft); margin-bottom:12px;">はじめてから <b>${daysBetween}日</b>。声の高さの変化は良し悪しではなく「あなたの声の今の位置」です。</p>`;
+  html += row('🧘 安定感', first.st, latest.st, '');
+  html += row('📣 響き', first.re, latest.re, '');
+  if (first.hz > 0 && latest.hz > 0) html += row('🎵 声の高さ', first.hz, latest.hz, 'Hz');
+  card.innerHTML = html;
+}
+
+/* 履歴リスト（直近10件） */
+function renderHistory() {
+  const card = document.getElementById('history-card');
+  const logs = getLogs();
+  if (logs.length === 0) {
+    card.innerHTML = `<p class="chart-empty">まだきろくがありません</p>`;
+    return;
+  }
+  const items = [...logs].reverse().slice(0, 10).map(l => {
+    const p = DATA.phrases.find(x => x.id === l.ph);
+    return `
+      <div class="history-item">
+        <div>
+          <div class="history-date">${fmtDateJP(l.d)}</div>
+          <div class="history-vals">${p ? p.text.slice(0, 12) + (p.text.length > 12 ? '…' : '') : ''}</div>
+        </div>
+        <div class="history-vals">安定 ${l.st} ・ 響き ${l.re}${l.hz > 0 ? ` ・ ${l.hz}Hz` : ''}</div>
+      </div>`;
+  }).join('');
+  card.innerHTML = items;
+}
+
+/* ==========================================================
+   リセット・シェア・紙吹雪
+   ========================================================== */
+function resetAllData() {
+  localStorage.removeItem(LS_KEYS.logs);
+  localStorage.removeItem(LS_KEYS.streak);
+  localStorage.removeItem(LS_KEYS.phraseShift);
+  closeOverlay('confirm-overlay');
+  renderLogScreen();
+  renderHome();
+}
+
+async function shareResult() {
+  const e = state.lastResult ? state.lastResult.entry : null;
+  const s = getStreak();
+  const text = e
+    ? `声の育成日記 🌱 ${fmtDateJP(e.d)}\n「${state.currentPhrase.text}」を録音しました\n安定感 ${e.st}/100 ・ 響き ${e.re}/100${e.hz > 0 ? ` ・ ${e.hz}Hz` : ''}\n🔥 ${s.current}日連続`
+    : `声の育成日記 🌱 毎日ひとこと、声をきろくしています`;
+  if (navigator.share) {
+    try { await navigator.share({ text }); } catch { /* キャンセル */ }
+  } else {
+    try { await navigator.clipboard.writeText(text); alert('結果をコピーしました！'); }
+    catch { prompt('結果をコピーしてね：', text); }
+  }
+}
+
+function showConfetti() {
+  const container = document.getElementById('confetti');
+  container.innerHTML = '';
+  const colors = ['#E8815B', '#F0A184', '#C75F35', '#F6C89F', '#7BA05B', '#FBE9E0'];
+  for (let i = 0; i < 50; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = Math.random() * 100 + '%';
+    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.animationDelay = Math.random() * 1.2 + 's';
+    piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    piece.style.width = (6 + Math.random() * 8) + 'px';
+    piece.style.height = (6 + Math.random() * 8) + 'px';
+    container.appendChild(piece);
+  }
+  setTimeout(() => { container.innerHTML = ''; }, 4200);
+}
+
+/* ==========================================================
+   PWA・初期化
+   ========================================================== */
+async function registerSW() {
+  if ('serviceWorker' in navigator) {
+    try { await navigator.serviceWorker.register('sw.js'); }
+    catch (e) { console.log('SW registration skipped:', e); }
+  }
+}
+
+async function init() {
+  await loadAppData();
+  renderHome();
+  registerSW();
+}
+init();
+</script>
+</body>
+</html>
