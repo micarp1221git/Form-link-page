@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>声の育成日記</title>
 <meta name="description" content="毎日ひとこと録音して、声の成長をきろくするボイトレ日記。ボイストレーナーみか監修。">
 <meta name="theme-color" content="#E8815B">
@@ -24,7 +24,10 @@
 
 <style>
 /* ==========================================================
-   Design Tokens（ブランド共通：#E8815B / #FFF8F5 / #3D3535）
+   v0.2 Design Tokens（ブランド共通：#E8815B / #FFF8F5 / #3D3535）
+   コンセプト：「紙の日記帳 × 声の波紋」
+   ・画面の中でいちばん濃いオレンジ＝「いま押すボタン」だけ
+   ・老眼対応：本文18px〜、数値とボタンは特大
    ========================================================== */
 :root {
   --primary: #E8815B;
@@ -42,6 +45,7 @@
   --line-strong: #E8CFC2;
 
   --good: #7BA05B;              /* 前回比の上向きなど、ささやかな肯定に */
+  --good-soft: #9BBA7E;
 
   --shadow-sm: 0 1px 3px rgba(232,129,91,0.08);
   --shadow-md: 0 3px 14px rgba(232,129,91,0.12);
@@ -56,22 +60,25 @@
 }
 
 /* ==========================================================
-   Reset & Base
+   Reset & Base（紙のようなテクスチャを全面に敷く）
    ========================================================== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { height: 100%; -webkit-tap-highlight-color: transparent; }
 body {
   font-family: var(--font-body);
   background:
-    radial-gradient(ellipse 90% 40% at 50% -5%, rgba(240,161,132,0.14), transparent 70%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 0.04'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23p)'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse 90% 40% at 50% -5%, rgba(240,161,132,0.16), transparent 70%),
     var(--background);
   color: var(--ink);
+  font-size: 18px;              /* 老眼対応：本文の基準を18pxに */
   min-height: 100vh;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
-  line-height: 1.6;
+  line-height: 1.75;
 }
 button { font-family: inherit; }
+svg { vertical-align: middle; }
 
 /* ==========================================================
    Screens
@@ -79,7 +86,7 @@ button { font-family: inherit; }
 .screen {
   display: none;
   min-height: 100vh;
-  padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+  padding-bottom: calc(108px + env(safe-area-inset-bottom, 0px));
   animation: fadeIn .3s ease;
 }
 .screen.active { display: flex; flex-direction: column; }
@@ -90,137 +97,157 @@ button { font-family: inherit; }
 }
 
 /* ==========================================================
-   Header
+   Header（v0.2：紙の上に直接書いたような、光らないヘッダー。
+   濃いオレンジは「押すボタン」のためにとっておく）
    ========================================================== */
 .app-header {
-  background: linear-gradient(140deg, var(--primary) 0%, var(--primary-soft) 100%);
-  color: var(--on-primary);
-  padding: calc(30px + env(safe-area-inset-top, 0px)) 20px 22px;
-  border-radius: 0 0 var(--rounded-xl) var(--rounded-xl);
-  box-shadow: var(--shadow-md);
+  padding: calc(26px + env(safe-area-inset-top, 0px)) 22px 14px;
+  border-bottom: 2px dashed var(--line-strong);
   position: relative;
-  overflow: hidden;
 }
-.app-header::after { /* 日記帳らしい、うっすら点線の飾り */
-  content: '';
-  position: absolute; inset: 8px;
-  border: 1.5px dashed rgba(255,255,255,0.28);
-  border-radius: calc(var(--rounded-xl) - 6px);
-  pointer-events: none;
-}
-.header-row { display: flex; align-items: center; justify-content: space-between; }
+.header-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .app-title {
   font-family: var(--font-display);
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 900;
-  letter-spacing: 2px;
-  display: flex; align-items: center; gap: 8px;
+  letter-spacing: 1.5px;
+  color: var(--ink);
+  display: flex; align-items: center; gap: 9px;
 }
-.app-title .sprout { font-size: 22px; }
-.header-date { font-size: 12px; opacity: .92; margin-top: 3px; letter-spacing: .5px; }
+.header-date { font-size: 15px; color: var(--ink-soft); margin-top: 4px; letter-spacing: .5px; font-weight: 500; }
 .streak-badge {
-  background: rgba(255,255,255,0.22);
-  border: 1.5px solid rgba(255,255,255,0.45);
+  background: var(--primary-mist);
+  border: 2px solid var(--line-strong);
   border-radius: 999px;
-  padding: 5px 14px;
-  font-size: 13px;
+  padding: 8px 16px;
+  font-size: 15px;
   font-weight: 700;
+  color: var(--primary-dark);
   white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 6px;
 }
 
-.app-body { flex: 1; padding: 18px 18px 8px; }
+.app-body { flex: 1; padding: 20px 18px 8px; }
 
 .section-label {
   font-family: var(--font-display);
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--ink-soft);
   letter-spacing: 1.5px;
-  margin: 18px 2px 8px;
-  display: flex; align-items: center; gap: 8px;
+  margin: 22px 2px 10px;
+  display: flex; align-items: center; gap: 10px;
 }
-.section-label::after { content:''; flex:1; height:1px; background: var(--line-strong); }
+.section-label::after { content:''; flex:1; height:2px; background: repeating-linear-gradient(90deg, var(--line-strong) 0 6px, transparent 6px 12px); }
 
 /* ==========================================================
-   Cards
+   Cards（日記帳のページ風：マスキングテープ＋点線ステッチ）
    ========================================================== */
 .card {
   background: var(--surface);
   border: 1.5px solid var(--line);
   border-radius: var(--rounded-lg);
-  padding: 18px;
+  padding: 20px;
   box-shadow: var(--shadow-sm);
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 .phrase-card {
   text-align: center;
-  padding: 26px 18px 22px;
+  padding: 34px 20px 24px;
   border: 1.5px solid var(--line-strong);
   box-shadow: var(--shadow-md);
   position: relative;
+  overflow: visible;
+}
+.phrase-card::after { /* 日記ページのステッチ */
+  content: '';
+  position: absolute; inset: 7px;
+  border: 1.5px dashed var(--line-strong);
+  border-radius: calc(var(--rounded-lg) - 5px);
+  pointer-events: none;
+}
+.washi-tape { /* マスキングテープ */
+  position: absolute;
+  top: -13px; left: 50%;
+  transform: translateX(-50%) rotate(-2.5deg);
+  width: 118px; height: 28px;
+  background: repeating-linear-gradient(45deg, rgba(232,129,91,.34) 0 7px, rgba(232,129,91,.2) 7px 14px);
+  border-left: 2px dashed rgba(255,255,255,.7);
+  border-right: 2px dashed rgba(255,255,255,.7);
+  border-radius: 3px;
+  z-index: 2;
 }
 .phrase-kicker {
   display: inline-block;
-  font-size: 11px; font-weight: 700;
+  font-size: 13px; font-weight: 700;
   color: var(--primary-dark);
   background: var(--primary-mist);
   border-radius: 999px;
-  padding: 3px 14px;
+  padding: 5px 16px;
   letter-spacing: 1.5px;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
+  position: relative; z-index: 1;
 }
 .phrase-text {
   font-family: var(--font-display);
-  font-size: 22px;
+  font-size: 27px;
   font-weight: 900;
-  line-height: 1.55;
+  line-height: 1.6;
   color: var(--ink);
+  position: relative; z-index: 1;
 }
-.phrase-hint { font-size: 12px; color: var(--ink-mute); margin-top: 8px; }
+.phrase-hint { font-size: 15px; color: var(--ink-mute); margin-top: 10px; position: relative; z-index: 1; }
 
 /* ==========================================================
-   Buttons
+   Buttons（特大・押した感のある3D。濃いオレンジはここだけ）
    ========================================================== */
 .btn-primary {
   display: block; width: 100%;
-  padding: 15px;
-  background: var(--primary);
+  min-height: 62px;
+  padding: 17px 16px;
+  background: linear-gradient(160deg, var(--primary), #DE6F45);
   color: var(--on-primary);
-  font-size: 15px; font-weight: 700;
+  font-size: 19px; font-weight: 900;
+  font-family: var(--font-display);
+  letter-spacing: 1px;
   border: none;
-  border-bottom: 4px solid var(--primary-dark);
+  border-bottom: 5px solid var(--primary-dark);
   border-radius: var(--rounded-lg);
   cursor: pointer;
   transition: all .15s;
+  box-shadow: var(--shadow-md);
+  position: relative; z-index: 1;
 }
-.btn-primary:active { transform: translateY(2px); border-bottom-width: 2px; }
+.btn-primary:active { transform: translateY(2px); border-bottom-width: 3px; }
 .btn-outline {
   display: block; width: 100%;
-  padding: 14px;
+  min-height: 58px;
+  padding: 15px;
   background: var(--surface);
   color: var(--primary-dark);
-  font-size: 15px; font-weight: 700;
+  font-size: 18px; font-weight: 700;
   border: 2px solid var(--line-strong);
-  border-bottom: 4px solid var(--line-strong);
+  border-bottom: 5px solid var(--line-strong);
   border-radius: var(--rounded-lg);
   cursor: pointer;
   transition: all .15s;
 }
-.btn-outline:active { transform: translateY(2px); border-bottom-width: 2px; }
+.btn-outline:active { transform: translateY(2px); border-bottom-width: 3px; }
 .btn-ghost {
   display: block; width: 100%;
-  padding: 12px;
+  padding: 15px;
   background: none; border: none;
   color: var(--ink-mute);
-  font-size: 13px;
+  font-size: 16px;
+  font-weight: 500;
   cursor: pointer;
+  position: relative; z-index: 1;
 }
 .btn-pill {
-  border: none;
   background: var(--surface);
   color: var(--ink-mute);
-  font-size: 13px; font-weight: 700;
-  padding: 7px 18px;
+  font-size: 15px; font-weight: 700;
+  padding: 10px 20px;
   border-radius: 999px;
   cursor: pointer;
   border: 1.5px solid var(--line);
@@ -234,14 +261,14 @@ button { font-family: inherit; }
 }
 
 /* ==========================================================
-   Bottom Navigation（3タブ＋中央録音ボタン）
+   Bottom Navigation（2タブ＋中央録音ボタン・特大タップ領域）
    ========================================================== */
 .bottom-nav {
   position: fixed; bottom: 0; left: 0; right: 0;
   background: var(--surface);
   border-top: 1.5px solid var(--line);
   display: flex; align-items: stretch;
-  padding: 6px 6px calc(8px + env(safe-area-inset-bottom, 0px));
+  padding: 8px 6px calc(10px + env(safe-area-inset-bottom, 0px));
   z-index: 50;
 }
 .bottom-nav.hidden { display: none; }
@@ -249,28 +276,143 @@ button { font-family: inherit; }
   flex: 1;
   background: none; border: none;
   color: var(--ink-mute);
-  font-size: 10px; font-weight: 700;
-  display: flex; flex-direction: column; align-items: center; gap: 2px;
-  padding: 6px 0 2px;
+  font-size: 12.5px; font-weight: 700;
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 8px 0 4px;
   cursor: pointer;
 }
-.nav-item .nav-icon { font-size: 20px; line-height: 1.2; }
 .nav-item.active { color: var(--primary-dark); }
 .nav-center { flex: 1; display: flex; justify-content: center; }
 .nav-record-btn {
-  width: 66px; height: 66px;
-  margin-top: -30px;
+  width: 76px; height: 76px;
+  margin-top: -36px;
   border-radius: 50%;
   background: linear-gradient(160deg, var(--primary), #DE6F45);
   color: var(--on-primary);
   border: 4px solid var(--background);
-  border-bottom: 7px solid var(--primary-dark);
+  border-bottom: 8px solid var(--primary-dark);
   box-shadow: var(--shadow-lg);
-  font-size: 26px;
   cursor: pointer;
   transition: all .15s;
+  display: flex; align-items: center; justify-content: center;
 }
-.nav-record-btn:active { transform: translateY(2px); border-bottom-width: 5px; }
+.nav-record-btn:active { transform: translateY(2px); border-bottom-width: 6px; }
+
+/* ==========================================================
+   Intro Screen（はじめに：初回起動時のトップページ）
+   ========================================================== */
+.intro-hero {
+  text-align: center;
+  padding: calc(34px + env(safe-area-inset-top, 0px)) 20px 6px;
+}
+.intro-title {
+  font-family: var(--font-display);
+  font-size: 27px; font-weight: 900;
+  letter-spacing: 1px;
+  margin-top: 10px;
+  line-height: 1.5;
+}
+.intro-lead {
+  font-size: 16.5px; color: var(--ink-soft);
+  margin: 10px auto 0;
+  max-width: 340px;
+  line-height: 1.9;
+}
+.intro-card-title {
+  font-family: var(--font-display);
+  font-size: 18px; font-weight: 900;
+  color: var(--primary-dark);
+  margin-bottom: 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.intro-text { font-size: 16px; color: var(--ink-soft); line-height: 2; }
+.step-row {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 12px 0;
+}
+.step-row + .step-row { border-top: 1.5px dashed var(--line-strong); }
+.step-num {
+  flex-shrink: 0;
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: var(--primary-mist);
+  border: 2px solid var(--line-strong);
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.step-num .num {
+  position: absolute; top: -7px; left: -7px;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--primary-dark);
+  color: #fff;
+  font-size: 14px; font-weight: 900;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display);
+}
+.step-body { flex: 1; }
+.step-title { font-size: 16.5px; font-weight: 700; color: var(--ink); }
+.step-desc { font-size: 14.5px; color: var(--ink-mute); line-height: 1.8; margin-top: 2px; }
+
+/* ==========================================================
+   Warmup Screen（ウォームアップ：きょうの一言・呼吸する円）
+   ========================================================== */
+.warmup-stage {
+  flex: 1;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: calc(26px + env(safe-area-inset-top, 0px)) 22px 26px;
+  text-align: center;
+}
+.breath-stage {
+  position: relative;
+  width: 250px; height: 250px;
+  margin: 22px auto 10px;
+  display: flex; align-items: center; justify-content: center;
+}
+.breath-ring {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  border: 2px dashed rgba(199,95,53,.4);
+  animation: breathe 10s ease-in-out infinite;
+}
+.breath-ring.r2 { inset: -16px; opacity: .55; animation-delay: .4s; }
+.breath-core {
+  width: 206px; height: 206px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 30%, #FFD9C4, var(--primary-soft) 68%, var(--primary));
+  box-shadow: var(--shadow-lg);
+  display: flex; align-items: center; justify-content: center;
+  padding: 26px;
+  animation: breathe 10s ease-in-out infinite;
+}
+/* 「4秒吸って6秒吐く」に合わせた10秒サイクルのふくらみ */
+@keyframes breathe {
+  0%, 100% { transform: scale(.94); }
+  40%, 55% { transform: scale(1.05); }
+}
+.warmup-word {
+  font-family: var(--font-display);
+  font-size: 31px; font-weight: 900;
+  color: #fff;
+  line-height: 1.45;
+  text-shadow: 0 2px 8px rgba(199,95,53,.35);
+}
+.warmup-guide {
+  font-size: 16.5px; color: var(--ink-soft);
+  line-height: 2;
+  max-width: 340px;
+  margin: 12px auto 0;
+}
+.warmup-note {
+  display: inline-block;
+  font-size: 14.5px; color: var(--primary-dark);
+  background: var(--primary-mist);
+  border-radius: 999px;
+  padding: 7px 18px;
+  margin-top: 14px;
+  font-weight: 700;
+}
 
 /* ==========================================================
    Recording Screen
@@ -284,17 +426,18 @@ button { font-family: inherit; }
 }
 .record-phrase {
   font-family: var(--font-display);
-  font-size: 24px; font-weight: 900; line-height: 1.6;
-  margin: 12px 0 4px;
+  font-size: 28px; font-weight: 900; line-height: 1.6;
+  margin: 14px 0 4px;
 }
 .record-timer {
-  font-size: 36px; font-weight: 900;
+  font-size: 52px; font-weight: 900;
   font-variant-numeric: tabular-nums;
   color: var(--primary-dark);
   font-family: var(--font-display);
-  margin-top: 14px;
+  margin-top: 12px;
+  line-height: 1.2;
 }
-.record-timer small { font-size: 15px; color: var(--ink-mute); font-weight: 700; }
+.record-timer small { font-size: 19px; color: var(--ink-mute); font-weight: 700; }
 .wave-wrap {
   width: 100%; max-width: 340px; height: 88px;
   background: var(--surface);
@@ -305,19 +448,19 @@ button { font-family: inherit; }
 }
 .wave-wrap canvas { width: 100%; height: 100%; display: block; }
 .big-record-btn {
-  width: 96px; height: 96px;
+  width: 112px; height: 112px;
   border-radius: 50%;
   background: linear-gradient(160deg, var(--primary), #DE6F45);
   color: #fff;
   border: none;
-  border-bottom: 7px solid var(--primary-dark);
-  font-size: 38px;
+  border-bottom: 8px solid var(--primary-dark);
   cursor: pointer;
-  margin-top: 26px;
+  margin-top: 24px;
   box-shadow: var(--shadow-lg);
   transition: all .15s;
+  display: flex; align-items: center; justify-content: center;
 }
-.big-record-btn:active { transform: translateY(2px); border-bottom-width: 5px; }
+.big-record-btn:active { transform: translateY(2px); border-bottom-width: 6px; }
 .big-record-btn.recording {
   animation: pulse 1.2s ease-in-out infinite;
   background: linear-gradient(160deg, #DE6F45, var(--primary-dark));
@@ -326,11 +469,11 @@ button { font-family: inherit; }
   0%, 100% { box-shadow: 0 0 0 0 rgba(232,129,91,0.45), var(--shadow-lg); }
   50%      { box-shadow: 0 0 0 18px rgba(232,129,91,0), var(--shadow-lg); }
 }
-.record-hint { font-size: 13px; color: var(--ink-mute); margin-top: 12px; min-height: 20px; }
+.record-hint { font-size: 17px; font-weight: 700; color: var(--ink-soft); margin-top: 14px; min-height: 26px; }
 
 .progress-track {
   width: 100%; max-width: 340px;
-  height: 8px;
+  height: 10px;
   background: var(--primary-mist);
   border-radius: 999px;
   overflow: hidden;
@@ -343,33 +486,43 @@ button { font-family: inherit; }
 }
 
 /* ==========================================================
-   Result Screen（メーター）
+   Result Screen（メーター：数値は特大）
    ========================================================== */
 .result-header {
   background: linear-gradient(140deg, var(--primary), var(--primary-soft));
   color: #fff;
-  padding: calc(28px + env(safe-area-inset-top, 0px)) 20px 24px;
+  padding: calc(30px + env(safe-area-inset-top, 0px)) 20px 26px;
   border-radius: 0 0 var(--rounded-xl) var(--rounded-xl);
   text-align: center;
+  position: relative;
+  overflow: hidden;
 }
-.result-kicker { font-size: 12px; letter-spacing: 2px; opacity: .92; font-weight: 700; }
+.result-header::after {
+  content: '';
+  position: absolute; inset: 8px;
+  border: 1.5px dashed rgba(255,255,255,0.32);
+  border-radius: calc(var(--rounded-xl) - 6px);
+  pointer-events: none;
+}
+.result-kicker { font-size: 14px; letter-spacing: 2px; opacity: .95; font-weight: 700; }
 .result-phrase {
   font-family: var(--font-display);
-  font-size: 19px; font-weight: 900; margin-top: 8px; line-height: 1.5;
+  font-size: 22px; font-weight: 900; margin-top: 8px; line-height: 1.55;
 }
-.result-sub { font-size: 12px; opacity: .9; margin-top: 6px; }
+.result-sub { font-size: 14px; opacity: .92; margin-top: 8px; }
 
-.meter-row { margin-bottom: 16px; }
-.meter-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
-.meter-name { font-size: 13px; font-weight: 700; color: var(--ink-soft); }
+.meter-row { margin-bottom: 20px; }
+.meter-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; gap: 8px; }
+.meter-name { font-size: 16px; font-weight: 700; color: var(--ink-soft); display: inline-flex; align-items: center; gap: 7px; }
 .meter-value {
   font-family: var(--font-display);
-  font-size: 19px; font-weight: 900; color: var(--ink);
+  font-size: 30px; font-weight: 900; color: var(--ink);
   font-variant-numeric: tabular-nums;
+  line-height: 1.2;
 }
-.meter-value small { font-size: 11px; color: var(--ink-mute); font-weight: 700; margin-left: 2px; }
+.meter-value small { font-size: 14px; color: var(--ink-mute); font-weight: 700; margin-left: 2px; }
 .meter-track {
-  height: 12px;
+  height: 16px;
   background: var(--primary-mist);
   border-radius: 999px;
   overflow: hidden;
@@ -380,62 +533,63 @@ button { font-family: inherit; }
   border-radius: 999px;
   transition: width .9s cubic-bezier(.22,1,.36,1);
 }
-.meter-note { font-size: 11px; color: var(--ink-mute); margin-top: 4px; }
+.meter-note { font-size: 13.5px; color: var(--ink-mute); margin-top: 6px; line-height: 1.7; }
 .delta-chip {
   display: inline-block;
-  font-size: 11px; font-weight: 700;
+  font-size: 13.5px; font-weight: 700;
   border-radius: 999px;
-  padding: 1px 9px;
+  padding: 3px 12px;
   margin-left: 6px;
   background: var(--primary-mist);
   color: var(--primary-dark);
+  vertical-align: 3px;
 }
 .delta-chip.up { background: #EDF3E4; color: #5C7B41; }
 
 /* ピッチ位置バー（高い/低いは優劣ではないので、メーターでなく「位置」表示） */
 .pitch-scale {
   position: relative;
-  height: 12px;
+  height: 16px;
   border-radius: 999px;
   background: linear-gradient(90deg, #F6E3D9, var(--primary-mist), #F6E3D9);
   margin-top: 2px;
 }
 .pitch-dot {
   position: absolute; top: 50%;
-  width: 18px; height: 18px;
+  width: 24px; height: 24px;
   border-radius: 50%;
   background: var(--primary);
-  border: 3px solid #fff;
+  border: 4px solid #fff;
   box-shadow: var(--shadow-sm);
   transform: translate(-50%, -50%);
   transition: left .9s cubic-bezier(.22,1,.36,1);
 }
-.pitch-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--ink-mute); margin-top: 4px; }
+.pitch-labels { display: flex; justify-content: space-between; font-size: 13px; color: var(--ink-mute); margin-top: 6px; font-weight: 700; }
 
 /* アドバイスカード */
 .advice-card {
   background: linear-gradient(150deg, #FFF3EC, #FFFDFB);
   border: 1.5px solid var(--line-strong);
   border-radius: var(--rounded-lg);
-  padding: 18px;
+  padding: 20px;
   box-shadow: var(--shadow-sm);
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 .advice-kicker {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-size: 11px; font-weight: 700;
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 13px; font-weight: 700;
   color: var(--primary-dark);
   letter-spacing: 1px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 .advice-title {
   font-family: var(--font-display);
-  font-size: 16px; font-weight: 900;
-  margin-bottom: 8px;
-  line-height: 1.5;
+  font-size: 19px; font-weight: 900;
+  margin-bottom: 10px;
+  line-height: 1.55;
 }
-.advice-text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.9; }
-.advice-source { font-size: 10.5px; color: var(--ink-mute); margin-top: 10px; }
+.advice-text { font-size: 16px; color: var(--ink-soft); line-height: 2; }
+.advice-source { font-size: 12px; color: var(--ink-mute); margin-top: 12px; line-height: 1.7; }
 
 /* ==========================================================
    Log Screen（チャート・Before/After・履歴）
@@ -452,8 +606,8 @@ button { font-family: inherit; }
   position: absolute;
   background: var(--ink);
   color: #fff;
-  font-size: 11px; font-weight: 700;
-  padding: 4px 10px;
+  font-size: 13.5px; font-weight: 700;
+  padding: 6px 12px;
   border-radius: 8px;
   pointer-events: none;
   transform: translate(-50%, -130%);
@@ -464,46 +618,64 @@ button { font-family: inherit; }
 .chart-empty {
   text-align: center;
   color: var(--ink-mute);
-  font-size: 13px;
+  font-size: 15px;
   padding: 36px 12px;
-  line-height: 1.9;
+  line-height: 2;
 }
 
 .ba-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; align-items: center; }
 .ba-col { text-align: center; }
-.ba-when { font-size: 11px; color: var(--ink-mute); font-weight: 700; margin-bottom: 4px; }
+.ba-when { font-size: 13px; color: var(--ink-mute); font-weight: 700; margin-bottom: 4px; }
 .ba-val {
   font-family: var(--font-display);
-  font-size: 22px; font-weight: 900;
+  font-size: 28px; font-weight: 900;
   font-variant-numeric: tabular-nums;
 }
-.ba-arrow { font-size: 20px; color: var(--primary); }
-.ba-metric { font-size: 12px; font-weight: 700; color: var(--ink-soft); margin: 12px 0 2px; }
+.ba-arrow { font-size: 22px; color: var(--primary); }
+.ba-metric { font-size: 15px; font-weight: 700; color: var(--ink-soft); margin: 14px 0 4px; }
 .ba-metric:first-child { margin-top: 0; }
 
 .history-item {
   display: flex; justify-content: space-between; align-items: center;
-  padding: 11px 2px;
+  padding: 13px 2px;
   border-bottom: 1px dashed var(--line-strong);
-  font-size: 13px;
+  font-size: 15px;
+  gap: 8px;
 }
 .history-item:last-child { border-bottom: none; }
-.history-date { font-weight: 700; color: var(--ink-soft); }
-.history-vals { color: var(--ink-mute); font-size: 12px; font-variant-numeric: tabular-nums; }
+.history-date { font-weight: 700; color: var(--ink-soft); font-size: 16px; }
+.history-vals { color: var(--ink-mute); font-size: 13.5px; font-variant-numeric: tabular-nums; }
 
 /* 準備中カード（拡張枠の見た目） */
 .locked-card {
   border: 1.5px dashed var(--line-strong);
   background: rgba(255,255,255,0.6);
   border-radius: var(--rounded-lg);
-  padding: 16px 18px;
-  margin-bottom: 12px;
-  display: flex; align-items: center; gap: 12px;
+  padding: 18px 20px;
+  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 14px;
   color: var(--ink-mute);
 }
-.locked-card .lock-icon { font-size: 22px; }
-.locked-card .lock-title { font-size: 13.5px; font-weight: 700; color: var(--ink-soft); }
-.locked-card .lock-desc { font-size: 11.5px; }
+.locked-card .lock-icon { font-size: 26px; }
+.locked-card .lock-title { font-size: 15.5px; font-weight: 700; color: var(--ink-soft); }
+.locked-card .lock-desc { font-size: 13px; line-height: 1.7; }
+
+/* そだちの数字 */
+.stat-num {
+  font-family: var(--font-display);
+  font-size: 32px; font-weight: 900;
+  line-height: 1.3;
+}
+.stat-label { font-size: 13px; color: var(--ink-mute); font-weight: 700; }
+
+/* 声の波紋（装飾SVGの共通アニメーション） */
+.ripple { animation: rippleFade 3.2s ease-in-out infinite; }
+.ripple.d1 { animation-delay: .5s; }
+.ripple.d2 { animation-delay: 1s; }
+@keyframes rippleFade {
+  0%, 100% { opacity: .25; }
+  50%      { opacity: .95; }
+}
 
 /* ==========================================================
    Overlay / Spinner / Confetti
@@ -520,14 +692,14 @@ button { font-family: inherit; }
 .dialog {
   background: var(--surface);
   border-radius: var(--rounded-xl);
-  padding: 30px 24px;
+  padding: 32px 26px;
   text-align: center;
-  max-width: 320px; width: 100%;
+  max-width: 340px; width: 100%;
   box-shadow: var(--shadow-lg);
 }
-.dialog-icon { font-size: 44px; margin-bottom: 12px; }
-.dialog-title { font-family: var(--font-display); font-size: 17px; font-weight: 900; margin-bottom: 8px; }
-.dialog-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.8; margin-bottom: 20px; }
+.dialog-icon { font-size: 48px; margin-bottom: 12px; }
+.dialog-title { font-family: var(--font-display); font-size: 20px; font-weight: 900; margin-bottom: 10px; line-height: 1.5; }
+.dialog-desc { font-size: 15.5px; color: var(--ink-soft); line-height: 1.9; margin-bottom: 20px; }
 
 .spinner-overlay {
   display: none;
@@ -539,14 +711,14 @@ button { font-family: inherit; }
 }
 .spinner-overlay.active { display: flex; }
 .spinner {
-  width: 48px; height: 48px;
-  border: 4px solid var(--primary-mist);
+  width: 52px; height: 52px;
+  border: 5px solid var(--primary-mist);
   border-top-color: var(--primary);
   border-radius: 50%;
   animation: spin .8s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
-.spinner-text { font-size: 14px; color: var(--ink-soft); font-weight: 700; }
+.spinner-text { font-size: 16px; color: var(--ink-soft); font-weight: 700; }
 
 .confetti-container {
   position: fixed; inset: 0;
@@ -570,16 +742,17 @@ button { font-family: inherit; }
   text-align: center;
 }
 .privacy-note {
-  font-size: 11px; color: var(--ink-mute);
+  font-size: 13px; color: var(--ink-mute);
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 999px;
   display: inline-block;
-  padding: 5px 16px;
+  padding: 7px 18px;
   margin-bottom: 10px;
+  line-height: 1.7;
 }
-.app-footer a { color: var(--primary-dark); text-decoration: none; font-size: 12.5px; font-weight: 700; }
-.footer-credit { font-size: 10.5px; color: var(--ink-mute); margin-top: 6px; }
+.app-footer a { color: var(--primary-dark); text-decoration: none; font-size: 14.5px; font-weight: 700; }
+.footer-credit { font-size: 12px; color: var(--ink-mute); margin-top: 6px; }
 
 .text-center { text-align: center; }
 .mt-sm { margin-top: 8px; }
@@ -590,43 +763,130 @@ button { font-family: inherit; }
 <body>
 
 <!-- ============================================================
-     SCREEN: HOME（今日の一言）
+     SCREEN: INTRO（はじめに：初回起動時のトップページ）
+     localStorage の koeiku_intro_seen_v1 で初回のみ自動表示。
+     ホームの「はじめてガイドを見る」からいつでも再表示できる。
+     ============================================================ -->
+<div id="screen-intro" class="screen no-nav">
+  <div class="intro-hero">
+    <!-- 声の波紋と芽（自作インラインSVG：外部画像は使わない） -->
+    <svg viewBox="0 0 340 150" width="300" height="132" role="img" aria-label="芽から声の波紋がひろがるイラスト">
+      <ellipse cx="170" cy="134" rx="62" ry="9" fill="#FBE9E0"/>
+      <path d="M170 132V96" stroke="#C75F35" stroke-width="7" stroke-linecap="round"/>
+      <path d="M170 106c-2-17-17-24-32-22 1 15 15 24 32 22Z" fill="#7BA05B"/>
+      <path d="M170 97c2-15 15-21 29-20-1 14-14 22-29 20Z" fill="#9BBA7E"/>
+      <path class="ripple"    d="M212 90a36 36 0 0 1 0 48" stroke="#E8815B" stroke-width="6" stroke-linecap="round" fill="none"/>
+      <path class="ripple d1" d="M234 78a60 60 0 0 1 0 72" stroke="#E8815B" stroke-width="6" stroke-linecap="round" fill="none"/>
+      <path class="ripple d2" d="M256 66a86 86 0 0 1 0 96" stroke="#E8815B" stroke-width="6" stroke-linecap="round" fill="none"/>
+      <path class="ripple"    d="M128 90a36 36 0 0 0 0 48" stroke="#E8815B" stroke-width="6" stroke-linecap="round" fill="none"/>
+      <path class="ripple d1" d="M106 78a60 60 0 0 0 0 72" stroke="#E8815B" stroke-width="6" stroke-linecap="round" fill="none"/>
+      <path class="ripple d2" d="M84 66a86 86 0 0 0 0 96" stroke="#E8815B" stroke-width="6" stroke-linecap="round" fill="none"/>
+    </svg>
+    <h1 class="intro-title">声の育成日記へ、ようこそ</h1>
+    <p class="intro-lead">毎日8秒、おなじ一言を録音するだけで、あなたの声の変化が見えてきます。</p>
+  </div>
+
+  <main class="app-body">
+    <div class="card">
+      <p class="intro-card-title">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#C75F35" stroke-width="2.2" stroke-linecap="round"><circle cx="8" cy="12" r="2.4" fill="#C75F35" stroke="none"/><path d="M13 8a6.5 6.5 0 0 1 0 8"/><path d="M16.5 5.5a11 11 0 0 1 0 13"/></svg>
+        このアプリでできること
+      </p>
+      <p class="intro-text">毎日おなじ一言を8秒だけ録音すると、声の高さ・安定感・響きが日記のようにたまっていきます。点数はつけません。ダメな声なんてない、というのがわたしの考えです。続けるほど、グラフの中に「声の育ち」が見えてきます。</p>
+    </div>
+
+    <div class="card">
+      <p class="intro-card-title">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#C75F35" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h9M4 12h9M4 18h9"/><path d="M17 5l1.5 1.5L21 4"/><path d="M17 11l1.5 1.5L21 10"/><path d="M17 17l1.5 1.5L21 16"/></svg>
+        つかいかたは3ステップ
+      </p>
+      <div class="step-row">
+        <div class="step-num"><span class="num">1</span>
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#C75F35" stroke-width="2" stroke-linecap="round"><circle cx="8" cy="12" r="3.2"/><path d="M14 8.5a6 6 0 0 1 0 7"/><path d="M17.5 6a10 10 0 0 1 0 12"/></svg>
+        </div>
+        <div class="step-body">
+          <p class="step-title">深呼吸して、きょうの一言</p>
+          <p class="step-desc">プラスの言葉をひとつ、声に出します。ここは録音しないので、気楽にどうぞ。</p>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num"><span class="num">2</span>
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#C75F35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0"/><path d="M12 17.5V21"/></svg>
+        </div>
+        <div class="step-body">
+          <p class="step-title">きょうの文を、8秒だけ録音</p>
+          <p class="step-desc">毎日おなじ文だから、くらべられます。音声は端末の外に出ません。</p>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num"><span class="num">3</span>
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#C75F35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19h16"/><path d="M5 16l4-5 3.5 3L19 7"/><circle cx="19" cy="7" r="1.6" fill="#C75F35" stroke="none"/></svg>
+        </div>
+        <div class="step-body">
+          <p class="step-title">メーターとグラフで、育ちを見る</p>
+          <p class="step-desc">きのうまでの自分の声と、ゆっくりくらべられます。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="intro-card-title">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#C75F35" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M21 5l-9 9-3-3"/></svg>
+        撮り直しについて
+      </p>
+      <p class="intro-text">撮り直しは何回でもOKです。ただし、記録に残すのは「今日の普通の声」がおすすめです。一番いい声を選ぶと、変化が見えにくくなります。毎日だいたい同じ時間帯に録ると、くらべやすくなります。</p>
+    </div>
+
+    <button class="btn-primary mt-md" id="intro-cta" onclick="finishIntro()">さっそくはじめる</button>
+    <p class="privacy-note mt-md" style="display:block; text-align:center;">録音した音声は端末の中だけで処理されます。外部への送信はありません。</p>
+  </main>
+</div>
+
+<!-- ============================================================
+     SCREEN: HOME（きょうの録音文）
      ============================================================ -->
 <div id="screen-home" class="screen active">
   <header class="app-header">
     <div class="header-row">
       <div>
-        <h1 class="app-title"><span class="sprout">🌱</span>声の育成日記</h1>
+        <h1 class="app-title">
+          <svg viewBox="0 0 32 32" width="27" height="27" role="img" aria-label="芽"><path d="M16 28V15" stroke="#C75F35" stroke-width="3.2" stroke-linecap="round"/><path d="M16 19c-1-7-8-9.5-13-8.5C4 16.5 9.5 20 16 19Z" fill="#7BA05B"/><path d="M16 15c1-6 6.5-8.5 11.5-7.5C26.5 13 21.5 16.5 16 15Z" fill="#9BBA7E"/><path class="ripple" d="M23 21a7 7 0 0 1 0 9" stroke="#E8815B" stroke-width="2.6" stroke-linecap="round" fill="none"/><path class="ripple d1" d="M27 19a11.5 11.5 0 0 1 0 13" stroke="#E8815B" stroke-width="2.6" stroke-linecap="round" fill="none" opacity=".55"/></svg>
+          声の育成日記
+        </h1>
         <p class="header-date" id="home-date"></p>
       </div>
-      <span class="streak-badge" id="streak-badge">🔥 0日</span>
+      <span class="streak-badge" id="streak-badge">れんぞく 0日</span>
     </div>
   </header>
 
   <main class="app-body">
-    <p class="section-label">きょうの一言</p>
+    <p class="section-label">きょうの録音文</p>
     <div class="card phrase-card">
+      <span class="washi-tape" aria-hidden="true"></span>
       <span class="phrase-kicker" id="phrase-kicker">毎日おなじ文だから、育ちがわかる</span>
       <p class="phrase-text" id="phrase-text">ありがとうございます</p>
       <p class="phrase-hint" id="phrase-hint"></p>
-      <button class="btn-primary mt-lg" onclick="goRecord()">🎙 この一言を録音する</button>
-      <button class="btn-ghost" onclick="cyclePhrase()">別の一言にする</button>
+      <button class="btn-primary mt-lg" onclick="goWarmup()">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0"/><path d="M12 17.5V21"/></svg>
+        きょうの録音をはじめる
+      </button>
+      <button class="btn-ghost" onclick="cyclePhrase()">別の文にする</button>
     </div>
 
     <p class="section-label">そだち</p>
     <div class="card" id="home-stats">
       <div style="display:flex; justify-content:space-around; text-align:center;">
         <div>
-          <div style="font-family:var(--font-display); font-size:24px; font-weight:900;" id="stat-days">0</div>
-          <div style="font-size:11px; color:var(--ink-mute); font-weight:700;">きろくした日</div>
+          <div class="stat-num" id="stat-days">0</div>
+          <div class="stat-label">きろくした日</div>
         </div>
         <div>
-          <div style="font-family:var(--font-display); font-size:24px; font-weight:900;" id="stat-total">0</div>
-          <div style="font-size:11px; color:var(--ink-mute); font-weight:700;">録音の回数</div>
+          <div class="stat-num" id="stat-total">0</div>
+          <div class="stat-label">録音の回数</div>
         </div>
         <div>
-          <div style="font-family:var(--font-display); font-size:24px; font-weight:900;" id="stat-best-streak">0</div>
-          <div style="font-size:11px; color:var(--ink-mute); font-weight:700;">最長れんぞく</div>
+          <div class="stat-num" id="stat-best-streak">0</div>
+          <div class="stat-label">最長れんぞく</div>
         </div>
       </div>
     </div>
@@ -650,10 +910,12 @@ button { font-family: inherit; }
          renderWeekly() がここへ最新週のカードを描画する。
          ════════════════════════════════════════════════════════ -->
     <div id="weekly-slot"></div>
+
+    <button class="btn-ghost" onclick="showIntro(true)">はじめてガイドをもう一度見る</button>
   </main>
 
   <footer class="app-footer">
-    <p class="privacy-note">🔒 録音した音声は端末の中だけで処理。外部に送信されません</p>
+    <p class="privacy-note">録音した音声は端末の中だけで処理。外部に送信されません</p>
     <br>
     <a href="https://note.com/micarp" target="_blank" rel="noopener">ボイストレーナーみか</a>
     <p class="footer-credit">by ボイストレーナーみか</p>
@@ -661,11 +923,38 @@ button { font-family: inherit; }
 </div>
 
 <!-- ============================================================
+     SCREEN: WARMUP（ウォームアップ：きょうの一言）
+     録音はしない。深呼吸1回＋プラスの言葉を1つ声に出す。
+     ============================================================ -->
+<div id="screen-warmup" class="screen no-nav">
+  <main class="warmup-stage">
+    <span class="phrase-kicker">ウォームアップ</span>
+    <h2 style="font-family:var(--font-display); font-size:24px; font-weight:900; margin-top:8px;">きょうの一言</h2>
+
+    <div class="breath-stage">
+      <div class="breath-ring" aria-hidden="true"></div>
+      <div class="breath-ring r2" aria-hidden="true"></div>
+      <div class="breath-core">
+        <p class="warmup-word" id="warmup-word">ありがとう</p>
+      </div>
+    </div>
+
+    <p class="warmup-guide">まず、深呼吸をひとつどうぞ。円がふくらんだら吸って、しぼんだら吐きます。それから上の言葉を、一回だけ声に出してみてください。</p>
+    <p class="warmup-note">ここは録音しません。どんな声でも大丈夫です</p>
+
+    <div style="width:100%; max-width:340px; margin-top:22px;">
+      <button class="btn-primary" onclick="goRecord()">言えたら、録音へすすむ →</button>
+      <button class="btn-ghost mt-sm" onclick="showScreen('home'); renderHome();">← ホームにもどる</button>
+    </div>
+  </main>
+</div>
+
+<!-- ============================================================
      SCREEN: RECORD（録音）
      ============================================================ -->
 <div id="screen-record" class="screen no-nav">
   <main class="record-stage">
-    <span class="phrase-kicker">きょうの一言</span>
+    <span class="phrase-kicker">きょうの録音文</span>
     <p class="record-phrase" id="record-phrase">ありがとうございます</p>
     <p class="phrase-hint" id="record-phrase-hint"></p>
 
@@ -673,7 +962,7 @@ button { font-family: inherit; }
     <div class="progress-track"><div class="progress-fill" id="record-progress"></div></div>
     <p class="record-timer"><span id="record-timer">0.0</span><small> 秒</small></p>
 
-    <button class="big-record-btn" id="btn-record" onclick="toggleRecording()">🎙</button>
+    <button class="big-record-btn" id="btn-record" onclick="toggleRecording()" aria-label="録音の開始と停止"></button>
     <p class="record-hint" id="record-hint">タップして録音スタート</p>
 
     <button class="btn-ghost mt-md" onclick="cancelRecording()">← やめてホームに戻る</button>
@@ -695,7 +984,10 @@ button { font-family: inherit; }
       <!-- 声の高さ：高い低いは優劣ではないので「位置」として表示 -->
       <div class="meter-row">
         <div class="meter-head">
-          <span class="meter-name">🎵 声の高さ</span>
+          <span class="meter-name">
+            <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="#C75F35" stroke-width="2.2" stroke-linecap="round"><path d="M3 12c2-5 4-5 6 0s4 5 6 0 4-5 6 0"/></svg>
+            声の高さ
+          </span>
           <span class="meter-value" id="val-pitch">— <small>Hz</small></span>
         </div>
         <div class="pitch-scale"><div class="pitch-dot" id="pitch-dot" style="left:50%"></div></div>
@@ -705,7 +997,10 @@ button { font-family: inherit; }
 
       <div class="meter-row">
         <div class="meter-head">
-          <span class="meter-name">🧘 安定感</span>
+          <span class="meter-name">
+            <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="#C75F35" stroke-width="2.2" stroke-linecap="round"><path d="M3 12c3-2.5 6-2.5 9 0s6 2.5 9 0"/></svg>
+            安定感
+          </span>
           <span class="meter-value"><span id="val-stability">0</span><small>/100</small><span id="delta-stability"></span></span>
         </div>
         <div class="meter-track"><div class="meter-fill" id="bar-stability"></div></div>
@@ -714,7 +1009,10 @@ button { font-family: inherit; }
 
       <div class="meter-row" style="margin-bottom:4px;">
         <div class="meter-head">
-          <span class="meter-name">📣 響き</span>
+          <span class="meter-name">
+            <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="#C75F35" stroke-width="2.2" stroke-linecap="round"><circle cx="7" cy="12" r="2.2" fill="#C75F35" stroke="none"/><path d="M12 8a6 6 0 0 1 0 8"/><path d="M15.5 5.5a10.5 10.5 0 0 1 0 13"/></svg>
+            響き
+          </span>
           <span class="meter-value"><span id="val-resonance">0</span><small>/100</small><span id="delta-resonance"></span></span>
         </div>
         <div class="meter-track"><div class="meter-fill" id="bar-resonance"></div></div>
@@ -724,7 +1022,10 @@ button { font-family: inherit; }
 
     <!-- 今日のアドバイス（ファクトブック由来・日替わりローテーション） -->
     <div class="advice-card">
-      <span class="advice-kicker">🌱 きょうのアドバイス <span id="advice-theme" style="background:var(--primary-mist); border-radius:999px; padding:1px 10px;"></span></span>
+      <span class="advice-kicker">
+        <svg viewBox="0 0 32 32" width="18" height="18"><path d="M16 28V15" stroke="#C75F35" stroke-width="3.2" stroke-linecap="round"/><path d="M16 19c-1-7-8-9.5-13-8.5C4 16.5 9.5 20 16 19Z" fill="#7BA05B"/><path d="M16 15c1-6 6.5-8.5 11.5-7.5C26.5 13 21.5 16.5 16 15Z" fill="#9BBA7E"/></svg>
+        きょうのアドバイス <span id="advice-theme" style="background:var(--primary-mist); border-radius:999px; padding:2px 12px;"></span>
+      </span>
       <p class="advice-title" id="advice-title"></p>
       <p class="advice-text" id="advice-text"></p>
       <p class="advice-source" id="advice-source"></p>
@@ -743,7 +1044,10 @@ button { font-family: inherit; }
   <header class="app-header">
     <div class="header-row">
       <div>
-        <h1 class="app-title"><span class="sprout">📖</span>きろく</h1>
+        <h1 class="app-title">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#C75F35" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5Z"/><path d="M4 20.5V5.5"/><path d="M9 8h6"/></svg>
+          きろく
+        </h1>
         <p class="header-date">声の推移と、はじめた日とのくらべっこ</p>
       </div>
     </div>
@@ -786,13 +1090,17 @@ button { font-family: inherit; }
      ============================================================ -->
 <nav class="bottom-nav" id="bottom-nav">
   <button class="nav-item active" id="nav-home" onclick="showScreen('home'); renderHome();">
-    <span class="nav-icon">🏠</span>ホーム
+    <svg viewBox="0 0 24 24" width="27" height="27" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20h14V9.5"/></svg>
+    ホーム
   </button>
   <div class="nav-center">
-    <button class="nav-record-btn" onclick="goRecord()" aria-label="録音する">🎙</button>
+    <button class="nav-record-btn" onclick="goWarmup()" aria-label="録音する">
+      <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0"/><path d="M12 17.5V21"/></svg>
+    </button>
   </div>
   <button class="nav-item" id="nav-log" onclick="showScreen('log'); renderLogScreen();">
-    <span class="nav-icon">📖</span>きろく
+    <svg viewBox="0 0 24 24" width="27" height="27" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5Z"/><path d="M4 20.5V5.5"/><path d="M9 8h6"/></svg>
+    きろく
   </button>
 </nav>
 
@@ -836,9 +1144,12 @@ button { font-family: inherit; }
 
 <script>
 /* ============================================================
-   声の育成日記 v0
+   声の育成日記 v0.2
    毎日「固定の一言」を録音 → 端末内で声を分析 → アドバイス →
    きろくが育つ。音声データは端末外へ一切送信しない。
+   v0.2 の変更：はじめにページ / ウォームアップステップ /
+   老眼対応の大型文字 / 日記帳×波紋デザイン。
+   ※ localStorage のキー・データ構造は v0 から変更しない。
    ============================================================ */
 
 /* ==========================================================
@@ -850,6 +1161,15 @@ const FALLBACK_DATA = {
     { id: 'arigatou', text: 'ありがとうございます', hint: '感謝がとどく声で、ゆっくりどうぞ', targetSec: 2.5 },
     { id: 'ohayou', text: 'おはようございます、今日もよろしくお願いします', hint: '朝いちばんの声を想像して', targetSec: 4.5 },
     { id: 'otsukare', text: 'おつかれさまでした、ゆっくり休んでくださいね', hint: '誰かをねぎらう、やわらかい声で', targetSec: 4.5 }
+  ],
+  warmupWords: [
+    'ありがとう',
+    '今日もいい声',
+    'だいじょうぶ',
+    'わたしの声、いい感じ',
+    '今日もよくやってる',
+    '声を出すと元気が出る',
+    'きょうも一歩まえへ'
   ],
   advice: [
     { id: 'adv-head-position', factId: 'F-B18', grade: 'B', theme: '姿勢',
@@ -890,7 +1210,14 @@ const CONFIG = {
   silenceRMS: 0.008         // これ未満は無音扱い
 };
 
-const LS_KEYS = { logs: 'koeiku_logs_v1', streak: 'koeiku_streak_v1', phraseShift: 'koeiku_phrase_shift_v1' };
+/* 既存キー（logs/streak/phraseShift）は v0 から変更禁止。
+   introSeen は v0.2 で追加した新キー（既存データに影響しない） */
+const LS_KEYS = {
+  logs: 'koeiku_logs_v1',
+  streak: 'koeiku_streak_v1',
+  phraseShift: 'koeiku_phrase_shift_v1',
+  introSeen: 'koeiku_intro_seen_v1'
+};
 
 const state = {
   stream: null, audioCtx: null, sourceNode: null, processorNode: null, analyserNode: null,
@@ -899,6 +1226,10 @@ const state = {
   currentPhrase: null, lastResult: null,
   chartMetric: 'st', chartPeriod: 7
 };
+
+/* 録音ボタンのアイコン（インラインSVG） */
+const MIC_SVG = '<svg viewBox="0 0 24 24" width="46" height="46" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0"/><path d="M12 17.5V21"/></svg>';
+const STOP_SVG = '<svg viewBox="0 0 24 24" width="42" height="42" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="3"/></svg>';
 
 /* ==========================================================
    LocalStorage
@@ -925,7 +1256,7 @@ function fmtDateJP(dstr) {
 
 /* ==========================================================
    今日の一言（固定文ローテーション）
-   日付で決まる基本ローテ＋「別の一言にする」でのシフト
+   日付で決まる基本ローテ＋「別の文にする」でのシフト
    ========================================================== */
 function getTodayPhrase() {
   const shift = loadData(LS_KEYS.phraseShift, 0);
@@ -935,6 +1266,16 @@ function getTodayPhrase() {
 function cyclePhrase() {
   saveData(LS_KEYS.phraseShift, (loadData(LS_KEYS.phraseShift, 0) + 1) % DATA.phrases.length);
   renderHome();
+}
+
+/* ==========================================================
+   ウォームアップの「きょうの一言」（プラスの言葉・日替わり）
+   録音はしない：気軽さ優先の設計
+   ========================================================== */
+function getTodayWarmupWord() {
+  const words = (DATA.warmupWords && DATA.warmupWords.length > 0)
+    ? DATA.warmupWords : FALLBACK_DATA.warmupWords;
+  return words[daysSinceEpoch() % words.length];
 }
 
 /* ==========================================================
@@ -969,14 +1310,28 @@ function showScreen(name) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + name).classList.add('active');
   const nav = document.getElementById('bottom-nav');
-  // 録音中・結果表示中はナビ非表示（プレイブック原則）
-  nav.classList.toggle('hidden', name === 'record' || name === 'result');
+  // 集中したい画面（はじめに・ウォームアップ・録音・結果）はナビ非表示
+  nav.classList.toggle('hidden', ['intro', 'warmup', 'record', 'result'].includes(name));
   document.getElementById('nav-home').classList.toggle('active', name === 'home');
   document.getElementById('nav-log').classList.toggle('active', name === 'log');
   window.scrollTo(0, 0);
 }
 function openOverlay(id) { document.getElementById(id).classList.add('active'); }
 function closeOverlay(id) { document.getElementById(id).classList.remove('active'); }
+
+/* ==========================================================
+   はじめにページ（初回起動時に表示・以降はスキップ）
+   koeiku_intro_seen_v1 フラグで管理（v0.2で追加した新キー）
+   ========================================================== */
+function showIntro(revisit) {
+  document.getElementById('intro-cta').textContent = revisit ? 'ホームにもどる' : 'さっそくはじめる';
+  showScreen('intro');
+}
+function finishIntro() {
+  saveData(LS_KEYS.introSeen, true);
+  showScreen('home');
+  renderHome();
+}
 
 /* ==========================================================
    ホーム描画
@@ -997,7 +1352,7 @@ function renderHome() {
   const y = new Date(Date.now() - 86400000);
   const yesterday = `${y.getFullYear()}-${String(y.getMonth() + 1).padStart(2, '0')}-${String(y.getDate()).padStart(2, '0')}`;
   const liveStreak = (s.lastDate === today || s.lastDate === yesterday) ? s.current : 0;
-  document.getElementById('streak-badge').textContent = `🔥 ${liveStreak}日`;
+  document.getElementById('streak-badge').textContent = `れんぞく ${liveStreak}日`;
 
   const logs = getLogs();
   const days = new Set(logs.map(l => l.d)).size;
@@ -1031,12 +1386,12 @@ function renderCourses() {
   }
   slot.innerHTML = courses.map(c => `
     <div class="card" style="display:flex; align-items:center; gap:12px;">
-      <span style="font-size:22px;">${c.locked ? '🔒' : '🎓'}</span>
+      <span style="font-size:26px;">${c.locked ? '🔒' : '🎓'}</span>
       <div style="flex:1;">
-        <div style="font-size:13.5px; font-weight:700;">${c.title}</div>
-        <div style="font-size:11.5px; color:var(--ink-mute);">${c.desc || ''}</div>
+        <div style="font-size:15.5px; font-weight:700;">${c.title}</div>
+        <div style="font-size:13px; color:var(--ink-mute);">${c.desc || ''}</div>
       </div>
-      ${c.url ? `<a href="${c.url}" target="_blank" rel="noopener" style="font-size:12px; font-weight:700; color:var(--primary-dark); text-decoration:none;">見る →</a>` : ''}
+      ${c.url ? `<a href="${c.url}" target="_blank" rel="noopener" style="font-size:14px; font-weight:700; color:var(--primary-dark); text-decoration:none;">見る →</a>` : ''}
     </div>`).join('');
 }
 
@@ -1054,8 +1409,8 @@ function renderWeekly() {
   slot.innerHTML = `
     <div class="card">
       <span class="phrase-kicker">今週の練習</span>
-      <p style="font-family:var(--font-display); font-size:16px; font-weight:900; margin-top:6px;">${latest.title}</p>
-      <ol style="font-size:13px; color:var(--ink-soft); margin:10px 0 0 20px; line-height:2;">
+      <p style="font-family:var(--font-display); font-size:18px; font-weight:900; margin-top:6px;">${latest.title}</p>
+      <ol style="font-size:15px; color:var(--ink-soft); margin:10px 0 0 22px; line-height:2;">
         ${(latest.steps || []).map(s => `<li>${s}</li>`).join('')}
       </ol>
     </div>`;
@@ -1090,8 +1445,15 @@ async function playDemoAtUserPitch() {
 }
 
 /* ==========================================================
-   録音フロー
+   録音フロー（v0.2：ウォームアップ → 録音 の順に）
+   ホーム・ナビの録音ボタン → goWarmup()
+   ウォームアップの「録音へすすむ」／結果の「もう一度」 → goRecord()
    ========================================================== */
+function goWarmup() {
+  document.getElementById('warmup-word').textContent = getTodayWarmupWord();
+  showScreen('warmup');
+}
+
 function goRecord() {
   const p = state.currentPhrase || getTodayPhrase();
   state.currentPhrase = p;
@@ -1100,6 +1462,7 @@ function goRecord() {
   document.getElementById('record-timer').textContent = '0.0';
   document.getElementById('record-progress').style.width = '0%';
   document.getElementById('record-hint').textContent = 'タップして録音スタート';
+  document.getElementById('btn-record').innerHTML = MIC_SVG;
   showScreen('record');
 }
 
@@ -1150,7 +1513,7 @@ async function startRecording() {
   drawLiveWaveform();
   const btn = document.getElementById('btn-record');
   btn.classList.add('recording');
-  btn.textContent = '⏹';
+  btn.innerHTML = STOP_SVG;
   document.getElementById('record-hint').textContent = '言い終わったらタップで停止';
 }
 
@@ -1165,7 +1528,7 @@ function stopRecording() {
 
   const btn = document.getElementById('btn-record');
   btn.classList.remove('recording');
-  btn.textContent = '🎙';
+  btn.innerHTML = MIC_SVG;
 
   if (durationSec < CONFIG.minRecordSec) {
     document.getElementById('record-hint').textContent = 'ちょっと短いみたい。もう少しゆっくりどうぞ';
@@ -1192,7 +1555,7 @@ function cancelRecording() {
     teardownAudioNodes();
     const btn = document.getElementById('btn-record');
     btn.classList.remove('recording');
-    btn.textContent = '🎙';
+    btn.innerHTML = MIC_SVG;
   }
   showScreen('home');
   renderHome();
@@ -1415,7 +1778,7 @@ function renderResult(entry, prev) {
   document.getElementById('result-phrase').textContent = `「${state.currentPhrase.text}」`;
   const s = getStreak();
   document.getElementById('result-sub').textContent =
-    `${fmtDateJP(entry.d)} ・ 長さ ${entry.sec}秒 ・ 🔥 ${s.current}日連続`;
+    `${fmtDateJP(entry.d)} ・ 長さ ${entry.sec}秒 ・ れんぞく ${s.current}日`;
 
   // 声の高さ：80〜400Hzの対数スケール上の「位置」として表示
   const pitchEl = document.getElementById('val-pitch');
@@ -1521,12 +1884,12 @@ function drawChart() {
   });
 
   if (points.length === 0) {
-    slot.innerHTML = `<p class="chart-empty">この期間のきろくはまだありません。<br>きょうの一言から、はじめてみてください 🌱</p>`;
+    slot.innerHTML = `<p class="chart-empty">この期間のきろくはまだありません。<br>きょうの録音文から、はじめてみてください 🌱</p>`;
     return;
   }
 
-  // レイアウト
-  const W = 340, H = 190, padL = 38, padR = 12, padT = 14, padB = 26;
+  // レイアウト（v0.2：老眼対応でラベル文字を大きく）
+  const W = 340, H = 200, padL = 42, padR = 12, padT = 14, padB = 30;
   const plotW = W - padL - padR, plotH = H - padT - padB;
 
   // Y軸レンジ
@@ -1558,15 +1921,15 @@ function drawChart() {
   <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${def.label}の推移（${period}日）">
     ${ticks.map(t => `
       <line x1="${padL}" y1="${yOf(t)}" x2="${W - padR}" y2="${yOf(t)}" stroke="#F3DFD6" stroke-width="1"/>
-      <text x="${padL - 6}" y="${yOf(t) + 3.5}" text-anchor="end" font-size="9.5" fill="#9B8A84">${Math.round(t)}</text>
+      <text x="${padL - 6}" y="${yOf(t) + 4}" text-anchor="end" font-size="12" fill="#9B8A84">${Math.round(t)}</text>
     `).join('')}
     ${xLabels.map(l => `
-      <text x="${xOf(l.i)}" y="${H - 8}" text-anchor="middle" font-size="9.5" fill="#9B8A84">${l.t}</text>
+      <text x="${xOf(l.i)}" y="${H - 9}" text-anchor="middle" font-size="12" fill="#9B8A84">${l.t}</text>
     `).join('')}
     ${areaPath ? `<path d="${areaPath}" fill="rgba(232,129,91,0.12)"/>` : ''}
-    ${points.length > 1 ? `<path d="${linePath}" fill="none" stroke="#C75F35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>` : ''}
+    ${points.length > 1 ? `<path d="${linePath}" fill="none" stroke="#C75F35" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>` : ''}
     ${points.map(p => `
-      <circle cx="${xOf(p.i).toFixed(1)}" cy="${yOf(p.v).toFixed(1)}" r="4.5" fill="#C75F35" stroke="#FFF8F5" stroke-width="2"
+      <circle cx="${xOf(p.i).toFixed(1)}" cy="${yOf(p.v).toFixed(1)}" r="5" fill="#C75F35" stroke="#FFF8F5" stroke-width="2"
         data-d="${p.d}" data-v="${p.v}" class="chart-dot" style="cursor:pointer"/>
     `).join('')}
   </svg>`;
@@ -1607,15 +1970,15 @@ function renderBeforeAfter() {
     return `
       <p class="ba-metric">${label} ${chip}</p>
       <div class="ba-grid">
-        <div class="ba-col"><div class="ba-when">はじめた日（${fmtDateJP(first.d)}）</div><div class="ba-val">${a}<small style="font-size:11px; color:var(--ink-mute);">${unit}</small></div></div>
+        <div class="ba-col"><div class="ba-when">はじめた日（${fmtDateJP(first.d)}）</div><div class="ba-val">${a}<small style="font-size:13px; color:var(--ink-mute);">${unit}</small></div></div>
         <div class="ba-arrow">→</div>
-        <div class="ba-col"><div class="ba-when">いちばん最近（${fmtDateJP(latest.d)}）</div><div class="ba-val">${b}<small style="font-size:11px; color:var(--ink-mute);">${unit}</small></div></div>
+        <div class="ba-col"><div class="ba-when">いちばん最近（${fmtDateJP(latest.d)}）</div><div class="ba-val">${b}<small style="font-size:13px; color:var(--ink-mute);">${unit}</small></div></div>
       </div>`;
   };
-  let html = `<p style="font-size:12px; color:var(--ink-soft); margin-bottom:12px;">はじめてから <b>${daysBetween}日</b>。声の高さの変化は良し悪しではなく「あなたの声の今の位置」です。</p>`;
-  html += row('🧘 安定感', first.st, latest.st, '');
-  html += row('📣 響き', first.re, latest.re, '');
-  if (first.hz > 0 && latest.hz > 0) html += row('🎵 声の高さ', first.hz, latest.hz, 'Hz');
+  let html = `<p style="font-size:14.5px; color:var(--ink-soft); margin-bottom:12px;">はじめてから <b>${daysBetween}日</b>。声の高さの変化は良し悪しではなく「あなたの声の今の位置」です。</p>`;
+  html += row('安定感', first.st, latest.st, '');
+  html += row('響き', first.re, latest.re, '');
+  if (first.hz > 0 && latest.hz > 0) html += row('声の高さ', first.hz, latest.hz, 'Hz');
   card.innerHTML = html;
 }
 
@@ -1698,6 +2061,11 @@ async function registerSW() {
 async function init() {
   await loadAppData();
   renderHome();
+  document.getElementById('btn-record').innerHTML = MIC_SVG;
+  // 初回起動だけ「はじめに」を表示（koeiku_intro_seen_v1 は v0.2 の新キー）
+  if (!loadData(LS_KEYS.introSeen, false)) {
+    showIntro(false);
+  }
   registerSW();
 }
 init();

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'koeiku-nikki-v1';
+const CACHE_NAME = 'koeiku-nikki-v2';
 const ASSETS = [
   './index.html',
   './data.json',
