@@ -127,6 +127,39 @@ svg { vertical-align: middle; }
   display: inline-flex; align-items: center; gap: 6px;
 }
 
+/* ヘッダー右上の「⋯」メニュー（v0.2.2：つかいかた等への常設導線） */
+.menu-btn {
+  width: 46px; height: 46px; flex-shrink: 0;
+  border-radius: 50%;
+  border: 2px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--ink-soft);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s;
+}
+.menu-btn:active { transform: translateY(1px); background: var(--primary-mist); }
+.menu-item {
+  display: flex; align-items: center; gap: 12px;
+  width: 100%;
+  min-height: 58px;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1.5px solid var(--line-strong);
+  border-radius: var(--rounded);
+  font-size: 17px; font-weight: 700;
+  font-family: var(--font-body);
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  margin-bottom: 10px;
+  text-decoration: none;
+  transition: all .15s;
+}
+.menu-item:active { transform: translateY(1px); background: var(--primary-mist); }
+.menu-item .menu-icon { font-size: 22px; flex-shrink: 0; width: 28px; text-align: center; }
+.menu-item.danger { color: #A84A28; }
+
 .app-body { flex: 1; padding: 20px 18px 8px; }
 
 .section-label {
@@ -413,19 +446,6 @@ svg { vertical-align: middle; }
   margin-top: 14px;
   font-weight: 700;
 }
-.warmup-phrase {
-  font-family: var(--font-display);
-  font-size: 20px; font-weight: 900;
-  line-height: 1.75;
-  color: var(--ink);
-  background: var(--surface);
-  border: 1.5px dashed var(--line-strong);
-  border-radius: var(--rounded-lg);
-  padding: 14px 18px;
-  margin: 14px auto 0;
-  max-width: 340px;
-}
-
 /* ==========================================================
    Recording Screen
    ========================================================== */
@@ -806,12 +826,13 @@ svg { vertical-align: middle; }
 <body>
 
 <!-- ============================================================
-     SCREEN: INTRO（はじめに：初回起動時のトップページ）
+     SCREEN: INTRO（つかいかた：初回起動時に自動表示）
      localStorage の koeiku_intro_seen_v1 で初回のみ自動表示。
-     ホームの「はじめてガイドを見る」からいつでも再表示できる。
+     以降はヘッダー右上の「⋯」メニュー →「つかいかた」で再表示。
      ============================================================ -->
 <div id="screen-intro" class="screen no-nav">
   <div class="intro-hero">
+    <span class="phrase-kicker">つかいかた</span>
     <!-- 声の波紋と芽（自作インラインSVG：外部画像は使わない） -->
     <svg viewBox="0 0 340 150" width="300" height="132" role="img" aria-label="芽から声の波紋がひろがるイラスト">
       <ellipse cx="170" cy="134" rx="62" ry="9" fill="#FBE9E0"/>
@@ -898,7 +919,12 @@ svg { vertical-align: middle; }
         </h1>
         <p class="header-date" id="home-date"></p>
       </div>
-      <span class="streak-badge" id="streak-badge">れんぞく 0日</span>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span class="streak-badge" id="streak-badge">れんぞく 0日</span>
+        <button class="menu-btn" onclick="openOverlay('menu-overlay')" aria-label="メニューをひらく">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="2.2"/><circle cx="12" cy="12" r="2.2"/><circle cx="19" cy="12" r="2.2"/></svg>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -953,38 +979,32 @@ svg { vertical-align: middle; }
          renderWeekly() がここへ最新週のカードを描画する。
          ════════════════════════════════════════════════════════ -->
     <div id="weekly-slot"></div>
-
-    <button class="btn-ghost" onclick="showIntro(true)">はじめてガイドをもう一度見る</button>
   </main>
 
   <footer class="app-footer">
-    <p class="privacy-note">録音はこのスマホの中にだけ保存。外には送られません（直近30本まで）</p>
-    <br>
-    <a href="https://note.com/micarp" target="_blank" rel="noopener">ボイストレーナーみか</a>
     <p class="footer-credit">by ボイストレーナーみか</p>
   </footer>
 </div>
 
 <!-- ============================================================
-     SCREEN: WARMUP（ウォームアップ：声出し準備）
-     v0.2.1：呼吸円で深呼吸1回 → 録音する文を一度ふつうに言う。
+     SCREEN: WARMUP（ウォームアップ：深呼吸1回だけのシンプル画面）
+     v0.2.2：録音文の紹介は次の録音画面と重複するため削除。
      録音はしない。日替わりワード（warmupWords）は使わない。
      ============================================================ -->
 <div id="screen-warmup" class="screen no-nav">
   <main class="warmup-stage">
     <span class="phrase-kicker">ウォームアップ</span>
-    <h2 style="font-family:var(--font-display); font-size:24px; font-weight:900; margin-top:8px;">声を出す準備</h2>
+    <h2 style="font-family:var(--font-display); font-size:24px; font-weight:900; margin-top:8px;">深呼吸を1回</h2>
 
     <div class="breath-stage">
       <div class="breath-ring" aria-hidden="true"></div>
       <div class="breath-ring r2" aria-hidden="true"></div>
       <div class="breath-core">
-        <p class="warmup-word">深呼吸<br>1回</p>
+        <p class="warmup-word">すって<br>はいて</p>
       </div>
     </div>
 
-    <p class="warmup-guide">円がふくらんだら吸って、しぼんだら吐きます。深呼吸がすんだら、録音する文を一度ふつうに言ってみましょう。</p>
-    <p class="warmup-phrase" id="warmup-phrase">おはようございます。昨日はありがとうございました。今日もよろしくお願いします。</p>
+    <p class="warmup-guide">円がふくらんだら吸って、しぼんだら吐きます。</p>
     <p class="warmup-note">ここは録音しません</p>
 
     <div style="width:100%; max-width:340px; margin-top:22px;">
@@ -1096,6 +1116,9 @@ svg { vertical-align: middle; }
         </h1>
         <p class="header-date">声の推移と、はじめた日とのくらべっこ</p>
       </div>
+      <button class="menu-btn" onclick="openOverlay('menu-overlay')" aria-label="メニューをひらく">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="2.2"/><circle cx="12" cy="12" r="2.2"/><circle cx="19" cy="12" r="2.2"/></svg>
+      </button>
     </div>
   </header>
 
@@ -1126,8 +1149,6 @@ svg { vertical-align: middle; }
     <div class="card" id="history-card">
       <p class="chart-empty">まだきろくがありません</p>
     </div>
-
-    <button class="btn-ghost" onclick="openOverlay('confirm-overlay')">きろくをぜんぶ消す</button>
   </main>
 </div>
 
@@ -1186,6 +1207,37 @@ svg { vertical-align: middle; }
   </div>
 </div>
 
+<!-- ⋯メニュー（v0.2.2：ヘッダー右上から開く。つかいかた・データについて・
+     note・きろく全消去をここに集約し、ホーム画面をシンプルに保つ） -->
+<div class="overlay" id="menu-overlay">
+  <div class="dialog" style="text-align:left; padding:26px 22px;">
+    <h2 class="dialog-title" style="text-align:center;">メニュー</h2>
+    <button class="menu-item" onclick="closeOverlay('menu-overlay'); showIntro(true);">
+      <span class="menu-icon">📖</span>つかいかた
+    </button>
+    <button class="menu-item" onclick="closeOverlay('menu-overlay'); openOverlay('data-overlay');">
+      <span class="menu-icon">🔒</span>データについて
+    </button>
+    <a class="menu-item" href="https://note.com/micarp" target="_blank" rel="noopener">
+      <span class="menu-icon">🌱</span>ボイストレーナーみかのnote
+    </a>
+    <button class="menu-item danger" onclick="closeOverlay('menu-overlay'); openOverlay('confirm-overlay');">
+      <span class="menu-icon">🗑</span>きろくをぜんぶ消す
+    </button>
+    <button class="btn-ghost" onclick="closeOverlay('menu-overlay')">とじる</button>
+  </div>
+</div>
+
+<!-- データについて（端末内保存・直近30本の説明） -->
+<div class="overlay" id="data-overlay">
+  <div class="dialog">
+    <div class="dialog-icon">🔒</div>
+    <h2 class="dialog-title">データについて</h2>
+    <p class="dialog-desc" style="text-align:left;">録音した音声と数値のきろくは、このスマホの中にだけ保存されます。外には送られません。<br><br>音声は直近30本まで保存され、いっぱいになると古いものから自動で消えます。数値のきろくとグラフはそのまま残ります。</p>
+    <button class="btn-primary" onclick="closeOverlay('data-overlay')">わかりました</button>
+  </div>
+</div>
+
 <div class="overlay" id="audio-del-overlay">
   <div class="dialog">
     <div class="dialog-icon">🎧</div>
@@ -1200,12 +1252,15 @@ svg { vertical-align: middle; }
 
 <script>
 /* ============================================================
-   声の育成日記 v0.2.1
+   声の育成日記 v0.2.2
    毎日「固定の一言」を録音 → 端末内で声を分析 → アドバイス →
    きろくが育つ。音声データは端末外へ一切送信しない。
+   v0.2.2 の変更：
+   ・ヘッダー右上に「⋯」メニューを常設（つかいかた・データについて・
+     note・きろく全消去）。案内画面の名前を「つかいかた」に統一
+   ・ウォームアップを呼吸円＋深呼吸1回だけに簡素化
    v0.2.1 の変更：
    ・録音文を固定1文に（日替わりローテーション廃止・定点観測）
-   ・ウォームアップを「深呼吸1回＋録音文の声出し」に変更
    ・「言い終わったら止める」ボタン（2秒未満は再録のご案内）
    ・録音音声を IndexedDB に端末内保存（直近30本）→ 再生・削除
    ※ localStorage のキー・データ構造は v0 から変更しない。
@@ -1366,7 +1421,7 @@ function openOverlay(id) { document.getElementById(id).classList.add('active'); 
 function closeOverlay(id) { document.getElementById(id).classList.remove('active'); }
 
 /* ==========================================================
-   はじめにページ（初回起動時に表示・以降はスキップ）
+   つかいかたページ（初回起動時に表示・以降は⋯メニューから）
    koeiku_intro_seen_v1 フラグで管理（v0.2で追加した新キー）
    ========================================================== */
 function showIntro(revisit) {
@@ -1496,9 +1551,8 @@ async function playDemoAtUserPitch() {
    ウォームアップの「録音へすすむ」／結果の「もう一度」 → goRecord()
    ========================================================== */
 function goWarmup() {
-  const p = state.currentPhrase || getTodayPhrase();
-  state.currentPhrase = p;
-  document.getElementById('warmup-phrase').textContent = p.text;
+  // v0.2.2：ウォームアップは深呼吸だけのシンプル画面（文は録音画面で見せる）
+  state.currentPhrase = state.currentPhrase || getTodayPhrase();
   showScreen('warmup');
 }
 
