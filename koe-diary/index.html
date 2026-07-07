@@ -413,6 +413,18 @@ svg { vertical-align: middle; }
   margin-top: 14px;
   font-weight: 700;
 }
+.warmup-phrase {
+  font-family: var(--font-display);
+  font-size: 20px; font-weight: 900;
+  line-height: 1.75;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1.5px dashed var(--line-strong);
+  border-radius: var(--rounded-lg);
+  padding: 14px 18px;
+  margin: 14px auto 0;
+  max-width: 340px;
+}
 
 /* ==========================================================
    Recording Screen
@@ -646,6 +658,37 @@ svg { vertical-align: middle; }
 .history-date { font-weight: 700; color: var(--ink-soft); font-size: 16px; }
 .history-vals { color: var(--ink-mute); font-size: 13.5px; font-variant-numeric: tabular-nums; }
 
+/* 録音音声の再生・削除ボタン（v0.2.1：老眼対応で特大タップ領域） */
+.audio-btns { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+.audio-btn {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  border: 2px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--primary-dark);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s;
+}
+.audio-btn.audio-del { color: var(--ink-mute); }
+.ba-play {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--surface);
+  color: var(--primary-dark);
+  border: 2px solid var(--line-strong);
+  border-radius: 999px;
+  padding: 9px 20px;
+  font-size: 15px; font-weight: 700;
+  cursor: pointer;
+  transition: all .15s;
+  margin-top: 6px;
+}
+.audio-btn.playing, .ba-play.playing {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
 /* 準備中カード（拡張枠の見た目） */
 .locked-card {
   border: 1.5px dashed var(--line-strong);
@@ -805,8 +848,8 @@ svg { vertical-align: middle; }
           <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#C75F35" stroke-width="2" stroke-linecap="round"><circle cx="8" cy="12" r="3.2"/><path d="M14 8.5a6 6 0 0 1 0 7"/><path d="M17.5 6a10 10 0 0 1 0 12"/></svg>
         </div>
         <div class="step-body">
-          <p class="step-title">深呼吸して、きょうの一言</p>
-          <p class="step-desc">プラスの言葉をひとつ、声に出します。ここは録音しないので、気楽にどうぞ。</p>
+          <p class="step-title">深呼吸して、声ならし</p>
+          <p class="step-desc">録音する文を、一度ふつうの声で言います。ここは録音しません。</p>
         </div>
       </div>
       <div class="step-row">
@@ -814,8 +857,8 @@ svg { vertical-align: middle; }
           <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#C75F35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0"/><path d="M12 17.5V21"/></svg>
         </div>
         <div class="step-body">
-          <p class="step-title">きょうの文を、8秒だけ録音</p>
-          <p class="step-desc">毎日おなじ文だから、くらべられます。音声は端末の外に出ません。</p>
+          <p class="step-title">おなじ文を、8秒だけ録音</p>
+          <p class="step-desc">毎日同じ文で録ると、変化がよく見えます。言い終わったら途中で止められます。</p>
         </div>
       </div>
       <div class="step-row">
@@ -838,7 +881,7 @@ svg { vertical-align: middle; }
     </div>
 
     <button class="btn-primary mt-md" id="intro-cta" onclick="finishIntro()">さっそくはじめる</button>
-    <p class="privacy-note mt-md" style="display:block; text-align:center;">録音した音声は端末の中だけで処理されます。外部への送信はありません。</p>
+    <p class="privacy-note mt-md" style="display:block; text-align:center;">録音はこのスマホの中にだけ保存されます。外には送られません（直近30本まで）。</p>
   </main>
 </div>
 
@@ -860,7 +903,7 @@ svg { vertical-align: middle; }
   </header>
 
   <main class="app-body">
-    <p class="section-label">きょうの録音文</p>
+    <p class="section-label">録音する文</p>
     <div class="card phrase-card">
       <span class="washi-tape" aria-hidden="true"></span>
       <span class="phrase-kicker" id="phrase-kicker">毎日おなじ文だから、育ちがわかる</span>
@@ -915,7 +958,7 @@ svg { vertical-align: middle; }
   </main>
 
   <footer class="app-footer">
-    <p class="privacy-note">録音した音声は端末の中だけで処理。外部に送信されません</p>
+    <p class="privacy-note">録音はこのスマホの中にだけ保存。外には送られません（直近30本まで）</p>
     <br>
     <a href="https://note.com/micarp" target="_blank" rel="noopener">ボイストレーナーみか</a>
     <p class="footer-credit">by ボイストレーナーみか</p>
@@ -923,27 +966,29 @@ svg { vertical-align: middle; }
 </div>
 
 <!-- ============================================================
-     SCREEN: WARMUP（ウォームアップ：きょうの一言）
-     録音はしない。深呼吸1回＋プラスの言葉を1つ声に出す。
+     SCREEN: WARMUP（ウォームアップ：声出し準備）
+     v0.2.1：呼吸円で深呼吸1回 → 録音する文を一度ふつうに言う。
+     録音はしない。日替わりワード（warmupWords）は使わない。
      ============================================================ -->
 <div id="screen-warmup" class="screen no-nav">
   <main class="warmup-stage">
     <span class="phrase-kicker">ウォームアップ</span>
-    <h2 style="font-family:var(--font-display); font-size:24px; font-weight:900; margin-top:8px;">きょうの一言</h2>
+    <h2 style="font-family:var(--font-display); font-size:24px; font-weight:900; margin-top:8px;">声を出す準備</h2>
 
     <div class="breath-stage">
       <div class="breath-ring" aria-hidden="true"></div>
       <div class="breath-ring r2" aria-hidden="true"></div>
       <div class="breath-core">
-        <p class="warmup-word" id="warmup-word">ありがとう</p>
+        <p class="warmup-word">深呼吸<br>1回</p>
       </div>
     </div>
 
-    <p class="warmup-guide">まず、深呼吸をひとつどうぞ。円がふくらんだら吸って、しぼんだら吐きます。それから上の言葉を、一回だけ声に出してみてください。</p>
-    <p class="warmup-note">ここは録音しません。どんな声でも大丈夫です</p>
+    <p class="warmup-guide">円がふくらんだら吸って、しぼんだら吐きます。深呼吸がすんだら、録音する文を一度ふつうに言ってみましょう。</p>
+    <p class="warmup-phrase" id="warmup-phrase">おはようございます。昨日はありがとうございました。今日もよろしくお願いします。</p>
+    <p class="warmup-note">ここは録音しません</p>
 
     <div style="width:100%; max-width:340px; margin-top:22px;">
-      <button class="btn-primary" onclick="goRecord()">言えたら、録音へすすむ →</button>
+      <button class="btn-primary" onclick="goRecord()">録音へすすむ →</button>
       <button class="btn-ghost mt-sm" onclick="showScreen('home'); renderHome();">← ホームにもどる</button>
     </div>
   </main>
@@ -954,7 +999,7 @@ svg { vertical-align: middle; }
      ============================================================ -->
 <div id="screen-record" class="screen no-nav">
   <main class="record-stage">
-    <span class="phrase-kicker">きょうの録音文</span>
+    <span class="phrase-kicker">録音する文</span>
     <p class="record-phrase" id="record-phrase">ありがとうございます</p>
     <p class="phrase-hint" id="record-phrase-hint"></p>
 
@@ -964,6 +1009,7 @@ svg { vertical-align: middle; }
 
     <button class="big-record-btn" id="btn-record" onclick="toggleRecording()" aria-label="録音の開始と停止"></button>
     <p class="record-hint" id="record-hint">タップして録音スタート</p>
+    <button class="btn-outline" id="btn-stop-record" style="display:none; max-width:340px; margin-top:12px;" onclick="stopRecording()">言い終わったら止める</button>
 
     <button class="btn-ghost mt-md" onclick="cancelRecording()">← やめてホームに戻る</button>
   </main>
@@ -1116,7 +1162,7 @@ svg { vertical-align: middle; }
   <div class="dialog">
     <div class="dialog-icon">🗑</div>
     <h2 class="dialog-title">きろくをぜんぶ消しますか？</h2>
-    <p class="dialog-desc">これまでの録音のきろく（数値）と連続日数が消えます。この操作は取り消せません。</p>
+    <p class="dialog-desc">これまでの録音のきろく（数値）・保存した音声・連続日数が消えます。この操作は取り消せません。</p>
     <button class="btn-primary" onclick="resetAllData()">消す</button>
     <button class="btn-ghost mt-sm" onclick="closeOverlay('confirm-overlay')">やめておく</button>
   </div>
@@ -1140,16 +1186,30 @@ svg { vertical-align: middle; }
   </div>
 </div>
 
+<div class="overlay" id="audio-del-overlay">
+  <div class="dialog">
+    <div class="dialog-icon">🎧</div>
+    <h2 class="dialog-title">この録音の音声を消しますか？</h2>
+    <p class="dialog-desc">音声だけが消えます。きろくの数値（グラフ）は残ります。この操作は取り消せません。</p>
+    <button class="btn-primary" onclick="confirmDeleteAudio()">消す</button>
+    <button class="btn-ghost mt-sm" onclick="closeOverlay('audio-del-overlay')">やめておく</button>
+  </div>
+</div>
+
 <div class="confetti-container" id="confetti"></div>
 
 <script>
 /* ============================================================
-   声の育成日記 v0.2
+   声の育成日記 v0.2.1
    毎日「固定の一言」を録音 → 端末内で声を分析 → アドバイス →
    きろくが育つ。音声データは端末外へ一切送信しない。
-   v0.2 の変更：はじめにページ / ウォームアップステップ /
-   老眼対応の大型文字 / 日記帳×波紋デザイン。
+   v0.2.1 の変更：
+   ・録音文を固定1文に（日替わりローテーション廃止・定点観測）
+   ・ウォームアップを「深呼吸1回＋録音文の声出し」に変更
+   ・「言い終わったら止める」ボタン（2秒未満は再録のご案内）
+   ・録音音声を IndexedDB に端末内保存（直近30本）→ 再生・削除
    ※ localStorage のキー・データ構造は v0 から変更しない。
+     音声は IndexedDB（koeiku_audio_v1）で別管理。
    ============================================================ */
 
 /* ==========================================================
@@ -1158,18 +1218,10 @@ svg { vertical-align: middle; }
    ========================================================== */
 const FALLBACK_DATA = {
   phrases: [
+    { id: 'teiten', text: 'おはようございます。昨日はありがとうございました。今日もよろしくお願いします。', hint: '毎日同じ文で録ると、変化がよく見えます', targetSec: 8 },
     { id: 'arigatou', text: 'ありがとうございます', hint: '感謝がとどく声で、ゆっくりどうぞ', targetSec: 2.5 },
     { id: 'ohayou', text: 'おはようございます、今日もよろしくお願いします', hint: '朝いちばんの声を想像して', targetSec: 4.5 },
     { id: 'otsukare', text: 'おつかれさまでした、ゆっくり休んでくださいね', hint: '誰かをねぎらう、やわらかい声で', targetSec: 4.5 }
-  ],
-  warmupWords: [
-    'ありがとう',
-    '今日もいい声',
-    'だいじょうぶ',
-    'わたしの声、いい感じ',
-    '今日もよくやってる',
-    '声を出すと元気が出る',
-    'きょうも一歩まえへ'
   ],
   advice: [
     { id: 'adv-head-position', factId: 'F-B18', grade: 'B', theme: '姿勢',
@@ -1202,7 +1254,7 @@ async function loadAppData() {
    ========================================================== */
 const CONFIG = {
   maxRecordSec: 8,          // 自動停止までの秒数
-  minRecordSec: 0.6,        // これ未満は短すぎとして再録
+  minRecordSec: 2,          // これ未満は短すぎとして再録（v0.2.1で0.6→2秒に）
   analysisRate: 16000,      // 分析用に間引くサンプルレート（軽くするため）
   pitchMinHz: 65,           // 分析するピッチの下限（低い男性声）
   pitchMaxHz: 450,          // 上限（高い女性声）
@@ -1255,27 +1307,20 @@ function fmtDateJP(dstr) {
 }
 
 /* ==========================================================
-   今日の一言（固定文ローテーション）
-   日付で決まる基本ローテ＋「別の文にする」でのシフト
+   録音する文（v0.2.1：固定1文が基本形）
+   日替わりローテーションを廃止。標準はDATA.phrases[0]（定点観測用の
+   固定文）。「別の文にする」で既存の文にも切り替えられる。
+   phraseShift キーは数値のまま流用（構造変更なし）：単なる添字になった
    ========================================================== */
 function getTodayPhrase() {
   const shift = loadData(LS_KEYS.phraseShift, 0);
-  const idx = (daysSinceEpoch() + shift) % DATA.phrases.length;
+  const n = DATA.phrases.length;
+  const idx = ((Math.round(shift) % n) + n) % n;
   return DATA.phrases[idx];
 }
 function cyclePhrase() {
   saveData(LS_KEYS.phraseShift, (loadData(LS_KEYS.phraseShift, 0) + 1) % DATA.phrases.length);
   renderHome();
-}
-
-/* ==========================================================
-   ウォームアップの「きょうの一言」（プラスの言葉・日替わり）
-   録音はしない：気軽さ優先の設計
-   ========================================================== */
-function getTodayWarmupWord() {
-  const words = (DATA.warmupWords && DATA.warmupWords.length > 0)
-    ? DATA.warmupWords : FALLBACK_DATA.warmupWords;
-  return words[daysSinceEpoch() % words.length];
 }
 
 /* ==========================================================
@@ -1307,6 +1352,7 @@ function bumpStreak() {
    画面遷移
    ========================================================== */
 function showScreen(name) {
+  stopPlayback(); // 画面を移るときは再生を止める（v0.2.1）
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + name).classList.add('active');
   const nav = document.getElementById('bottom-nav');
@@ -1450,7 +1496,9 @@ async function playDemoAtUserPitch() {
    ウォームアップの「録音へすすむ」／結果の「もう一度」 → goRecord()
    ========================================================== */
 function goWarmup() {
-  document.getElementById('warmup-word').textContent = getTodayWarmupWord();
+  const p = state.currentPhrase || getTodayPhrase();
+  state.currentPhrase = p;
+  document.getElementById('warmup-phrase').textContent = p.text;
   showScreen('warmup');
 }
 
@@ -1463,6 +1511,7 @@ function goRecord() {
   document.getElementById('record-progress').style.width = '0%';
   document.getElementById('record-hint').textContent = 'タップして録音スタート';
   document.getElementById('btn-record').innerHTML = MIC_SVG;
+  document.getElementById('btn-stop-record').style.display = 'none';
   showScreen('record');
 }
 
@@ -1514,7 +1563,8 @@ async function startRecording() {
   const btn = document.getElementById('btn-record');
   btn.classList.add('recording');
   btn.innerHTML = STOP_SVG;
-  document.getElementById('record-hint').textContent = '言い終わったらタップで停止';
+  document.getElementById('record-hint').textContent = '言い終わったら止めてください';
+  document.getElementById('btn-stop-record').style.display = 'block';
 }
 
 function stopRecording() {
@@ -1529,20 +1579,29 @@ function stopRecording() {
   const btn = document.getElementById('btn-record');
   btn.classList.remove('recording');
   btn.innerHTML = MIC_SVG;
+  document.getElementById('btn-stop-record').style.display = 'none';
 
   if (durationSec < CONFIG.minRecordSec) {
-    document.getElementById('record-hint').textContent = 'ちょっと短いみたい。もう少しゆっくりどうぞ';
+    document.getElementById('record-hint').textContent = 'もう少し録ってください';
     return;
   }
 
   // 分析（スピナーを見せてから重い処理へ）
+  // ※末尾の無音は analyzeVoice 内のエンベロープ処理でトリムされるので、
+  //   手動停止で短くなった録音でも分析は正しく動く
   document.getElementById('spinner').classList.add('active');
   setTimeout(() => {
     const samples = mergeRawSamples();
-    const result = analyzeVoice(samples, state.audioCtx.sampleRate);
+    const sampleRate = state.audioCtx.sampleRate;
+    const result = analyzeVoice(samples, sampleRate);
     document.getElementById('spinner').classList.remove('active');
     if (!result) { openOverlay('silent-overlay'); return; }
-    finishSession(result);
+    const entry = finishSession(result);
+    // 録音音声を端末内（IndexedDB）へ保存。失敗しても数値のきろくには影響しない
+    try {
+      const blob = samplesToWavBlob(samples, sampleRate);
+      saveRecordingAudio(entry.ts, entry.d, blob).catch(e => console.warn('音声の保存に失敗しました', e));
+    } catch (e) { console.warn('音声の変換に失敗しました', e); }
   }, 60);
 }
 
@@ -1557,6 +1616,7 @@ function cancelRecording() {
     btn.classList.remove('recording');
     btn.innerHTML = MIC_SVG;
   }
+  document.getElementById('btn-stop-record').style.display = 'none';
   showScreen('home');
   renderHome();
 }
@@ -1772,6 +1832,7 @@ function finishSession(result) {
   showScreen('result');
   // その日はじめての録音をお祝い（点数ではなく「録った事実」を祝う）
   if (isNewDay) setTimeout(showConfetti, 500);
+  return entry;
 }
 
 function renderResult(entry, prev) {
@@ -1822,6 +1883,164 @@ function setMeter(name, value, prevValue) {
     el.textContent = diff > 0 ? `前回より +${diff}` : diff < 0 ? `前回より ${diff}` : '前回とおなじ';
     chip.appendChild(el);
   }
+}
+
+/* ==========================================================
+   録音音声の端末内保存（v0.2.1・IndexedDB）
+   ・サーバーへは一切送信しない。このスマホの中にだけ保存する
+   ・数値ログ（localStorage）とは別管理：キーは録音時刻 ts、
+     日付 d にインデックスを張る（Before/Afterは日付で引く）
+   ・直近 MAX_AUDIO_KEEP 本だけ残し、古いものから自動削除
+   ========================================================== */
+const AUDIO_DB_NAME = 'koeiku_audio_v1';
+const AUDIO_STORE = 'recordings';
+const MAX_AUDIO_KEEP = 30;
+let _audioDbPromise = null;
+
+function openAudioDB() {
+  if (_audioDbPromise) return _audioDbPromise;
+  _audioDbPromise = new Promise((resolve, reject) => {
+    if (!('indexedDB' in window)) { reject(new Error('IndexedDB非対応')); return; }
+    const req = indexedDB.open(AUDIO_DB_NAME, 1);
+    req.onupgradeneeded = () => {
+      const db = req.result;
+      if (!db.objectStoreNames.contains(AUDIO_STORE)) {
+        const store = db.createObjectStore(AUDIO_STORE, { keyPath: 'ts' });
+        store.createIndex('d', 'd', { unique: false });
+      }
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => { _audioDbPromise = null; reject(req.error); };
+  });
+  return _audioDbPromise;
+}
+function idbReq(req) {
+  return new Promise((resolve, reject) => {
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+async function saveRecordingAudio(ts, d, blob) {
+  const db = await openAudioDB();
+  await idbReq(db.transaction(AUDIO_STORE, 'readwrite').objectStore(AUDIO_STORE).put({ ts, d, blob }));
+  await pruneOldAudio();
+}
+
+/* 直近30本だけ残す（ts昇順で古い方から削除） */
+async function pruneOldAudio() {
+  const db = await openAudioDB();
+  const keys = await idbReq(db.transaction(AUDIO_STORE).objectStore(AUDIO_STORE).getAllKeys());
+  if (keys.length <= MAX_AUDIO_KEEP) return;
+  const excess = keys.slice(0, keys.length - MAX_AUDIO_KEEP);
+  const store = db.transaction(AUDIO_STORE, 'readwrite').objectStore(AUDIO_STORE);
+  excess.forEach(k => store.delete(k));
+}
+
+async function getAudioByTs(ts) {
+  try {
+    const db = await openAudioDB();
+    return await idbReq(db.transaction(AUDIO_STORE).objectStore(AUDIO_STORE).get(ts));
+  } catch { return null; }
+}
+async function getAudioTsSet() {
+  try {
+    const db = await openAudioDB();
+    return new Set(await idbReq(db.transaction(AUDIO_STORE).objectStore(AUDIO_STORE).getAllKeys()));
+  } catch { return new Set(); }
+}
+/* その日のいちばん最後の録音の ts を返す（Before/After用） */
+async function getLatestAudioTsForDate(d) {
+  try {
+    const db = await openAudioDB();
+    const keys = await idbReq(db.transaction(AUDIO_STORE).objectStore(AUDIO_STORE).index('d').getAllKeys(IDBKeyRange.only(d)));
+    return keys.length ? keys[keys.length - 1] : null;
+  } catch { return null; }
+}
+async function deleteAudio(ts) {
+  try {
+    const db = await openAudioDB();
+    await idbReq(db.transaction(AUDIO_STORE, 'readwrite').objectStore(AUDIO_STORE).delete(ts));
+  } catch (e) { console.warn('音声の削除に失敗しました', e); }
+}
+async function clearAllAudio() {
+  try {
+    const db = await openAudioDB();
+    await idbReq(db.transaction(AUDIO_STORE, 'readwrite').objectStore(AUDIO_STORE).clear());
+  } catch { /* DBが開けない環境では何もしない */ }
+}
+
+/* Float32サンプル → WAV（PCM16・モノラル）。端末内保存用 */
+function samplesToWavBlob(samples, sampleRate) {
+  const len = samples.length;
+  const buf = new ArrayBuffer(44 + len * 2);
+  const v = new DataView(buf);
+  const writeStr = (off, s) => { for (let i = 0; i < s.length; i++) v.setUint8(off + i, s.charCodeAt(i)); };
+  writeStr(0, 'RIFF'); v.setUint32(4, 36 + len * 2, true); writeStr(8, 'WAVE');
+  writeStr(12, 'fmt '); v.setUint32(16, 16, true);
+  v.setUint16(20, 1, true);              // PCM
+  v.setUint16(22, 1, true);              // モノラル
+  v.setUint32(24, sampleRate, true);
+  v.setUint32(28, sampleRate * 2, true); // byteRate
+  v.setUint16(32, 2, true);              // blockAlign
+  v.setUint16(34, 16, true);             // 16bit
+  writeStr(36, 'data'); v.setUint32(40, len * 2, true);
+  for (let i = 0; i < len; i++) {
+    const s = Math.max(-1, Math.min(1, samples[i]));
+    v.setInt16(44 + i * 2, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+  }
+  return new Blob([buf], { type: 'audio/wav' });
+}
+
+/* ==========================================================
+   録音音声の再生（同時再生は1本だけ）
+   ========================================================== */
+const PLAY_ICON = '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M8.5 5.2v13.6L19.5 12z"/></svg>';
+const STOP_ICON_SMALL = '<svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>';
+const DEL_ICON = '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+
+const playback = { audio: null, ts: null, url: null };
+
+function stopPlayback() {
+  if (playback.audio) { playback.audio.pause(); playback.audio = null; }
+  if (playback.url) { URL.revokeObjectURL(playback.url); playback.url = null; }
+  playback.ts = null;
+  document.querySelectorAll('.audio-play').forEach(b => {
+    b.classList.remove('playing');
+    b.innerHTML = PLAY_ICON + (b.dataset.label ? `<span>${b.dataset.label}</span>` : '');
+  });
+}
+
+async function togglePlayAudio(ts, btn) {
+  if (playback.ts === ts) { stopPlayback(); return; }
+  stopPlayback();
+  const rec = await getAudioByTs(ts);
+  if (!rec || !rec.blob) return;
+  playback.url = URL.createObjectURL(rec.blob);
+  playback.audio = new Audio(playback.url);
+  playback.ts = ts;
+  playback.audio.onended = stopPlayback;
+  playback.audio.onerror = stopPlayback;
+  try { await playback.audio.play(); } catch { stopPlayback(); return; }
+  btn.classList.add('playing');
+  btn.innerHTML = STOP_ICON_SMALL + (btn.dataset.label ? `<span>${btn.dataset.label}</span>` : '');
+}
+
+/* 個別削除（音声だけを消す。数値のきろくは残る） */
+let pendingDeleteTs = null;
+function askDeleteAudio(ts) {
+  pendingDeleteTs = ts;
+  openOverlay('audio-del-overlay');
+}
+async function confirmDeleteAudio() {
+  if (pendingDeleteTs != null) {
+    if (playback.ts === pendingDeleteTs) stopPlayback();
+    await deleteAudio(pendingDeleteTs);
+    pendingDeleteTs = null;
+  }
+  closeOverlay('audio-del-overlay');
+  renderHistory();
+  renderBeforeAfter();
 }
 
 /* ==========================================================
@@ -1952,8 +2171,9 @@ function drawChart() {
   });
 }
 
-/* Before / After：いちばん最初のきろく vs 最新のきろく */
-function renderBeforeAfter() {
+/* Before / After：いちばん最初のきろく vs 最新のきろく
+   v0.2.1：該当日の音声が端末内にあれば「きく」ボタンを出す */
+async function renderBeforeAfter() {
   const card = document.getElementById('ba-card');
   const logs = getLogs();
   if (logs.length < 2) {
@@ -1962,6 +2182,10 @@ function renderBeforeAfter() {
   }
   const first = logs[0], latest = logs[logs.length - 1];
   const daysBetween = Math.max(1, Math.round((latest.ts - first.ts) / 86400000));
+  const [firstAudioTs, latestAudioTs] = await Promise.all([
+    getLatestAudioTsForDate(first.d),
+    getLatestAudioTsForDate(latest.d)
+  ]);
   const row = (label, a, b, unit) => {
     const diff = b - a;
     const chip = diff !== 0
@@ -1979,26 +2203,45 @@ function renderBeforeAfter() {
   html += row('安定感', first.st, latest.st, '');
   html += row('響き', first.re, latest.re, '');
   if (first.hz > 0 && latest.hz > 0) html += row('声の高さ', first.hz, latest.hz, 'Hz');
+  // 音声の聴きくらべ（端末内に保存がある日だけ表示）
+  if (firstAudioTs != null || latestAudioTs != null) {
+    const playBtn = ts => `<button class="ba-play audio-play" data-label="きく" onclick="togglePlayAudio(${ts}, this)" aria-label="この日の録音を再生">${PLAY_ICON}<span>きく</span></button>`;
+    html += `
+      <p class="ba-metric">録音した声</p>
+      <div class="ba-grid">
+        <div class="ba-col">${firstAudioTs != null ? playBtn(firstAudioTs) : '<span class="history-vals">音声なし</span>'}</div>
+        <div class="ba-arrow">→</div>
+        <div class="ba-col">${latestAudioTs != null ? playBtn(latestAudioTs) : '<span class="history-vals">音声なし</span>'}</div>
+      </div>`;
+  }
   card.innerHTML = html;
 }
 
-/* 履歴リスト（直近10件） */
-function renderHistory() {
+/* 履歴リスト（直近10件）
+   v0.2.1：端末内に音声がある行だけ ▶再生・✕削除 ボタンを出す */
+async function renderHistory() {
   const card = document.getElementById('history-card');
   const logs = getLogs();
   if (logs.length === 0) {
     card.innerHTML = `<p class="chart-empty">まだきろくがありません</p>`;
     return;
   }
+  const audioTsSet = await getAudioTsSet();
   const items = [...logs].reverse().slice(0, 10).map(l => {
     const p = DATA.phrases.find(x => x.id === l.ph);
+    const btns = audioTsSet.has(l.ts) ? `
+        <div class="audio-btns">
+          <button class="audio-btn audio-play" onclick="togglePlayAudio(${l.ts}, this)" aria-label="この録音を再生">${PLAY_ICON}</button>
+          <button class="audio-btn audio-del" onclick="askDeleteAudio(${l.ts})" aria-label="この録音の音声を消す">${DEL_ICON}</button>
+        </div>` : '';
     return `
       <div class="history-item">
-        <div>
+        <div style="flex:1; min-width:0;">
           <div class="history-date">${fmtDateJP(l.d)}</div>
           <div class="history-vals">${p ? p.text.slice(0, 12) + (p.text.length > 12 ? '…' : '') : ''}</div>
+          <div class="history-vals">安定 ${l.st} ・ 響き ${l.re}${l.hz > 0 ? ` ・ ${l.hz}Hz` : ''}</div>
         </div>
-        <div class="history-vals">安定 ${l.st} ・ 響き ${l.re}${l.hz > 0 ? ` ・ ${l.hz}Hz` : ''}</div>
+        ${btns}
       </div>`;
   }).join('');
   card.innerHTML = items;
@@ -2011,6 +2254,8 @@ function resetAllData() {
   localStorage.removeItem(LS_KEYS.logs);
   localStorage.removeItem(LS_KEYS.streak);
   localStorage.removeItem(LS_KEYS.phraseShift);
+  stopPlayback();
+  clearAllAudio().then(() => renderLogScreen());
   closeOverlay('confirm-overlay');
   renderLogScreen();
   renderHome();
