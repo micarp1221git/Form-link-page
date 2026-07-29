@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>声の定期検診（準備中）| ボイストレーナーみか</title>
+<meta name="description" content="9月に、声の定期検診のようなものを始めます。先に知りたい方へ、最初にお知らせをお送りします。">
+<meta name="robots" content="noindex">
+<!-- =====================================================================
+  声の定期検診 事前登録ページ（メルマガ読者以外のための入口）
+  - ブランド: booking.html と同じトークン（コーラル系）
+  - CTAボタンの href は systeme.io の登録フォームURLを貼る（下の PRE_REG_URL）
+  - 名称・価格は出さない（商標出願8/3前・「声の定期検診のようなもの」まで）
+===================================================================== -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --coral:       #E8815B;
+    --coral-deep:  #C9663F;
+    --coral-soft:  #FDEFE8;
+    --coral-line:  #F3DDD2;
+    --bg:          #FFF8F5;
+    --ink:         #3D3535;
+    --ink-soft:    #97837C;
+    --card:        #FFFFFF;
+    --shadow: 0 10px 34px rgba(201, 102, 63, .10);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    line-height: 1.9;
+  }
+  .wrap { width: 100%; max-width: 480px; }
+  .brand {
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: .18em;
+    color: var(--ink-soft);
+    margin-bottom: 28px;
+  }
+  .card {
+    background: var(--card);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    padding: 36px 28px 32px;
+  }
+  h1 {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.7;
+    letter-spacing: .02em;
+    margin-bottom: 22px;
+  }
+  h1 .accent { color: var(--coral-deep); }
+  p { font-size: 15px; margin-bottom: 18px; }
+  .pause { margin-top: 26px; }
+  .divider {
+    border: none;
+    border-top: 1px solid var(--coral-line);
+    margin: 26px 0;
+  }
+  .announce {
+    background: var(--coral-soft);
+    border-radius: 12px;
+    padding: 18px 20px;
+    font-size: 15px;
+    margin-bottom: 24px;
+  }
+  .announce strong { color: var(--coral-deep); font-weight: 700; }
+  .cta {
+    display: block;
+    text-align: center;
+    background: var(--coral);
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    border-radius: 999px;
+    padding: 16px 20px;
+    box-shadow: 0 6px 18px rgba(232, 129, 91, .35);
+    transition: transform .15s ease, box-shadow .2s ease;
+  }
+  .cta:hover { box-shadow: 0 8px 22px rgba(232, 129, 91, .45); }
+  .cta:active { transform: scale(.98); }
+  .note {
+    margin-top: 14px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    text-align: center;
+    line-height: 1.7;
+  }
+  .footer {
+    margin-top: 26px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">VOICE TRAINER MIKA</div>
+    <div class="card">
+      <h1>声って、<span class="accent">1年で変わります</span>。</h1>
+
+      <p>でも、変わったことに気づける場所が、どこにもありません。</p>
+
+      <p>体は年に1回、健康診断で数字を見るのに、毎日いちばん使っている声は、一度も測ったことがない。</p>
+
+      <p class="pause">録音した自分の声に「こんな声だったっけ」と思ったことがある方なら、なおさらです。</p>
+
+      <hr class="divider">
+
+      <div class="announce">
+        9月に、<strong>声の定期検診のようなもの</strong>を始めます。<br>
+        中身の発表は8月です。
+      </div>
+
+      <p>先に知りたい方だけ、こちらにどうぞ。<br>発表のお知らせを、最初にお送りします。</p>
+
+      <a class="cta" href="PRE_REG_URL">先にお知らせを受け取る</a>
+      <p class="note">メールアドレスの登録だけで完了します。</p>
+    </div>
+    <div class="footer">ボイストレーナーみか</div>
+  </div>
+</body>
+</html>
