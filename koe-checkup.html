@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>声の定期検診（準備中）| ボイストレーナーみか</title>
-<meta name="description" content="9月に、声の定期検診のようなものを始めます。先に知りたい方へ、最初にお知らせをお送りします。">
+<title>声の定期検診（9月スタート予定）| ボイストレーナーみか</title>
+<meta name="description" content="自分の声がどういう声なのか、どこが魅力で、どうすればもっと良くなるのか。それが分かる「声の定期検診」を9月に始めます。発表や事前案内を優先的にお届けします。">
 <meta name="robots" content="noindex">
 <!-- =====================================================================
   声の定期検診 事前登録ページ（メルマガ読者以外のための入口）
   - ブランド: booking.html と同じトークン（コーラル系）
-  - CTAボタンの href は systeme.io の登録フォームURLを貼る（下の PRE_REG_URL）
+  - CTAボタンの href は systeme.io の登録フォームURLを貼る（下の https://experisent.systeme.io/b8067cff）
   - 名称・価格は出さない（商標出願8/3前・「声の定期検診のようなもの」まで）
 ===================================================================== -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -100,6 +100,40 @@
     text-align: center;
     line-height: 1.7;
   }
+  .fig { margin: 4px 0 22px; }
+  .fig img { width: 100%; height: auto; display: block; border-radius: 12px; }
+  .fig--tight { margin-bottom: 18px; }
+  .checks { list-style: none; margin: 0 0 6px; }
+  .checks li {
+    position: relative;
+    background: #fff;
+    border: 1px solid var(--coral-line);
+    border-radius: 12px;
+    padding: 14px 16px 14px 46px;
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+  .checks li::before {
+    content: '✓';
+    position: absolute;
+    left: 14px; top: 14px;
+    width: 22px; height: 22px;
+    border-radius: 7px;
+    background: var(--coral-soft);
+    color: var(--coral-deep);
+    font-weight: 700;
+    text-align: center;
+    line-height: 22px;
+    font-size: 14px;
+  }
+  .lead-in {
+    text-align: center;
+    color: var(--coral-deep);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: .06em;
+    margin-bottom: 12px;
+  }
   .footer {
     margin-top: 26px;
     text-align: center;
@@ -112,25 +146,36 @@
   <div class="wrap">
     <div class="brand">VOICE TRAINER MIKA</div>
     <div class="card">
-      <h1>声って、<span class="accent">1年で変わります</span>。</h1>
+      <h1>え、わたしって、<span class="accent">こんな声？</span></h1>
 
-      <p>でも、変わったことに気づける場所が、どこにもありません。</p>
+      <p>録音した自分の声を聞き返して、そう思ったことはありませんか？</p>
 
-      <p>体は年に1回、健康診断で数字を見るのに、毎日いちばん使っている声は、一度も測ったことがない。</p>
+      <figure class="fig">
+        <img src="img/hero_taihi.webp" alt="体を測る道具は揃っているのに、声のカルテだけが空白のイラスト" width="960" height="540">
+      </figure>
 
-      <p class="pause">録音した自分の声に「こんな声だったっけ」と思ったことがある方なら、なおさらです。</p>
+      <p>見た目は、鏡で毎日確かめられます。<br>でも、声は鏡では見れません。</p>
+
+      <p>こんな状況に心当たり、ありませんか？</p>
+
+      <ul class="checks">
+        <li>身体は年に1回、健康診断で調べるのに、毎日いちばん使っている声は、一度も調べたことがない</li>
+        <li>声が変わっても、気づける場所がどこにもない</li>
+      </ul>
 
       <hr class="divider">
 
       <div class="announce">
-        9月に、<strong>声の定期検診のようなもの</strong>を始めます。<br>
-        中身の発表は8月です。
+        自分の声が、どういう声なのか。<br>
+        どこが魅力で、どうすればもっと良くなるのか。<br>
+        それが分かる<strong>「声の定期検診」</strong>を始めます。<br>
+        9月にスタート予定で、詳細は8月に発表いたします。
       </div>
 
-      <p>先に知りたい方だけ、こちらにどうぞ。<br>発表のお知らせを、最初にお送りします。</p>
+      <p class="lead-in">＼ 気になる方は、こちらにどうぞ ／</p>
+      <p style="text-align:center;">発表や事前案内を、優先的にお送りします。</p>
 
-      <a class="cta" href="PRE_REG_URL">先にお知らせを受け取る</a>
-      <p class="note">メールアドレスの登録だけで完了します。</p>
+      <a class="cta" href="https://experisent.systeme.io/b8067cff">お知らせを受け取る</a>
     </div>
     <div class="footer">ボイストレーナーみか</div>
   </div>
