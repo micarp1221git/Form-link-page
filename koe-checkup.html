@@ -195,5 +195,25 @@
     </div>
     <div class="footer">ボイストレーナーみか</div>
   </div>
+<script>
+/* 流入経路の計測（2026-08-04）: ?f=voicy 等で開かれたら、登録フォームへのリンクに
+   utm_source を引き継ぐ。systeme.io側で登録者ごとに経路が記録される。
+   ?f が無ければ何もしない（従来どおり）。 */
+(function(){
+  try{
+    var f=new URLSearchParams(location.search).get('f');
+    if(!f)return;
+    f=f.replace(/[^a-zA-Z0-9_-]/g,'').slice(0,20);
+    if(!f)return;
+    document.querySelectorAll('a.cta').forEach(function(a){
+      var u=new URL(a.href);
+      u.searchParams.set('utm_source',f);
+      u.searchParams.set('utm_medium','link');
+      u.searchParams.set('utm_campaign','koe-checkup-prereg');
+      a.href=u.toString();
+    });
+  }catch(e){}
+})();
+</script>
 </body>
 </html>
