@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>声の人間ドック 申し込み | ボイストレーナーみか</title>
+<meta name="description" content="あなたの声を測ります。年に1回の、声の総合健診。9,800円（年1回・自動更新）。受付は9月11日(金)12:00から9月18日(金)23:59まで、先着30名。">
+<meta name="robots" content="noindex">
+<!-- =====================================================================
+  声の人間ドック 申込ページ
+  原稿: 02_Contents/工場/2026-09/20260911_申込ページ/申込ページ_AI-DRAFT.md (v2.10・2026-09-08 18:1x みかさんGO)
+  ブランド: koe-checkup.html と同じトークン（コーラル系）
+  🚨 未公開。みかさんのGOが出るまで push しない。
+  CTA: Stripe決済リンク（声の人間ドック・毎年自動更新 ¥9,800/年）
+===================================================================== -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --coral:      #E8815B;
+    --coral-deep: #C9663F;
+    --coral-soft: #FDEFE8;
+    --coral-line: #F3DDD2;
+    --bg:         #FFF8F5;
+    --ink:        #3D3535;
+    --ink-soft:   #97837C;
+    --card:       #FFFFFF;
+    --shadow: 0 10px 34px rgba(201, 102, 63, .10);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.95;
+    padding: 32px 20px 64px;
+    font-size: 15px;
+  }
+  .wrap { width: 100%; max-width: 520px; margin: 0 auto; }
+
+  .card { background: var(--card); border-radius: 18px; box-shadow: var(--shadow); padding: 34px 26px; margin-bottom: 20px; }
+
+  .mutter { color: var(--ink-soft); font-size: 14px; line-height: 2.1; }
+  h1 { font-size: 27px; font-weight: 700; letter-spacing: .02em; margin: 18px 0 14px; line-height: 1.5; }
+  .lead { font-size: 16px; font-weight: 500; }
+  .term {
+    margin-top: 22px; padding: 13px 16px; border-radius: 12px;
+    background: var(--coral-soft); border: 1px solid var(--coral-line);
+    font-size: 13.5px; font-weight: 500; line-height: 1.85; text-align: center;
+  }
+
+  h2 {
+    font-size: 18px; font-weight: 700; margin: 0 0 16px;
+    padding-left: 13px; border-left: 4px solid var(--coral); line-height: 1.6;
+  }
+  h3 { font-size: 15.5px; font-weight: 700; margin: 22px 0 8px; }
+  p + p { margin-top: 14px; }
+  .sec p { margin-bottom: 0; }
+  .sec p + p { margin-top: 14px; }
+
+  ul.plain { list-style: none; margin: 14px 0 0; }
+  ul.plain li { position: relative; padding-left: 20px; margin-bottom: 9px; }
+  ul.plain li::before { content: ""; position: absolute; left: 4px; top: 13px; width: 6px; height: 6px; border-radius: 50%; background: var(--coral); }
+
+  ol.flow { list-style: none; counter-reset: f; margin-top: 6px; }
+  ol.flow li { counter-increment: f; position: relative; padding-left: 40px; margin-bottom: 14px; }
+  ol.flow li::before {
+    content: counter(f); position: absolute; left: 0; top: 3px;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--coral); color: #fff; font-size: 13px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .who { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--coral-line); font-size: 13.5px; color: var(--ink-soft); }
+
+  figure { margin: 18px 0 0; }
+  figure img { width: 100%; border-radius: 12px; border: 1px solid var(--coral-line); display: block; }
+  figcaption { font-size: 12.5px; color: var(--ink-soft); margin-top: 8px; text-align: center; }
+
+  .price { text-align: center; padding: 20px 0 6px; }
+  .price .anchor { font-size: 14px; color: var(--ink-soft); line-height: 1.7; margin: 0 0 6px; }
+  .price .anchor s { font-size: 22px; font-weight: 700; color: var(--ink-soft); text-decoration-thickness: 2px; margin-left: 4px; }
+  .price .amount { font-size: 40px; font-weight: 700; letter-spacing: .01em; line-height: 1.2; color: var(--coral-deep); }
+  .price .amount span { font-size: 17px; font-weight: 500; margin-left: 4px; color: var(--ink); }
+  .price .amount-note { font-size: 13.5px; font-weight: 500; margin-top: 2px; }
+  .price .sub { font-size: 13.5px; color: var(--ink-soft); margin-top: 14px; line-height: 1.9; }
+
+  .cta {
+    display: block; text-align: center; text-decoration: none;
+    background: var(--coral); color: #fff; font-weight: 700; font-size: 17px;
+    padding: 18px 20px; border-radius: 999px; margin-top: 22px;
+    box-shadow: 0 8px 20px rgba(201, 102, 63, .26);
+  }
+  .cta:hover { background: var(--coral-deep); }
+  .cta-note { text-align: center; font-size: 12.5px; color: var(--ink-soft); margin-top: 12px; }
+
+  .bonus { background: var(--coral-soft); border: 1px solid var(--coral-line); }
+  .bonus .badge {
+    display: inline-block; background: var(--coral); color: #fff;
+    font-size: 12px; font-weight: 700; letter-spacing: .06em;
+    padding: 4px 12px; border-radius: 999px; margin-bottom: 12px;
+  }
+
+  .faq dt { font-weight: 700; margin-top: 18px; }
+  .faq dt:first-of-type { margin-top: 0; }
+  .faq dd { margin-top: 6px; }
+
+  .closing { text-align: center; }
+  .closing p { font-size: 17px; font-weight: 500; }
+
+  .note { font-size: 12.5px; color: var(--ink-soft); line-height: 1.9; }
+  footer { text-align: center; font-size: 12px; color: var(--ink-soft); margin-top: 28px; line-height: 2; }
+  footer a { color: var(--ink-soft); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ヒーロー -->
+  <div class="card">
+    <p class="mutter">こんな声だっけ？<br>声が老けた気がする。<br>喉に、なにか引っかかる感じがある。</p>
+    <h1>声の人間ドック</h1>
+    <p class="lead">あなたの声を、測ります。<br>年に1回の、声の総合健診です。</p>
+    <div class="term">受付: 9月11日(金)12:00 〜 9月18日(金)23:59<br>先着30名</div>
+  </div>
+
+  <!-- 問題提起 -->
+  <div class="card sec">
+    <p>最近、声が老けてきた気がする。</p>
+    <p>喉に、なにか引っかかった感じで話している。</p>
+    <p>録音した自分の声を聞いて、「こんな声だったっけ」と思った。</p>
+    <p>気になってはいる。でも、どうすればいいか分からないまま、毎日その声で話しています。</p>
+    <p>自分の声のことを、じつは一番知らないのは自分です。</p>
+  </div>
+
+  <!-- 解決策 -->
+  <div class="card sec">
+    <h2>声にも、健康診断があっていい</h2>
+    <p>そう思って、健康診断の声バージョンを作りました。</p>
+    <p>身体と同じで、声も放っておくと、気づかないうちに変わります。ヨガや運動のように、ふだんの声に一度、意識を向ける。スカッと声が出るのは、それだけで気持ちのいいものです。</p>
+    <p>声の人間ドックは、声を録って送るだけの総合健診です。検査結果の数値と、20年聴いてきたわたしの耳で、あなたの声のいまを1枚のレポートにまとめます。</p>
+    <ul class="plain">
+      <li>オンラインで完結します</li>
+      <li>録音はスマホでできます（専用の機材は要りません）</li>
+    </ul>
+    <p class="who">ボイストレーナーみか（ボイストレーナー歴20年目・Udemy講師）</p>
+  </div>
+
+  <!-- 受け取るもの -->
+  <div class="card sec">
+    <h2>受け取るもの</h2>
+    <h3>分析結果レポート（10月末までにお届けします）</h3>
+    <ul class="plain">
+      <li>検査結果: 声の高さ・声量の安定・語尾・響き・澄み具合・明るさ・話す速さ・間・抑揚・息継ぎ。ひとつずつ数値で</li>
+      <li>所見: 検査結果をもとに、あなたの声の状態を詳しくお伝えします</li>
+      <li>今年の処方箋: 日常の中でできる、ボイストレーナーからのアドバイスをひとつ</li>
+    </ul>
+    <figure>
+      <img src="img/dock_report_sample.png" alt="分析結果レポートの見本">
+      <figcaption>レポートの見本です</figcaption>
+    </figure>
+    <p class="note" style="margin-top:16px;">※ 数値は、録音環境の影響を受けます。静かなところでの録音をおすすめします。<br>※ 本検査は医療機関の検査ではありません。喉の痛み・違和感が続く場合は耳鼻咽喉科の受診をおすすめします。</p>
+  </div>
+
+  <!-- 受診の流れ -->
+  <div class="card sec">
+    <h2>受診の流れ</h2>
+    <ol class="flow">
+      <li>申し込む</li>
+      <li>受診キットが届く（録音の手順のご案内）</li>
+      <li>9月30日(水)までに録音を提出する</li>
+      <li>10月末までに、分析結果レポートが届く</li>
+    </ol>
+  </div>
+
+  <!-- 料金 -->
+  <div class="card sec">
+    <h2>料金</h2>
+    <div class="price">
+      <p class="anchor">2027年からの新規受付 <s>12,800円</s></p>
+      <div class="amount">9,800<span>円（年1回・税込）</span></div>
+      <p class="amount-note">今年お申し込みの方は、この価格です</p>
+      <p class="sub">
+        今年受診された方は、来年からもずっと9,800円のまま据え置きです。<br>
+        お支払いは毎年の自動更新です。次回の決済日の前日までに、いつでも解約できます。
+      </p>
+    </div>
+    <a class="cta" href="https://buy.stripe.com/8x29ASfxRgYF7q8cTNaAw0f">声の人間ドックに申し込む</a>
+    <p class="cta-note">クレジットカード決済（Stripe）</p>
+  </div>
+
+  <!-- 先着10名 -->
+  <div class="card bonus sec">
+    <span class="badge">先着10名の方へ</span>
+    <p>レポートとは別に、「あなたの声の分析」を音声でお届けします。</p>
+    <p>Voicyでやっている「◯◯さんの声の分析」の、あなた版です。5〜10分ほど、あなたの声について話した音声をお届けします。</p>
+  </div>
+
+  <!-- FAQ -->
+  <div class="card sec">
+    <h2>よくある質問</h2>
+    <dl class="faq">
+      <dt>受けたら声は良くなりますか？</dt>
+      <dd>受けただけで良くなるわけではありません。ですが、改善点が見えます。今年の処方箋を1つお付けするので、取り組んでみてください。声は、変わっていきます。</dd>
+      <dt>毎年受けるものですか？</dt>
+      <dd>はい。年に一度の、毎年の健診です。健康診断と同じ形にしています。声は1年でも変わります。だから毎年、同じ条件で測るのがおすすめです。</dd>
+      <dt>録音がうまくできるか不安です</dt>
+      <dd>受診キットの手順どおりに録って送るだけで大丈夫です。上手に話す必要はありません。ふだんの声を聴かせてください。</dd>
+    </dl>
+  </div>
+
+  <!-- 締め -->
+  <div class="card closing">
+    <p>あなたの今の声、残しておきましょう。</p>
+    <p class="note" style="margin-top:12px;">受付は9月18日(金)23:59までです。</p>
+    <a class="cta" href="https://buy.stripe.com/8x29ASfxRgYF7q8cTNaAw0f">声の人間ドックに申し込む</a>
+  </div>
+
+  <footer>
+    <a href="https://voice-mika.com/legal/">特定商取引法に基づく表記</a><br>
+    Experisent
+  </footer>
+
+</div>
+</body>
+</html>
