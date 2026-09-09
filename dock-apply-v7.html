@@ -20,12 +20,20 @@
     .eyebrow::before { content:""; width:24px; height:2px; background:var(--coral); }
     h1,h2,h3,p { margin-top:0; }
     h2 { font-size:clamp(28px, 4.3vw, 48px); line-height:1.45; letter-spacing:.06em; font-weight:800; }
+    /* 「声バージ／ョンを作りました。」のように1文字だけ落ちる折り返しを止める。
+       パソコンは意味の切れ目で改行し、スマホ（文字が小さい）は自然に流す */
+    .h2-lines span { display:block; }
+    @media (min-width:721px) and (max-width:1000px) { .h2-lines span { display:inline; } }
+    /* 名乗り。20年の耳の話の直後に置く（2026-09-09みかさん「ここにボイストレーナーみか〜があるのへん」→ チェックリストの下から移動） */
+    .signature { margin:22px 0 0; font-size:13px; font-weight:700; color:#7a6f6a; }
     .hero { position:relative; isolation:isolate; overflow:hidden; min-height:690px; background:var(--paper); }
     .hero::before { content:""; position:absolute; z-index:-1; width:460px; height:460px; border-radius:50%; top:-260px; right:-105px; background:#f7d6c8; }
     .hero::after { content:""; position:absolute; z-index:-1; width:180px; height:180px; border-radius:50%; bottom:-90px; left:6%; border:38px solid #f3dfd7; }
     .nav { height:76px; display:flex; align-items:center; justify-content:space-between; }
     .brand { font-size:15px; font-weight:800; letter-spacing:.13em; text-decoration:none; }
-    .nav a:last-child { border:1px solid var(--coral); color:var(--coral); border-radius:999px; padding:7px 16px; font-size:11px; font-weight:800; text-decoration:none; }
+    /* 2026-09-09 みかさん「トップ右上の申し込みボタンが小さすぎる」→ 11px/7-16 から 14px/11-26 へ */
+    /* 背景の丸(#f7d6c8)と同系色の枠線だけだったので、大きくしても沈んで見えていた。塗りにして白抜きに */
+    .nav a:last-child { background:var(--coral); border:1px solid var(--coral); color:#fff; border-radius:999px; padding:11px 26px; font-size:14px; font-weight:800; text-decoration:none; box-shadow:0 3px 10px rgba(232,129,91,.28); }
     .hero-grid { position:relative; display:grid; grid-template-columns: .94fr 1.06fr; align-items:center; min-height:592px; padding-bottom:38px; }
     .hero-copy { position:relative; z-index:2; padding:36px 0 68px; }
     /* 読む人の心の中のつぶやき。商品名(h1)より前に出さない（2026-09-09みかさん「カギカッコにして、もうちょっとフォントサイズ小さく」） */
@@ -39,7 +47,8 @@
     /* 2026-09-09 みかさん「私の写真もう少し大きく・デザインとしてベストな大きさに」→ 42px から 66px へ */
     .profile img { width:66px; height:66px; object-fit:cover; border-radius:50%; border:2px solid #fff; }
     .section { padding:112px 0; }
-    .intro { text-align:center; max-width:760px; }
+    /* 🚨 margin-inline:auto が無く、見出しが4か所とも160px左にずれていた（2026-09-09みかさん「中心ズレてるところあります」） */
+    .intro { text-align:center; max-width:760px; margin-inline:auto; }
     .intro .eyebrow { margin-bottom:15px; }
     .problem { background:#fff; }
     .problem-copy { max-width:690px; margin:0 auto 44px; font-size:16px; text-align:center; line-height:2.15; }
@@ -52,8 +61,9 @@
     .solution .intro { position:relative; z-index:1; }
     .solution-text { position:relative; z-index:1; max-width:760px; margin:0 auto; font-size:16px; text-align:center; }
     .checklist { list-style:none; padding:0; margin:28px auto 0; width:min(580px, 100%); }
-    .checklist li { position:relative; border-top:1px solid #d8d2cf; padding:13px 0 13px 35px; font-weight:700; }
-    .checklist li::before { content:""; position:absolute; left:3px; top:24px; width:13px; height:7px; border-left:2px solid var(--coral); border-bottom:2px solid var(--coral); transform:rotate(-45deg); }
+    /* ✓は左端に固定、文字は中央寄せ、で離れて見えていた。✓と文字をひとかたまりにして中央に置く */
+    .checklist li { display:flex; align-items:center; justify-content:center; gap:12px; border-top:1px solid #d8d2cf; padding:13px 0; font-weight:700; text-align:left; }
+    .checklist li::before { content:""; flex:none; width:13px; height:7px; border-left:2px solid var(--coral); border-bottom:2px solid var(--coral); transform:rotate(-45deg) translateY(-3px); }
     .pillars { position:relative; z-index:1; display:grid; grid-template-columns:repeat(3,1fr); margin-top:48px; border-top:1px solid #d8d2cf; border-bottom:1px solid #d8d2cf; }
     .pillar { padding:25px 25px 27px; text-align:center; }
     .pillar + .pillar { border-left:1px solid #d8d2cf; }
@@ -110,7 +120,7 @@
       .wrap { width:min(100% - 32px, 540px); }
       .hero { min-height:0; }
       .nav { height:62px; }
-      .nav a:last-child { padding:5px 11px; font-size:10px; }
+      .nav a:last-child { padding:9px 19px; font-size:12px; }
       .hero-grid { grid-template-columns:1fr; display:flex; flex-direction:column; min-height:0; padding-bottom:42px; }
       .hero-copy { order:1; width:100%; padding:32px 0 0; }
       .hero-art { order:2; width:calc(100% + 48px); margin:14px -24px -8px;
@@ -172,11 +182,11 @@
 
     <section class="section solution">
       <div class="wrap">
-        <div class="intro"><p class="eyebrow">健診</p><h2>声にも、健康診断があっていい。そう思って、健康診断の声バージョンを作りました。</h2></div>
+        <div class="intro"><p class="eyebrow">健診</p><h2 class="h2-lines"><span>声にも、健康診断があっていい。</span><span>そう思って、健康診断の</span><span>声バージョンを作りました。</span></h2></div>
         <div class="solution-text">
           <p>身体と同じで、声も放っておくと、気づかないうちに変わります。<br>ヨガや運動のように、ふだんの声に一度、意識を向ける。<br>スカッと声が出るのは、それだけで気持ちのいいものです。<br><br>声の人間ドックは、声を録って送るだけの総合健診です。<br>検査結果の数値と、20年聴いてきたわたしの耳で、あなたの声のいまを1枚のレポートにまとめます。</p>
+          <p class="signature">ボイストレーナーみか（ボイストレーナー歴20年目・Udemy講師）</p>
           <ul class="checklist"><li>オンラインで完結します</li><li>録音はスマホでできます（専用の機材は要りません）</li></ul>
-          <p>ボイストレーナーみか（ボイストレーナー歴20年目・Udemy講師）</p>
         </div>
         <div class="pillars" aria-label="声の人間ドックの3つの特徴"><div class="pillar"><b>測る</b></div><div class="pillar"><b>聴く</b></div><div class="pillar"><b>知る</b></div></div>
       </div>
@@ -204,7 +214,7 @@
         <div class="intro"><p class="eyebrow">流れ</p><h2>受診の流れ</h2></div>
         <div class="flow-grid">
           <article class="flow-card"><img src="img/dock/v7_flow_apply.jpg" width="700" height="700" alt="申し込みをする線画イラスト" loading="lazy"><p>1. 申し込む</p></article>
-          <article class="flow-card"><img src="img/dock/v7_flow_kit.jpg" width="700" height="700" alt="受診キットを受け取る線画イラスト" loading="lazy"><p>2. 受診キットが届く（録音の手順のご案内）</p></article>
+          <article class="flow-card"><img src="img/dock/v7_flow_kit.jpg" width="700" height="700" alt="スマホに届いた録音のご案内を見ている線画イラスト" loading="lazy"><p>2. 録音のご案内がメールで届く</p></article>
           <article class="flow-card"><img src="img/dock/v7_flow_record.jpg" width="700" height="700" alt="スマホで録音を提出する線画イラスト" loading="lazy"><p>3. 9月30日(水)までに録音を提出する</p></article>
           <article class="flow-card"><img src="img/dock/v7_flow_report.jpg" width="700" height="700" alt="分析結果レポートを受け取る線画イラスト" loading="lazy"><p>4. 10月末までに、分析結果レポートが届く</p></article>
         </div>
@@ -227,7 +237,7 @@
         <div class="faq-list">
           <div class="qa"><p><b>Q.</b>受けたら声は良くなりますか？</p><p><b>A.</b>受けただけで良くなるわけではありません。ですが、改善点が見えます。今年の処方箋を1つお付けするので、取り組んでみてください。声は、変わっていきます。</p></div>
           <div class="qa"><p><b>Q.</b>なぜ年に1回なのですか？</p><p><b>A.</b>健康診断と同じ形にしています。声は1年でも変わります。だから毎年、同じ条件で測るのがおすすめです。1年後にもう一度録ると、その1年で何が変わったかが見えます。</p></div>
-          <div class="qa"><p><b>Q.</b>録音がうまくできるか不安です</p><p><b>A.</b>受診キットの手順どおりに録って送るだけで大丈夫です。上手に話す必要はありません。ふだんの声を聴かせてください。</p></div>
+          <div class="qa"><p><b>Q.</b>録音がうまくできるか不安です</p><p><b>A.</b>ご案内の手順どおりに録って送るだけで大丈夫です。上手に話す必要はありません。ふだんの声を聴かせてください。</p></div>
         </div>
       </div>
     </section>
