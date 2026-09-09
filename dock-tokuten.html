@@ -13,26 +13,21 @@ input[type=text],input[type=email],input[type=url]{width:100%;padding:12px;borde
 .small{font-size:14px;color:#6b5f5f} .done{display:none} .sign{margin-top:28px;font-size:14px}
   textarea{width:100%;padding:10px 12px;border:1px solid #E0D5CE;border-radius:8px;font-size:16px;font-family:inherit;line-height:1.7;margin-bottom:14px;background:#fff}
 </style></head><body><div class="wrap">
-<h1>先着10名の方へ</h1>
-<p class="lead">声の人間ドック、お申し込みありがとうございます。<br>先着10名の方に「あなたの声の分析」の音声をお渡しします。ご希望を選んでください。</p>
+<h1>先着10名限定特典</h1>
+<p class="lead">声の人間ドック、お申し込みありがとうございます。<br>感謝を込めて「あなたの声の分析」の音声をお渡しします。ご希望を選んでください。</p>
 <form id="f" class="card">
   <label>メールアドレス（お申し込みのもの）</label><input type="email" id="email" required>
-  <label class="opt"><input type="radio" name="c" value="A" required>A. Voicyの配信で紹介してよい</label>
-  <label class="opt"><input type="radio" name="c" value="B">B. Voicyでは紹介しない（あなたにだけ音声をお渡しします）</label>
-  <label class="opt"><input type="radio" name="c" value="C">C. 声の分析のプレゼントは不要</label>
-  <div class="sub" id="subA">
-    <p class="small">Aを選んだ方へ</p>
-    <label>紹介してほしいお名前（ニックネームでも）</label><input type="text" id="name">
-    <label>ふりがな</label><input type="text" id="kana">
-    <label>音声配信をされている方は、チャンネルのURL<br><span class="small">配信の冒頭のご挨拶を、分析会で流させていただきます</span></label><input type="url" id="ch" placeholder="https://">
-  </div>
+  <label class="opt"><input type="radio" name="c" value="A" required>Voicyの配信で紹介してよい</label>
+  <label class="opt"><input type="radio" name="c" value="B">配信はせず、わたしにだけ音声を送ってほしい</label>
+  <label>お呼びするお名前（ニックネームでも）</label><input type="text" id="name">
+  <label>ふりがな</label><input type="text" id="kana">
+  <label>音声配信をされている方は、チャンネルのURL<br><span class="small">配信の冒頭のご挨拶を、分析会で流させていただきます（任意）</span></label><input type="url" id="ch" placeholder="https://">
   <label>声のお悩みがあれば、教えてください<br><span class="small">分析のときに、そこを重点的に聴きます（任意）</span></label><textarea id="nayami" rows="4"></textarea>
   <button class="btn" type="submit" id="btn">送信する</button>
 </form>
 <div class="card done" id="done"><p>ありがとうございます。<br>分析結果レポートが届くのをお楽しみに。</p><p class="sign">ボイストレーナーみか</p></div>
 <script>
 var GAS_URL='https://script.google.com/macros/s/AKfycbzelUSgmUzxitKZ6qH5AEkKyY3b0DbWAMtcRKKDL-KeVyHrNKfONVfSxkKV2W9oAOGpkg/exec', TOKEN='voicekarte2026secret';
-document.querySelectorAll('input[name=c]').forEach(function(r){r.addEventListener('change',function(){document.getElementById('subA').classList.toggle('on',this.value==='A');});});
 document.getElementById('f').addEventListener('submit',function(e){e.preventDefault();var b=document.getElementById('btn');b.disabled=true;b.textContent='送っています…';
 var c=(document.querySelector('input[name=c]:checked')||{}).value||'';
 fetch(GAS_URL,{method:'POST',redirect:'follow',headers:{'Content-Type':'text/plain'},body:JSON.stringify({token:TOKEN,kind:'dock-tokuten',email:document.getElementById('email').value,choice:c,name:document.getElementById('name').value,kana:document.getElementById('kana').value,channel:document.getElementById('ch').value,nayami:document.getElementById('nayami').value})})
