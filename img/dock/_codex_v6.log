@@ -1,0 +1,1273 @@
+Reading additional input from stdin...
+2026-09-08T10:22:16.479605Z ERROR codex_models_manager::cache: failed to load models cache: missing field `base_instructions` at line 132 column 5
+OpenAI Codex v0.145.0
+--------
+workdir: /Users/shinnomika/git/Form-link-page
+model: gpt-5.5
+provider: openai
+approval: never
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0808a-38d2-7a60-ab00-c3b618d18d1e
+--------
+user
+あなたはWebデザイナーです。このフォルダ（GitHub Pagesの静的サイト）に、販売ページ dock-apply-v6.html を1ファイルで作ってください（CSSはファイル内・外部JSなし・Google Fonts可）。
+
+【商品】声の人間ドック（ボイストレーナーみか）。年に1回、声を録って送るだけで、検査数値とボイストレーナーの所見が1枚のレポートで届く総合健診。9,800円/年。受付は9月11日(金)12:00〜9月18日(金)23:59・先着30名。
+
+【文言＝絶対に変えない】img/dock/_copy_v2_11.txt に、この順番で載せる本文があります。見出し・本文・FAQ・料金・締めの言葉を、1文字も変えず・足さず・減らさず、そのまま使ってください（デザイン用の短いラベルは、日本語で2〜4文字までなら追加可。英語は使わない）。「＞＞ 声の人間ドックに申し込む」はボタンにし、リンク先は https://buy.stripe.com/8x29ASfxRgYF7q8cTNaAw0f 。料金の「~~12,800円~~」は打ち消し線（<s>）で定価として見せる。
+
+【参考】添付の参考画像2枚のような、商用のランディングページの作り（大きな見出し・お悩み3つをカード＋絵で・『解決します』の3本柱・色の面で区切る・最後に申込の面）。これを目指す。ただし、可愛すぎず、硬すぎず。9,800円の『健診』の格が出ること。
+
+【使う素材】
+- img/dock/mika.jpg = ボイストレーナーみか本人の写真。トップで『誰のサービスか』が分かるように使う。ただし大きく1枚で置かない（見出しの横に小さめ、丸や角丸で）
+- img/dock_report_sample.png = 届くレポートの見本（受け取るものの節で大きく見せる）
+- 絵は新しく GPT Image 2 で作って img/dock/ に保存して使うこと。全部同じテイスト（温かいフラットなイラスト・線少なめ・生成り〜白背景・差し色 #E8815B）で統一する。人物は描いてもよいが大きな目の幼いキャラにしない（大人の女性・落ち着いた表情）。文字は絵に入れない。必要な絵: トップ用1枚（横長）、お悩み用3枚（正方形・『声が老けた気がする』『喉に引っかかった感じで話す』『録音を聞いてこんな声だったっけ』）、流れ用は不要。
+- 既存の img/henka_1nen.webp（水彩）は使わない（テイストが混ざるため）
+
+【色・文字】ブランド色: コーラル #E8815B（メイン）・#FFF8F5（背景ピーチ）・文字 #3D3535。見出しは Noto Sans JP の太字（丸ゴシック・明朝は使わない）。絵文字は使わない。
+
+【構成】トップ（独り言3行→商品名→約束→受付期間・写真）→お悩み3つ（絵つき）→『声にも、健康診断があっていい』→受け取るもの（レポート見本大きく）→受診の流れ（4ステップ）→料金（定価打ち消し・9,800円・自動更新の説明・申込ボタン）→先着10名→よくある質問→締め（申込ボタン）→フッター（特定商取引法 https://voice-mika.com/legal/ ・Experisent）。※医療機関の検査ではありません。喉の痛み・違和感が続く場合は耳鼻咽喉科の受診をおすすめします。の1行を受け取るものの下に。
+
+【必須】スマホ幅（390px）で崩れないこと。画像は width/height と loading=lazy。完成したら、作ったファイル名と絵のファイル名を最後に列挙してください。
+codex
+`imagegen` と `frontend-design` のスキルを使います。まず既存ファイルと指定コピーを確認して、書き込み可能性も含めて作業範囲を見ます。
+exec
+/bin/zsh -lc "sed -n '1,220p' /Users/shinnomika/.codex/skills/.system/imagegen/SKILL.md" in /Users/shinnomika/git/Form-link-page
+exec
+/bin/zsh -lc "sed -n '1,260p' /Users/shinnomika/.agents/skills/frontend-design/SKILL.md" in /Users/shinnomika/git/Form-link-page
+ succeeded in 0ms:
+---
+name: frontend-design
+description: Guidance for distinctive, intentional visual design when building new UI or reshaping an existing one. Helps with aesthetic direction, typography, and making choices that don't read as templated defaults.
+license: Complete terms in LICENSE.txt
+---
+
+# Frontend Design
+
+Approach this as the design lead at a small studio known for giving every client a visual identity that could not be mistaken for anyone else's. This client has already rejected proposals that felt templated, and is paying for a distinctive point of view: make deliberate, opinionated choices about palette, typography, and layout that are specific to this brief, and take one real aesthetic risk you can justify.
+
+## Ground it in the subject
+
+If the brief does not pin down what the product or subject is, pin it yourself before designing: name one concrete subject, its audience, and the page's single job, and state your choice. If there's any information in your memory about the human's preferences, context about what they're building, or designs you've made before – use that as a hint. The subject's own world, its materials, instruments, artifacts, and vernacular, is where distinctive choices come from. Build with the brief's real content and subject matter throughout.
+
+## Design principles
+
+For web designs, the hero is a thesis. Open with the most characteristic thing in the subject's world, in whatever form makes sense for it: a headline, an image, an animation, a live demo, an interactive moment. Be deliberate with your choice: a big number with a small label, supporting stats, and a gradient accent is the template answer, only use if that's truly the best option.
+
+Typography carries the personality of the page. Pair the display and body faces deliberately, not the same families you would reach for on any other project, and set a clear type scale with intentional weights, widths, and spacing. Make the type treatment itself a memorable part of the design, not a neutral delivery vehicle for the content.
+
+Structure is information. Structural devices, numbering, eyebrows, dividers, labels, should encode something true about the content, not decorate it. Many generic designs use numbered markers (01 / 02 / 03), but that's only appropriate if the content actually is a sequence - like a real process or a typed timeline where order carries information the reader needs. Question if choices like numbered markers actually make sense before incorporating them.
+
+Leverage motion deliberately. Think about where and if animation can serve the subject: a page-load sequence, a scroll-triggered reveal, hover micro-interactions, ambient atmosphere. An orchestrated moment usually lands harder than scattered effects; choose what the direction calls for. However, sometimes less is more, and extra animation contributes to the feeling that the design is AI-generated.
+
+Match complexity to the vision. Maximalist directions need elaborate execution; minimal directions need precision in spacing, type, and detail. Elegance is executing the chosen vision well.
+
+Consider written content carefully. Often a design brief may not contain real content, and it's up to you to come up with copy. Copy can make a design feel as templated as the design itself. See the below section on writing for more guidance.
+
+## Process: brainstorm, explore, plan, critique, build, critique again
+
+For calibration: AI-generated design right now clusters around three looks: (1) a warm cream background (near #F4F1EA) with a high-contrast serif display and a terracotta accent; (2) a near-black background with a single bright acid-green or vermilion accent; (3) a broadsheet-style layout with hairline rules, zero border-radius, and dense newspaper-like columns. All three are legitimate for some briefs, but they are defaults rather than choices, and they appear regardless of subject. Where the brief pins down a visual direction, follow it exactly — the brief's own words always win, including when it asks for one of these looks. Where it leaves an axis free, don't spend that freedom on one of these defaults. Just like a human designer who's hired, there's often a careful balance between doing what you're good at and taking each project as a chance to experiment and learn.
+
+Work in two passes. First, brainstorm a short design plan based on the human's design brief: create a compact token system with color, type, layout, and signature. Color: describe the palette as 4–6 named hex values. Type: the typefaces for 2+ roles (a characterful display face that's used with restraint, a complementary body face, and a utility face for captions or data if needed). Layout: a layout concept, using one-sentence prose descriptions and ASCII wireframes to ideate and compare. Signature: the single unique element this page will be remembered by that embodies the brief in an appropriate way.
+
+Then review that plan against the brief before building: if any part of it reads like the generic default you would produce for any similar page (work through a similar prompt to see if you arrive somewhere similar) rather than a choice made for this specific brief — revise that part, say what you changed and why. Only after you've confirmed the relative uniqueness of your design plan should you start to write the code, following the revised plan exactly and deriving every color and type decision from it.
+
+When writing the code, be careful of structuring your CSS selector specificities. It's easy to generate CSS classes that cancel each other out (especially with a type-based selector like .section and a element-based selector like .cta). This can happen often with paddings/margins between sections.
+
+Try to do a lot of this planning and iteration in your thinking, and only show ideas to the user when you have higher confidence it'll delight them.
+
+## Restraint and self-critique
+
+Spend your boldness in one place. Let the signature element be the one memorable thing, keep everything around it quiet and disciplined, and cut any decoration that does not serve the brief. Not taking a risk can be a risk itself! Build to a quality floor without announcing it: responsive down to mobile, visible keyboard focus, reduced motion respected. Critique your own work as you build, taking screenshots if your environment supports it – a picture is worth 1000 tokens. Consider Chanel's advice: before leaving the house, take a look in the mirror and remove one accessory. Human creators have memory and always try to do something new, so if you have a space to quickly jot down notes about what you've tried, it can help you in future passes.
+
+## More on writing in design
+
+Words appear in a design for one reason: to make it easier to understand, and therefore easier to use. They are design material, not decoration. Bring the same intentionality to copy that you would bring to spacing and color. Before writing anything, ask what the design needs to say, and how it can best be said to help the person navigate the experience.
+
+Write from the end user's side of the screen. Name things by what people control and recognize, never by how the system is built. A person manages notifications, not webhook config. Describe what something does in plain terms rather than selling it. Being specific is always better than being clever.
+
+Use active voice as default. A control should say exactly what happens when it's used: "Save changes," not "Submit." An action keeps the same name through the whole flow, so the button that says "Publish" produces a toast that says "Published." The vocabulary of an interface is the signposting for someone navigating the product. Cohesion and consistency are how people learn their way around.
+
+Treat failure and emptiness as moments for direction, not mood. Explain what went wrong and how to fix it, in the interface's voice rather than a person's. Errors don't apologize, and they are never vague about what happened. An empty screen is an invitation to act.
+
+Keep the register conversational and tuned: plain verbs, sentence case, no filler, with tone matched to the brand and the audience. Let each element do exactly one job. A label labels, an example demonstrates, and nothing quietly does double duty.
+
+ succeeded in 0ms:
+---
+name: "imagegen"
+description: "Generate or edit raster images when the task benefits from AI-created bitmap visuals such as photos, illustrations, textures, sprites, mockups, or transparent-background cutouts. Use when Codex should create a brand-new image, transform an existing image, or derive visual variants from references, and the output should be a bitmap asset rather than repo-native code or vector. Do not use when the task is better handled by editing existing SVG/vector/code-native assets, extending an established icon or logo system, or building the visual directly in HTML/CSS/canvas."
+---
+
+# Image Generation Skill
+
+Generates or edits images for the current project (for example website assets, game assets, UI mockups, product mockups, wireframes, logo design, photorealistic images, or infographics).
+
+## Top-level modes and rules
+
+This skill has exactly two top-level modes:
+
+- **Default built-in tool mode (preferred):** built-in `image_gen` tool for normal image generation, editing, and simple transparent-image requests. Does not require `OPENAI_API_KEY`.
+- **Fallback CLI mode:** `scripts/image_gen.py` CLI. Use when the user explicitly asks for the CLI/API/model path, or after the user explicitly confirms a true model-native transparency fallback with `gpt-image-1.5`. Requires `OPENAI_API_KEY`.
+
+Within CLI fallback, the CLI exposes three subcommands:
+
+- `generate`
+- `edit`
+- `generate-batch`
+
+Rules:
+- Use the built-in `image_gen` tool by default for normal image generation and editing requests.
+- Do not switch to CLI fallback for ordinary quality, size, or file-path control.
+- If the user explicitly asks for a transparent image/background, stay on built-in `image_gen` first: prompt for a flat removable chroma-key background, then remove it locally with the installed helper at `$CODEX_HOME/skills/.system/imagegen/scripts/remove_chroma_key.py`.
+- Never silently switch from built-in `image_gen` or CLI `gpt-image-2` to CLI `gpt-image-1.5`. Treat this as a model/path downgrade and ask the user before doing it, unless the user has already explicitly requested `gpt-image-1.5`, `scripts/image_gen.py`, or CLI fallback.
+- If a transparent request appears too complex for clean chroma-key removal, asks for true/native transparency, or local removal fails validation, explain that true transparency requires CLI `gpt-image-1.5 --background transparent --output-format png` because `gpt-image-2` does not support `background=transparent`, then ask whether to proceed. Run the CLI fallback only after the user confirms.
+- The word `batch` by itself does not mean CLI fallback. If the user asks for many assets or says to batch-generate assets without explicitly asking for CLI/API/model controls, stay on the built-in path and issue one built-in call per requested asset or variant.
+- If the built-in tool fails or is unavailable, tell the user the CLI fallback exists and that it requires `OPENAI_API_KEY`. Proceed only if the user explicitly asks for that fallback.
+- If the user explicitly asks for CLI mode, use the bundled `scripts/image_gen.py` workflow. Do not create one-off SDK runners.
+- Never modify `scripts/image_gen.py`. If something is missing, ask the user before doing anything else.
+
+Built-in save-path policy:
+- In built-in tool mode, Codex saves generated images under `$CODEX_HOME/*` by default.
+- Do not describe or rely on OS temp as the default built-in destination.
+- Do not describe or rely on a destination-path argument (if any) on the built-in `image_gen` tool. If a specific location is needed, generate first and then move or copy the selected output from `$CODEX_HOME/generated_images/...`.
+- Save-path precedence in built-in mode:
+  1. If the user names a destination, move or copy the selected output there.
+  2. If the image is meant for the current project, move or copy the final selected image into the workspace before finishing.
+  3. If the image is only for preview or brainstorming, render it inline; the underlying file can remain at the default `$CODEX_HOME/*` path.
+- Never leave a project-referenced asset only at the default `$CODEX_HOME/*` path.
+- Do not overwrite an existing asset unless the user explicitly asked for replacement; otherwise create a sibling versioned filename such as `hero-v2.png` or `item-icon-edited.png`.
+
+Shared prompt guidance for both modes lives in `references/prompting.md` and `references/sample-prompts.md`.
+
+Fallback-only docs/resources for CLI mode:
+- `references/cli.md`
+- `references/image-api.md`
+- `references/codex-network.md`
+- `scripts/image_gen.py`
+
+Local post-processing helper:
+- `$CODEX_HOME/skills/.system/imagegen/scripts/remove_chroma_key.py`: removes a flat chroma-key background from a generated image and writes a PNG/WebP with alpha. Prefer auto-key sampling, soft matte, and despill for antialiased edges.
+
+## When to use
+- Generate a new image (concept art, product shot, cover, website hero)
+- Generate a new image using one or more reference images for style, composition, or mood
+- Edit an existing image (inpainting, lighting or weather transformations, background replacement, object removal, compositing, transparent background)
+- Produce many assets or variants for one task
+
+## When not to use
+- Extending or matching an existing SVG/vector icon set, logo system, or illustration library inside the repo
+- Creating simple shapes, diagrams, wireframes, or icons that are better produced directly in SVG, HTML/CSS, or canvas
+- Making a small project-local asset edit when the source file already exists in an editable native format
+- Any task where the user clearly wants deterministic code-native output instead of a generated bitmap
+
+## Decision tree
+
+Think about two separate questions:
+
+1. **Intent:** is this a new image or an edit of an existing image?
+2. **Execution strategy:** is this one asset or many assets/variants?
+
+Intent:
+- If the user wants to modify an existing image while preserving parts of it, treat the request as **edit**.
+- If the user provides images only as references for style, composition, mood, or subject guidance, treat the request as **generate**.
+- If the user provides no images, treat the request as **generate**.
+
+Built-in edit semantics:
+- Built-in edit mode is for images already visible in the conversation context, such as attached images or images generated earlier in the thread.
+- If the user wants to edit a local image file with the built-in tool, first load it with built-in `view_image` tool so the image is visible in the conversation context, then proceed with the built-in edit flow.
+- Do not promise arbitrary filesystem-path editing through the built-in tool.
+- If a local file still needs direct file-path control, masks, or other explicit CLI-only parameters, use the explicit CLI fallback only when the user asks for it.
+- For edits, preserve invariants aggressively and save non-destructively by default.
+
+Execution strategy:
+- In the built-in default path, produce many assets or variants by issuing one `image_gen` call per requested asset or variant.
+- In the CLI fallback path, use the CLI `generate-batch` subcommand only when the user explicitly chose CLI mode and needs many prompts/assets.
+- For many distinct assets, do not use `n` as a substitute for separate prompts. `n` is for variants of one prompt; distinct assets need distinct built-in calls or distinct CLI `generate-batch` jobs.
+
+Assume the user wants a new image unless they clearly ask to change an existing one.
+
+## Workflow
+1. Decide the top-level mode: built-in by default, including simple transparent-output requests; fallback CLI only if explicitly requested or after the user explicitly confirms a transparent-output fallback.
+2. Decide the intent: `generate` or `edit`.
+3. Decide whether the output is preview-only or meant to be consumed by the current project.
+4. Decide the execution strategy: single asset vs repeated built-in calls vs CLI `generate-batch`.
+5. Collect inputs up front: prompt(s), exact text (verbatim), constraints/avoid list, and any input images.
+6. For every input image, label its role explicitly:
+   - reference image
+   - edit target
+   - supporting insert/style/compositing input
+7. If the edit target is only on the local filesystem and you are staying on the built-in path, inspect it with `view_image` first so the image is available in conversation context.
+8. If the user asked for a photo, illustration, sprite, product image, banner, or other explicitly raster-style asset, use `image_gen` rather than substituting SVG/HTML/CSS placeholders. If the request is for an icon, logo, or UI graphic that should match existing repo-native SVG/vector/code assets, prefer editing those directly instead.
+9. Augment the prompt based on specificity:
+   - If the user's prompt is already specific and detailed, normalize it into a clear spec without adding creative requirements.
+   - If the user's prompt is generic, add tasteful augmentation only when it materially improves output quality.
+10. Use the built-in `image_gen` tool by default.
+11. For transparent-output requests, follow the transparent image guidance below: generate with built-in `image_gen` on a flat chroma-key background, copy the selected output into the workspace or `tmp/imagegen/`, run the installed `$CODEX_HOME/skills/.system/imagegen/scripts/remove_chroma_key.py` helper, and validate the alpha result before using it. If this path looks unsuitable or fails, ask before switching to CLI `gpt-image-1.5`.
+12. Inspect outputs and validate: subject, style, composition, text accuracy, and invariants/avoid items.
+13. Iterate with a single targeted change, then re-check.
+14. For preview-only work, render the image inline; the underlying file may remain at the default `$CODEX_HOME/generated_images/...` path.
+15. For project-bound work, move or copy the selected artifact into the workspace and update any consuming code or references. Never leave a project-referenced asset only at the default `$CODEX_HOME/generated_images/...` path.
+16. For batches or multi-asset requests, persist every requested deliverable final in the workspace unless the user explicitly asked to keep outputs preview-only. Discarded variants do not need to be kept unless requested.
+17. If the user explicitly chooses or confirms the CLI fallback, then use the fallback-only docs for model, quality, size, `input_fidelity`, masks, output format, output paths, and network setup.
+18. Always report the final saved path(s) for any workspace-bound asset(s), plus the final prompt or prompt set and whether the built-in tool or fallback CLI mode was used.
+
+## Transparent image requests
+
+Transparent-image requests still use built-in `image_gen` first. Because the built-in tool does not expose a true transparent-background control, create a removable chroma-key source image and then convert the key color to alpha locally.
+
+Default sequence:
+1. Use built-in `image_gen` to generate the requested subject on a perfectly flat solid chroma-key background.
+2. Choose a key color that is unlikely to appear in the subject: default `#00ff00`, use `#ff00ff` for green subjects, and avoid `#0000ff` for blue subjects.
+3. After generation, move or copy the selected source image from `$CODEX_HOME/generated_images/...` into the workspace or `tmp/imagegen/`.
+4. Run the installed helper path, not a project-relative script path:
+   ```bash
+   python "${CODEX_HOME:-$HOME/.codex}/skills/.system/imagegen/scripts/remove_chroma_key.py" \
+     --input <source> \
+     --out <final.png> \
+     --auto-key border \
+     --soft-matte \
+     --transparent-threshold 12 \
+     --opaque-threshold 220 \
+     --despill
+   ```
+5. Validate that the output has an alpha channel, transparent corners, plausible subject coverage, and no obvious key-color fringe. If a thin fringe remains, retry once with `--edge-contract 1`; use `--edge-feather 0.25` only when the edge is visibly stair-stepped and the subject is not shiny or reflective.
+6. Save the final alpha PNG/WebP in the project if the asset is project-bound. Never leave a project-referenced transparent asset only under `$CODEX_HOME/*`.
+
+Prompt transparent requests like this:
+
+```text
+Create the requested subject on a perfectly flat solid #00ff00 chroma-key background for background removal.
+The background must be one uniform color with no shadows, gradients, texture, reflections, floor plane, or lighting variation.
+Keep the subject fully separated from the background with crisp edges and generous padding.
+Do not use #00ff00 anywhere in the subject.
+No cast shadow, no contact shadow, no reflection, no watermark, and no text unless explicitly requested.
+```
+
+Do not automatically use CLI `gpt-image-1.5 --background transparent --output-format png` instead of chroma keying. Ask the user first when the user asks for true/native transparency, when local removal fails validation, or when the requested image is complex: hair, fur, feathers, smoke, glass, liquids, translucent materials, reflective objects, soft shadows, realistic product grounding, or subject colors that conflict with all practical key colors.
+
+Use a concise confirmation like:
+
+```text
+This likely needs true native transparency. The default built-in path uses a chroma-key background plus local removal, but true transparency requires the CLI fallback with gpt-image-1.5 because gpt-image-2 does not support background=transparent. It also requires OPENAI_API_KEY. Should I proceed with that CLI fallback?
+```
+
+## Prompt augmentation
+
+Reformat user prompts into a structured, production-oriented spec. Make the user's goal clearer and more actionable, but do not blindly add detail.
+
+Treat this as prompt-shaping guidance, not a closed schema. Use only the lines that help, and add a short extra labeled line when it materially improves clarity.
+
+### Specificity policy
+
+Use the user's prompt specificity to decide how much augmentation is appropriate:
+
+- If the prompt is already specific and detailed, preserve that specificity and only normalize/structure it.
+- If the prompt is generic, you may add tasteful augmentation when it will materially improve the result.
+
+Allowed augmentations:
+- composition or framing hints
+- polish level or intended-use hints
+- practical layout guidance
+- reasonable scene concreteness that supports the stated request
+
+Not allowed augmentations:
+- extra characters or objects that are not implied by the request
+- brand names, slogans, palettes, or narrative beats that are not implied
+- arbitrary side-specific placement unless the surrounding layout supports it
+
+## Use-case taxonomy (exact slugs)
+
+Classify each request into one of these buckets and keep the slug consistent across prompts and references.
+
+Generate:
+- photorealistic-natural — candid/editorial lifestyle scenes with real texture and natural lighting.
+- product-mockup — product/packaging shots, catalog imagery, merch concepts.
+- ui-mockup — app/web interface mockups and wireframes; specify the desired fidelity.
+- infographic-diagram — diagrams/infographics with structured layout and text.
+- scientific-educational — classroom explainers, scientific diagrams, and learning visuals with required labels and accuracy constraints.
+- ads-marketing — campaign concepts and ad creatives with audience, brand position, scene, and exact tagline/copy.
+- productivity-visual — slide, chart, workflow, and data-heavy business visuals.
+- logo-brand — logo/mark exploration, vector-friendly.
+- illustration-story — comics, children’s book art, narrative scenes.
+- stylized-concept — style-driven concept art, 3D/stylized renders.
+- historical-scene — period-accurate/world-knowledge scenes.
+
+Edit:
+- text-localization — translate/replace in-image text, preserve layout.
+- identity-preserve — try-on, person-in-scene; lock face/body/pose.
+- precise-object-edit — remove/replace a specific element (including interior swaps).
+- lighting-weather — time-of-day/season/atmosphere changes only.
+- background-extraction — transparent background / clean cutout. Use built-in `image_gen` with chroma-key removal first for simple opaque subjects; ask before using CLI true transparency for complex subjects.
+- style-transfer — apply reference style while changing subject/scene.
+- compositing — multi-image insert/merge with matched lighting/perspective.
+- sketch-to-render — drawing/line art to photoreal render.
+
+## Shared prompt schema
+
+Use the following labeled spec as shared prompt scaffolding for both top-level modes:
+
+```text
+Use case: <taxonomy slug>
+Asset type: <where the asset will be used>
+Primary request: <user's main prompt>
+Input images: <Image 1: role; Image 2: role> (optional)
+Scene/backdrop: <environment>
+Subject: <main subject>
+
+exec
+/bin/zsh -lc 'pwd && rg --files' in /Users/shinnomika/git/Form-link-page
+ exited 127 in 0ms:
+/Users/shinnomika/git/Form-link-page
+zsh:1: command not found: rg
+
+codex
+`rg` が入っていないので `find` で構成を見ます。コピーの厳密利用が要件なので、まず本文ファイルをそのまま読み取ってセクション分けします。
+exec
+/bin/zsh -lc "sed -n '220,520p' /Users/shinnomika/.codex/skills/.system/imagegen/SKILL.md" in /Users/shinnomika/git/Form-link-page
+ succeeded in 0ms:
+Subject: <main subject>
+Style/medium: <photo/illustration/3D/etc>
+Composition/framing: <wide/close/top-down; placement>
+Lighting/mood: <lighting + mood>
+Color palette: <palette notes>
+Materials/textures: <surface details>
+Text (verbatim): "<exact text>"
+Constraints: <must keep/must avoid>
+Avoid: <negative constraints>
+```
+
+Notes:
+- `Asset type` and `Input images` are prompt scaffolding, not dedicated CLI flags.
+- `Scene/backdrop` refers to the visual setting. It is not the same as the fallback CLI `background` parameter, which controls output transparency behavior.
+- Fallback-only execution notes such as `Quality:`, `Input fidelity:`, masks, output format, and output paths belong in the CLI path only. Do not treat them as built-in `image_gen` tool arguments.
+
+Augmentation rules:
+- Keep it short.
+- Add only the details needed to improve the prompt materially.
+- For edits, explicitly list invariants (`change only X; keep Y unchanged`).
+- If any critical detail is missing and blocks success, ask a question; otherwise proceed.
+
+## Examples
+
+### Generation example (hero image)
+```text
+Use case: product-mockup
+Asset type: landing page hero
+Primary request: a minimal hero image of a ceramic coffee mug
+Style/medium: clean product photography
+Composition/framing: wide composition with usable negative space for page copy if needed
+Lighting/mood: soft studio lighting
+Constraints: no logos, no text, no watermark
+```
+
+### Edit example (invariants)
+```text
+Use case: precise-object-edit
+Asset type: product photo background replacement
+Primary request: replace only the background with a warm sunset gradient
+Constraints: change only the background; keep the product and its edges unchanged; no text; no watermark
+```
+
+## Prompting best practices
+- Structure prompt as scene/backdrop -> subject -> details -> constraints.
+- Include intended use (ad, UI mock, infographic) to set the mode and polish level.
+- Use camera/composition language for photorealism.
+- Only use SVG/vector stand-ins when the user explicitly asked for vector output or a non-image placeholder.
+- Quote exact text and specify typography + placement.
+- For tricky words, spell them letter-by-letter and require verbatim rendering.
+- For multi-image inputs, reference images by index and describe how they should be used.
+- For edits, repeat invariants every iteration to reduce drift.
+- Iterate with single-change follow-ups.
+- If the prompt is generic, add only the extra detail that will materially help.
+- If the prompt is already detailed, normalize it instead of expanding it.
+- For CLI fallback only, see `references/cli.md` and `references/image-api.md` for model, `quality`, `input_fidelity`, masks, output format, and output-path guidance.
+- For transparent images, use the built-in-first chroma-key workflow unless the request is complex enough to need true CLI transparency; ask before switching to CLI `gpt-image-1.5`.
+
+More principles shared by both modes: `references/prompting.md`.
+Copy/paste specs shared by both modes: `references/sample-prompts.md`.
+
+## Guidance by asset type
+Asset-type templates (website assets, game assets, wireframes, logo) are consolidated in `references/sample-prompts.md`.
+
+## gpt-image-2 guidance for CLI fallback
+
+The fallback CLI defaults to `gpt-image-2`.
+
+- Use `gpt-image-2` for new CLI/API workflows unless the request needs true model-native transparent output.
+- If a transparent request may need CLI fallback, ask before using `gpt-image-1.5` unless the user already explicitly requested `gpt-image-1.5`, `scripts/image_gen.py`, or CLI fallback. Explain that the built-in chroma-key path is the default, but true transparency requires `gpt-image-1.5` because `gpt-image-2` does not support `background=transparent`.
+- `gpt-image-2` always uses high fidelity for image inputs; do not set `input_fidelity` with this model.
+- `gpt-image-2` supports `quality` values `low`, `medium`, `high`, and `auto`.
+- Use `quality low` for fast drafts, thumbnails, and quick iterations. Use `medium`, `high`, or `auto` for final assets, dense text, diagrams, identity-sensitive edits, or high-resolution outputs.
+- Square images are typically fastest to generate. Use `1024x1024` for fast square drafts.
+- If the user asks for 4K-style output, use `3840x2160` for landscape or `2160x3840` for portrait.
+- `gpt-image-2` size may be `auto` or `WIDTHxHEIGHT` if all constraints hold: max edge `<= 3840px`, both edges multiples of `16px`, long-to-short ratio `<= 3:1`, total pixels between `655,360` and `8,294,400`.
+
+Popular `gpt-image-2` sizes:
+- `1024x1024` square
+- `1536x1024` landscape
+- `1024x1536` portrait
+- `2048x2048` 2K square
+- `2048x1152` 2K landscape
+- `3840x2160` 4K landscape
+- `2160x3840` 4K portrait
+- `auto`
+
+## Fallback CLI mode only
+
+### Temp and output conventions
+These conventions apply only to the CLI fallback. They do not describe built-in `image_gen` output behavior.
+- Use `tmp/imagegen/` for intermediate files (for example JSONL batches); delete them when done.
+- Write final artifacts under `output/imagegen/`.
+- Use `--out` or `--out-dir` to control output paths; keep filenames stable and descriptive.
+
+### Dependencies
+Prefer `uv` for dependency management in this repo.
+
+Required Python package:
+```bash
+uv pip install openai
+```
+
+Required for local chroma-key removal and optional downscaling:
+```bash
+uv pip install pillow
+```
+
+Portability note:
+- If you are using the installed skill outside this repo, install dependencies into that environment with its package manager.
+- In uv-managed environments, `uv pip install ...` remains the preferred path.
+
+### Environment
+- `OPENAI_API_KEY` must be set for live API calls.
+- Do not ask the user for `OPENAI_API_KEY` when using the built-in `image_gen` tool.
+- Never ask the user to paste the full key in chat. Ask them to set it locally and confirm when ready.
+
+If the key is missing, give the user these steps:
+1. Create an API key in the OpenAI platform UI: https://platform.openai.com/api-keys
+2. Set `OPENAI_API_KEY` as an environment variable in their system.
+3. Offer to guide them through setting the environment variable for their OS/shell if needed.
+
+If installation is not possible in this environment, tell the user which dependency is missing and how to install it into their active environment.
+
+### Script-mode notes
+- CLI commands + examples: `references/cli.md`
+- API parameter quick reference: `references/image-api.md`
+- Network approvals / sandbox settings for CLI mode: `references/codex-network.md`
+
+## Reference map
+- `references/prompting.md`: shared prompting principles for both modes.
+- `references/sample-prompts.md`: shared copy/paste prompt recipes for both modes.
+- `references/cli.md`: fallback-only CLI usage via `scripts/image_gen.py`.
+- `references/image-api.md`: fallback-only API/CLI parameter reference.
+- `references/codex-network.md`: fallback-only network/sandbox troubleshooting for CLI mode.
+- `scripts/image_gen.py`: fallback-only CLI implementation. Do not load or use it unless the user explicitly chooses CLI mode or explicitly confirms a transparent request's true CLI transparency fallback.
+- `$CODEX_HOME/skills/.system/imagegen/scripts/remove_chroma_key.py`: local post-processing helper for built-in transparent-image requests.
+
+exec
+/bin/zsh -lc "sed -n '1,260p' img/dock/_copy_v2_11.txt" in /Users/shinnomika/git/Form-link-page
+ succeeded in 0ms:
+### ヒーロー
+
+こんな声だっけ？
+声が老けた気がする。
+喉に、なにか引っかかる感じがある。
+
+声の人間ドック
+
+あなたの声を、測ります。
+年に1回の、声の総合健診です。
+
+受付: 9月11日(金)12:00 〜 9月18日(金)23:59・先着30名
+
+### 問題提起
+
+最近、声が老けてきた気がする。
+喉に、なにか引っかかった感じで話している。
+録音した自分の声を聞いて、「こんな声だったっけ」と思った。
+
+気になってはいる。でも、どうすればいいか分からないまま、毎日その声で話しています。
+自分の声のことを、じつは一番知らないのは自分です。
+
+### 解決策
+
+声にも、健康診断があっていい。そう思って、健康診断の声バージョンを作りました。
+
+身体と同じで、声も放っておくと、気づかないうちに変わります。
+ヨガや運動のように、ふだんの声に一度、意識を向ける。
+スカッと声が出るのは、それだけで気持ちのいいものです。
+
+声の人間ドックは、声を録って送るだけの総合健診です。
+検査結果の数値と、20年聴いてきたわたしの耳で、あなたの声のいまを1枚のレポートにまとめます。
+
+- オンラインで完結します
+- 録音はスマホでできます（専用の機材は要りません）
+
+ボイストレーナーみか（ボイストレーナー歴20年目・Udemy講師）
+
+### 受け取るもの
+
+分析結果レポート（10月末までにお届けします）
+
+- 検査結果: 声の高さ・速さ・間・響き・抑揚・語尾・声量の安定。7つの項目を数値で
+- 所見: 検査結果をもとに、あなたの声の状態を詳しくお伝えします
+- 今年の処方箋: 日常の中でできる、ボイストレーナーからのアドバイスをひとつ
+
+※ 数値は、録音環境の影響を受けます。静かなところでの録音をおすすめします。
+
+### 受診の流れ
+
+1. 申し込む
+2. 受診キットが届く（録音の手順のご案内）
+3. 9月30日(水)までに録音を提出する
+4. 10月末までに、分析結果レポートが届く
+
+### 料金
+
+~~12,800円~~ 9,800円（年1回）
+
+今年受診された方は、来年からもずっと9,800円です。
+来年の新規受付は12,800円になります。
+お支払いは毎年の自動更新です。次回の決済日の前日までに、いつでも解約できます。
+
+＞＞ 声の人間ドックに申し込む
+
+### 先着10名の方へ
+
+レポートとは別に、「あなたの声の分析」を音声でお届けします。
+Voicyでやっている「◯◯さんの声の分析」の、あなた版です。
+5〜10分ほど、あなたの声について話した音声をお届けします。
+
+### よくある質問
+
+Q. 受けたら声は良くなりますか？
+A. 受けただけで良くなるわけではありません。ですが、改善点が見えます。今年の処方箋を1つお付けするので、取り組んでみてください。声は、変わっていきます。
+
+Q. なぜ年に1回なのですか？
+A. 健康診断と同じ形にしています。声は1年でも変わります。だから毎年、同じ条件で測るのがおすすめです。1年後にもう一度録ると、その1年で何が変わったかが見えます。
+
+Q. 録音がうまくできるか不安です
+A. 受診キットの手順どおりに録って送るだけで大丈夫です。上手に話す必要はありません。ふだんの声を聴かせてください。
+
+### 締め
+
+あなたの今の声、残しておきましょう。
+受付は9月18日(金)23:59までです。
+
+＞＞ 声の人間ドックに申し込む
+
+---
+exec
+/bin/zsh -lc 'find . -maxdepth 3 -type f | sort' in /Users/shinnomika/git/Form-link-page
+ succeeded in 0ms:
+./.claude/settings.json
+./.git/COMMIT_EDITMSG
+./.git/FETCH_HEAD
+./.git/HEAD
+./.git/ORIG_HEAD
+./.git/config
+./.git/description
+./.git/hooks/applypatch-msg.sample
+./.git/hooks/commit-msg.sample
+./.git/hooks/fsmonitor-watchman.sample
+./.git/hooks/post-update.sample
+./.git/hooks/pre-applypatch.sample
+./.git/hooks/pre-commit.sample
+./.git/hooks/pre-merge-commit.sample
+./.git/hooks/pre-push
+./.git/hooks/pre-push.sample
+./.git/hooks/pre-rebase.sample
+./.git/hooks/pre-receive.sample
+./.git/hooks/prepare-commit-msg.sample
+./.git/hooks/push-to-checkout.sample
+./.git/hooks/sendemail-validate.sample
+./.git/hooks/update.sample
+./.git/index
+./.git/info/exclude
+./.git/logs/HEAD
+./.git/packed-refs
+./ans1.html
+./ans2.html
+./ans3.html
+./ans4.html
+./ans5.html
+./booking.html
+./dock-apply-v3.html
+./dock-apply-v4.html
+./dock-apply-v5.html
+./dock-apply.html
+./dock-start.html
+./dock-tokuten.html
+./img/dock/_codex_v6.log
+./img/dock/_copy_v2_11.txt
+./img/dock/hero.jpg
+./img/dock/hero.png
+./img/dock/mika.jpg
+./img/dock/nayami1.jpg
+./img/dock/nayami1.png
+./img/dock/nayami2.jpg
+./img/dock/nayami2.png
+./img/dock/nayami3.jpg
+./img/dock/nayami3.png
+./img/dock_report_sample.png
+./img/henka_1nen.png
+./img/henka_1nen.webp
+./img/hero_taihi.png
+./img/hero_taihi.webp
+./img/kenshin_annai.png
+./img/kenshin_annai.webp
+./img/posts/kenshin_x.png
+./index.html
+./koe-app-privacy.html
+./koe-checkup-preview.png
+./koe-checkup.html
+./koe-diary/data.json
+./koe-diary/icon.svg
+./koe-diary/index.html
+./koe-diary/manifest.json
+./koe-diary/sw.js
+./pages/coaching-6months.html
+./pages/index.html
+./pages/koe-karte.html
+./pages/lesson-3months.html
+./pages/maintenance.html
+./video/kenshin_reel1_ig.mp4
+./video/kenshin_reel1_ig_v2.mp4
+./video/kenshin_reel1_ig_v3.mp4
+./video/kenshin_reel1_ig_v4.mp4
+./video/kenshin_reel1_st_v4.mp4
+./video/kenshin_reel1_x.mp4
+./video/kenshin_reel1_x_v2.mp4
+./video/kenshin_reel1_x_v3.mp4
+./video/kenshin_reel1_x_v4.mp4
+./video/kenshin_reel2_ig.mp4
+./video/kenshin_reel2_x.mp4
+./video/kenshin_reel2a_ig.mp4
+./video/kenshin_reel2a_ig_v4.mp4
+./video/kenshin_reel2a_st_v4.mp4
+./video/kenshin_reel2a_x.mp4
+./video/kenshin_reel2a_x_v4.mp4
+./video/kenshin_reel2b_ig.mp4
+./video/kenshin_reel2b_ig_v4.mp4
+./video/kenshin_reel2b_st_v4.mp4
+./video/kenshin_reel2b_x.mp4
+./video/kenshin_reel2b_x_v4.mp4
+./video/kenshin_reel3_ig.mp4
+./video/kenshin_reel3_ig_v2.mp4
+./video/kenshin_reel3_ig_v4.mp4
+./video/kenshin_reel3_st_v4.mp4
+./video/kenshin_reel3_x.mp4
+./video/kenshin_reel3_x_v2.mp4
+./video/kenshin_reel3_x_v4.mp4
+./video/koe_bunseki_promo_16x9_v1.mp4
+./yoyaku.html
+
+exec
+/bin/zsh -lc 'ls -la img img/dock && file img/dock/mika.jpg img/dock_report_sample.png 2>/dev/null' in /Users/shinnomika/git/Form-link-page
+ succeeded in 0ms:
+img:
+total 13616
+drwxr-xr-x  11 shinnomika  staff      352 Sep  8 18:39 .
+drwxr-xr-x  25 shinnomika  staff      800 Sep  8 19:10 ..
+drwxr-xr-x  13 shinnomika  staff      416 Sep  8 19:22 dock
+-rw-r--r--   1 shinnomika  staff   630849 Sep  8 09:56 dock_report_sample.png
+-rw-r--r--   1 shinnomika  staff  1414980 Jul 29 16:51 henka_1nen.png
+-rw-r--r--   1 shinnomika  staff    20688 Jul 29 16:52 henka_1nen.webp
+-rw-r--r--   1 shinnomika  staff  2502124 Jul 29 16:51 hero_taihi.png
+-rw-r--r--   1 shinnomika  staff    56624 Aug  4 06:45 hero_taihi.webp
+-rw-r--r--   1 shinnomika  staff  2281606 Jul 29 16:51 kenshin_annai.png
+-rw-r--r--   1 shinnomika  staff    46300 Jul 29 16:52 kenshin_annai.webp
+drwxr-xr-x   3 shinnomika  staff       96 Aug 28 10:48 posts
+
+img/dock:
+total 8816
+drwxr-xr-x  13 shinnomika  staff      416 Sep  8 19:22 .
+drwxr-xr-x  11 shinnomika  staff      352 Sep  8 18:39 ..
+-rw-r--r--   1 shinnomika  staff    37419 Sep  8 19:22 _codex_v6.log
+-rw-r--r--   1 shinnomika  staff     3817 Sep  8 19:21 _copy_v2_11.txt
+-rw-r--r--   1 shinnomika  staff    66056 Sep  8 18:42 hero.jpg
+-rw-r--r--   1 shinnomika  staff  1071781 Sep  8 18:41 hero.png
+-rw-r--r--   1 shinnomika  staff    81889 Sep  8 19:10 mika.jpg
+-rw-r--r--   1 shinnomika  staff    33611 Sep  8 18:45 nayami1.jpg
+-rw-r--r--   1 shinnomika  staff  1042542 Sep  8 18:43 nayami1.png
+-rw-r--r--   1 shinnomika  staff    30720 Sep  8 18:45 nayami2.jpg
+-rw-r--r--   1 shinnomika  staff  1003300 Sep  8 18:44 nayami2.png
+-rw-r--r--   1 shinnomika  staff    35695 Sep  8 18:45 nayami3.jpg
+-rw-r--r--   1 shinnomika  staff  1088271 Sep  8 18:45 nayami3.png
+img/dock/mika.jpg:          JPEG image data, JFIF standard 1.01, aspect ratio, density 1x1, segment length 16, baseline, precision 8, 746x900, components 3
+img/dock_report_sample.png: PNG image data, 2000 x 4138, 8-bit/color RGB, non-interlaced
+
+codex
+`img/dock` にはすでに `hero.png` と `nayami1〜3.png` があり、今回の指定に近い素材名です。まず寸法と見た目、生成ログを確認して、再生成が必要か判断します。
+exec
+/bin/zsh -lc "sed -n '1,220p' img/dock/_codex_v6.log" in /Users/shinnomika/git/Form-link-page
+exec
+/bin/zsh -lc 'file img/dock/hero.png img/dock/nayami1.png img/dock/nayami2.png img/dock/nayami3.png img/dock/hero.jpg img/dock/nayami1.jpg img/dock/nayami2.jpg img/dock/nayami3.jpg' in /Users/shinnomika/git/Form-link-page
+ succeeded in 0ms:
+img/dock/hero.png:    PNG image data, 1672 x 941, 8-bit/color RGB, non-interlaced
+img/dock/nayami1.png: PNG image data, 1254 x 1254, 8-bit/color RGB, non-interlaced
+img/dock/nayami2.png: PNG image data, 1254 x 1254, 8-bit/color RGB, non-interlaced
+img/dock/nayami3.png: PNG image data, 1254 x 1254, 8-bit/color RGB, non-interlaced
+img/dock/hero.jpg:    JPEG image data, JFIF standard 1.01, aspect ratio, density 1x1, segment length 16, baseline, precision 8, 1400x788, components 3
+img/dock/nayami1.jpg: JPEG image data, JFIF standard 1.01, aspect ratio, density 1x1, segment length 16, baseline, precision 8, 640x640, components 3
+img/dock/nayami2.jpg: JPEG image data, JFIF standard 1.01, aspect ratio, density 1x1, segment length 16, baseline, precision 8, 640x640, components 3
+img/dock/nayami3.jpg: JPEG image data, JFIF standard 1.01, aspect ratio, density 1x1, segment length 16, baseline, precision 8, 640x640, components 3
+
+ succeeded in 0ms:
+Reading additional input from stdin...
+2026-09-08T10:22:16.479605Z ERROR codex_models_manager::cache: failed to load models cache: missing field `base_instructions` at line 132 column 5
+OpenAI Codex v0.145.0
+--------
+workdir: /Users/shinnomika/git/Form-link-page
+model: gpt-5.5
+provider: openai
+approval: never
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0808a-38d2-7a60-ab00-c3b618d18d1e
+--------
+user
+あなたはWebデザイナーです。このフォルダ（GitHub Pagesの静的サイト）に、販売ページ dock-apply-v6.html を1ファイルで作ってください（CSSはファイル内・外部JSなし・Google Fonts可）。
+
+【商品】声の人間ドック（ボイストレーナーみか）。年に1回、声を録って送るだけで、検査数値とボイストレーナーの所見が1枚のレポートで届く総合健診。9,800円/年。受付は9月11日(金)12:00〜9月18日(金)23:59・先着30名。
+
+【文言＝絶対に変えない】img/dock/_copy_v2_11.txt に、この順番で載せる本文があります。見出し・本文・FAQ・料金・締めの言葉を、1文字も変えず・足さず・減らさず、そのまま使ってください（デザイン用の短いラベルは、日本語で2〜4文字までなら追加可。英語は使わない）。「＞＞ 声の人間ドックに申し込む」はボタンにし、リンク先は https://buy.stripe.com/8x29ASfxRgYF7q8cTNaAw0f 。料金の「~~12,800円~~」は打ち消し線（<s>）で定価として見せる。
+
+【参考】添付の参考画像2枚のような、商用のランディングページの作り（大きな見出し・お悩み3つをカード＋絵で・『解決します』の3本柱・色の面で区切る・最後に申込の面）。これを目指す。ただし、可愛すぎず、硬すぎず。9,800円の『健診』の格が出ること。
+
+【使う素材】
+- img/dock/mika.jpg = ボイストレーナーみか本人の写真。トップで『誰のサービスか』が分かるように使う。ただし大きく1枚で置かない（見出しの横に小さめ、丸や角丸で）
+- img/dock_report_sample.png = 届くレポートの見本（受け取るものの節で大きく見せる）
+- 絵は新しく GPT Image 2 で作って img/dock/ に保存して使うこと。全部同じテイスト（温かいフラットなイラスト・線少なめ・生成り〜白背景・差し色 #E8815B）で統一する。人物は描いてもよいが大きな目の幼いキャラにしない（大人の女性・落ち着いた表情）。文字は絵に入れない。必要な絵: トップ用1枚（横長）、お悩み用3枚（正方形・『声が老けた気がする』『喉に引っかかった感じで話す』『録音を聞いてこんな声だったっけ』）、流れ用は不要。
+- 既存の img/henka_1nen.webp（水彩）は使わない（テイストが混ざるため）
+
+【色・文字】ブランド色: コーラル #E8815B（メイン）・#FFF8F5（背景ピーチ）・文字 #3D3535。見出しは Noto Sans JP の太字（丸ゴシック・明朝は使わない）。絵文字は使わない。
+
+【構成】トップ（独り言3行→商品名→約束→受付期間・写真）→お悩み3つ（絵つき）→『声にも、健康診断があっていい』→受け取るもの（レポート見本大きく）→受診の流れ（4ステップ）→料金（定価打ち消し・9,800円・自動更新の説明・申込ボタン）→先着10名→よくある質問→締め（申込ボタン）→フッター（特定商取引法 https://voice-mika.com/legal/ ・Experisent）。※医療機関の検査ではありません。喉の痛み・違和感が続く場合は耳鼻咽喉科の受診をおすすめします。の1行を受け取るものの下に。
+
+【必須】スマホ幅（390px）で崩れないこと。画像は width/height と loading=lazy。完成したら、作ったファイル名と絵のファイル名を最後に列挙してください。
+codex
+`imagegen` と `frontend-design` のスキルを使います。まず既存ファイルと指定コピーを確認して、書き込み可能性も含めて作業範囲を見ます。
+exec
+/bin/zsh -lc "sed -n '1,220p' /Users/shinnomika/.codex/skills/.system/imagegen/SKILL.md" in /Users/shinnomika/git/Form-link-page
+exec
+/bin/zsh -lc "sed -n '1,260p' /Users/shinnomika/.agents/skills/frontend-design/SKILL.md" in /Users/shinnomika/git/Form-link-page
+ succeeded in 0ms:
+---
+name: frontend-design
+description: Guidance for distinctive, intentional visual design when building new UI or reshaping an existing one. Helps with aesthetic direction, typography, and making choices that don't read as templated defaults.
+license: Complete terms in LICENSE.txt
+---
+
+# Frontend Design
+
+Approach this as the design lead at a small studio known for giving every client a visual identity that could not be mistaken for anyone else's. This client has already rejected proposals that felt templated, and is paying for a distinctive point of view: make deliberate, opinionated choices about palette, typography, and layout that are specific to this brief, and take one real aesthetic risk you can justify.
+
+## Ground it in the subject
+
+If the brief does not pin down what the product or subject is, pin it yourself before designing: name one concrete subject, its audience, and the page's single job, and state your choice. If there's any information in your memory about the human's preferences, context about what they're building, or designs you've made before – use that as a hint. The subject's own world, its materials, instruments, artifacts, and vernacular, is where distinctive choices come from. Build with the brief's real content and subject matter throughout.
+
+## Design principles
+
+For web designs, the hero is a thesis. Open with the most characteristic thing in the subject's world, in whatever form makes sense for it: a headline, an image, an animation, a live demo, an interactive moment. Be deliberate with your choice: a big number with a small label, supporting stats, and a gradient accent is the template answer, only use if that's truly the best option.
+
+Typography carries the personality of the page. Pair the display and body faces deliberately, not the same families you would reach for on any other project, and set a clear type scale with intentional weights, widths, and spacing. Make the type treatment itself a memorable part of the design, not a neutral delivery vehicle for the content.
+
+Structure is information. Structural devices, numbering, eyebrows, dividers, labels, should encode something true about the content, not decorate it. Many generic designs use numbered markers (01 / 02 / 03), but that's only appropriate if the content actually is a sequence - like a real process or a typed timeline where order carries information the reader needs. Question if choices like numbered markers actually make sense before incorporating them.
+
+Leverage motion deliberately. Think about where and if animation can serve the subject: a page-load sequence, a scroll-triggered reveal, hover micro-interactions, ambient atmosphere. An orchestrated moment usually lands harder than scattered effects; choose what the direction calls for. However, sometimes less is more, and extra animation contributes to the feeling that the design is AI-generated.
+
+Match complexity to the vision. Maximalist directions need elaborate execution; minimal directions need precision in spacing, type, and detail. Elegance is executing the chosen vision well.
+
+Consider written content carefully. Often a design brief may not contain real content, and it's up to you to come up with copy. Copy can make a design feel as templated as the design itself. See the below section on writing for more guidance.
+
+## Process: brainstorm, explore, plan, critique, build, critique again
+
+For calibration: AI-generated design right now clusters around three looks: (1) a warm cream background (near #F4F1EA) with a high-contrast serif display and a terracotta accent; (2) a near-black background with a single bright acid-green or vermilion accent; (3) a broadsheet-style layout with hairline rules, zero border-radius, and dense newspaper-like columns. All three are legitimate for some briefs, but they are defaults rather than choices, and they appear regardless of subject. Where the brief pins down a visual direction, follow it exactly — the brief's own words always win, including when it asks for one of these looks. Where it leaves an axis free, don't spend that freedom on one of these defaults. Just like a human designer who's hired, there's often a careful balance between doing what you're good at and taking each project as a chance to experiment and learn.
+
+Work in two passes. First, brainstorm a short design plan based on the human's design brief: create a compact token system with color, type, layout, and signature. Color: describe the palette as 4–6 named hex values. Type: the typefaces for 2+ roles (a characterful display face that's used with restraint, a complementary body face, and a utility face for captions or data if needed). Layout: a layout concept, using one-sentence prose descriptions and ASCII wireframes to ideate and compare. Signature: the single unique element this page will be remembered by that embodies the brief in an appropriate way.
+
+Then review that plan against the brief before building: if any part of it reads like the generic default you would produce for any similar page (work through a similar prompt to see if you arrive somewhere similar) rather than a choice made for this specific brief — revise that part, say what you changed and why. Only after you've confirmed the relative uniqueness of your design plan should you start to write the code, following the revised plan exactly and deriving every color and type decision from it.
+
+When writing the code, be careful of structuring your CSS selector specificities. It's easy to generate CSS classes that cancel each other out (especially with a type-based selector like .section and a element-based selector like .cta). This can happen often with paddings/margins between sections.
+
+Try to do a lot of this planning and iteration in your thinking, and only show ideas to the user when you have higher confidence it'll delight them.
+
+## Restraint and self-critique
+
+Spend your boldness in one place. Let the signature element be the one memorable thing, keep everything around it quiet and disciplined, and cut any decoration that does not serve the brief. Not taking a risk can be a risk itself! Build to a quality floor without announcing it: responsive down to mobile, visible keyboard focus, reduced motion respected. Critique your own work as you build, taking screenshots if your environment supports it – a picture is worth 1000 tokens. Consider Chanel's advice: before leaving the house, take a look in the mirror and remove one accessory. Human creators have memory and always try to do something new, so if you have a space to quickly jot down notes about what you've tried, it can help you in future passes.
+
+## More on writing in design
+
+Words appear in a design for one reason: to make it easier to understand, and therefore easier to use. They are design material, not decoration. Bring the same intentionality to copy that you would bring to spacing and color. Before writing anything, ask what the design needs to say, and how it can best be said to help the person navigate the experience.
+
+Write from the end user's side of the screen. Name things by what people control and recognize, never by how the system is built. A person manages notifications, not webhook config. Describe what something does in plain terms rather than selling it. Being specific is always better than being clever.
+
+Use active voice as default. A control should say exactly what happens when it's used: "Save changes," not "Submit." An action keeps the same name through the whole flow, so the button that says "Publish" produces a toast that says "Published." The vocabulary of an interface is the signposting for someone navigating the product. Cohesion and consistency are how people learn their way around.
+
+Treat failure and emptiness as moments for direction, not mood. Explain what went wrong and how to fix it, in the interface's voice rather than a person's. Errors don't apologize, and they are never vague about what happened. An empty screen is an invitation to act.
+
+Keep the register conversational and tuned: plain verbs, sentence case, no filler, with tone matched to the brand and the audience. Let each element do exactly one job. A label labels, an example demonstrates, and nothing quietly does double duty.
+
+ succeeded in 0ms:
+---
+name: "imagegen"
+description: "Generate or edit raster images when the task benefits from AI-created bitmap visuals such as photos, illustrations, textures, sprites, mockups, or transparent-background cutouts. Use when Codex should create a brand-new image, transform an existing image, or derive visual variants from references, and the output should be a bitmap asset rather than repo-native code or vector. Do not use when the task is better handled by editing existing SVG/vector/code-native assets, extending an established icon or logo system, or building the visual directly in HTML/CSS/canvas."
+---
+
+# Image Generation Skill
+
+Generates or edits images for the current project (for example website assets, game assets, UI mockups, product mockups, wireframes, logo design, photorealistic images, or infographics).
+
+## Top-level modes and rules
+
+This skill has exactly two top-level modes:
+
+- **Default built-in tool mode (preferred):** built-in `image_gen` tool for normal image generation, editing, and simple transparent-image requests. Does not require `OPENAI_API_KEY`.
+- **Fallback CLI mode:** `scripts/image_gen.py` CLI. Use when the user explicitly asks for the CLI/API/model path, or after the user explicitly confirms a true model-native transparency fallback with `gpt-image-1.5`. Requires `OPENAI_API_KEY`.
+
+Within CLI fallback, the CLI exposes three subcommands:
+
+- `generate`
+- `edit`
+- `generate-batch`
+
+Rules:
+- Use the built-in `image_gen` tool by default for normal image generation and editing requests.
+- Do not switch to CLI fallback for ordinary quality, size, or file-path control.
+- If the user explicitly asks for a transparent image/background, stay on built-in `image_gen` first: prompt for a flat removable chroma-key background, then remove it locally with the installed helper at `$CODEX_HOME/skills/.system/imagegen/scripts/remove_chroma_key.py`.
+- Never silently switch from built-in `image_gen` or CLI `gpt-image-2` to CLI `gpt-image-1.5`. Treat this as a model/path downgrade and ask the user before doing it, unless the user has already explicitly requested `gpt-image-1.5`, `scripts/image_gen.py`, or CLI fallback.
+- If a transparent request appears too complex for clean chroma-key removal, asks for true/native transparency, or local removal fails validation, explain that true transparency requires CLI `gpt-image-1.5 --background transparent --output-format png` because `gpt-image-2` does not support `background=transparent`, then ask whether to proceed. Run the CLI fallback only after the user confirms.
+- The word `batch` by itself does not mean CLI fallback. If the user asks for many assets or says to batch-generate assets without explicitly asking for CLI/API/model controls, stay on the built-in path and issue one built-in call per requested asset or variant.
+- If the built-in tool fails or is unavailable, tell the user the CLI fallback exists and that it requires `OPENAI_API_KEY`. Proceed only if the user explicitly asks for that fallback.
+- If the user explicitly asks for CLI mode, use the bundled `scripts/image_gen.py` workflow. Do not create one-off SDK runners.
+- Never modify `scripts/image_gen.py`. If something is missing, ask the user before doing anything else.
+
+Built-in save-path policy:
+- In built-in tool mode, Codex saves generated images under `$CODEX_HOME/*` by default.
+- Do not describe or rely on OS temp as the default built-in destination.
+- Do not describe or rely on a destination-path argument (if any) on the built-in `image_gen` tool. If a specific location is needed, generate first and then move or copy the selected output from `$CODEX_HOME/generated_images/...`.
+- Save-path precedence in built-in mode:
+  1. If the user names a destination, move or copy the selected output there.
+  2. If the image is meant for the current project, move or copy the final selected image into the workspace before finishing.
+  3. If the image is only for preview or brainstorming, render it inline; the underlying file can remain at the default `$CODEX_HOME/*` path.
+- Never leave a project-referenced asset only at the default `$CODEX_HOME/*` path.
+- Do not overwrite an existing asset unless the user explicitly asked for replacement; otherwise create a sibling versioned filename such as `hero-v2.png` or `item-icon-edited.png`.
+
+Shared prompt guidance for both modes lives in `references/prompting.md` and `references/sample-prompts.md`.
+
+Fallback-only docs/resources for CLI mode:
+- `references/cli.md`
+- `references/image-api.md`
+- `references/codex-network.md`
+- `scripts/image_gen.py`
+
+Local post-processing helper:
+- `$CODEX_HOME/skills/.system/imagegen/scripts/remove_chroma_key.py`: removes a flat chroma-key background from a generated image and writes a PNG/WebP with alpha. Prefer auto-key sampling, soft matte, and despill for antialiased edges.
+
+## When to use
+- Generate a new image (concept art, product shot, cover, website hero)
+- Generate a new image using one or more reference images for style, composition, or mood
+- Edit an existing image (inpainting, lighting or weather transformations, background replacement, object removal, compositing, transparent background)
+- Produce many assets or variants for one task
+
+## When not to use
+- Extending or matching an existing SVG/vector icon set, logo system, or illustration library inside the repo
+- Creating simple shapes, diagrams, wireframes, or icons that are better produced directly in SVG, HTML/CSS, or canvas
+- Making a small project-local asset edit when the source file already exists in an editable native format
+- Any task where the user clearly wants deterministic code-native output instead of a generated bitmap
+
+## Decision tree
+
+Think about two separate questions:
+
+1. **Intent:** is this a new image or an edit of an existing image?
+2. **Execution strategy:** is this one asset or many assets/variants?
+
+Intent:
+- If the user wants to modify an existing image while preserving parts of it, treat the request as **edit**.
+- If the user provides images only as references for style, composition, mood, or subject guidance, treat the request as **generate**.
+- If the user provides no images, treat the request as **generate**.
+
+Built-in edit semantics:
+- Built-in edit mode is for images already visible in the conversation context, such as attached images or images generated earlier in the thread.
+- If the user wants to edit a local image file with the built-in tool, first load it with built-in `view_image` tool so the image is visible in the conversation context, then proceed with the built-in edit flow.
+- Do not promise arbitrary filesystem-path editing through the built-in tool.
+- If a local file still needs direct file-path control, masks, or other explicit CLI-only parameters, use the explicit CLI fallback only when the user asks for it.
+- For edits, preserve invariants aggressively and save non-destructively by default.
+
+Execution strategy:
+- In the built-in default path, produce many assets or variants by issuing one `image_gen` call per requested asset or variant.
+- In the CLI fallback path, use the CLI `generate-batch` subcommand only when the user explicitly chose CLI mode and needs many prompts/assets.
+- For many distinct assets, do not use `n` as a substitute for separate prompts. `n` is for variants of one prompt; distinct assets need distinct built-in calls or distinct CLI `generate-batch` jobs.
+
+Assume the user wants a new image unless they clearly ask to change an existing one.
+
+## Workflow
+1. Decide the top-level mode: built-in by default, including simple transparent-output requests; fallback CLI only if explicitly requested or after the user explicitly confirms a transparent-output fallback.
+2. Decide the intent: `generate` or `edit`.
+3. Decide whether the output is preview-only or meant to be consumed by the current project.
+4. Decide the execution strategy: single asset vs repeated built-in calls vs CLI `generate-batch`.
+5. Collect inputs up front: prompt(s), exact text (verbatim), constraints/avoid list, and any input images.
+6. For every input image, label its role explicitly:
+   - reference image
+   - edit target
+   - supporting insert/style/compositing input
+7. If the edit target is only on the local filesystem and you are staying on the built-in path, inspect it with `view_image` first so the image is available in conversation context.
+8. If the user asked for a photo, illustration, sprite, product image, banner, or other explicitly raster-style asset, use `image_gen` rather than substituting SVG/HTML/CSS placeholders. If the request is for an icon, logo, or UI graphic that should match existing repo-native SVG/vector/code assets, prefer editing those directly instead.
+9. Augment the prompt based on specificity:
+   - If the user's prompt is already specific and detailed, normalize it into a clear spec without adding creative requirements.
+   - If the user's prompt is generic, add tasteful augmentation only when it materially improves output quality.
+10. Use the built-in `image_gen` tool by default.
+11. For transparent-output requests, follow the transparent image guidance below: generate with built-in `image_gen` on a flat chroma-key background, copy the selected output into the workspace or `tmp/imagegen/`, run the installed `$CODEX_HOME/skills/.system/imagegen/scripts/remove_chroma_key.py` helper, and validate the alpha result before using it. If this path looks unsuitable or fails, ask before switching to CLI `gpt-image-1.5`.
+12. Inspect outputs and validate: subject, style, composition, text accuracy, and invariants/avoid items.
+13. Iterate with a single targeted change, then re-check.
+14. For preview-only work, render the image inline; the underlying file may remain at the default `$CODEX_HOME/generated_images/...` path.
+15. For project-bound work, move or copy the selected artifact into the workspace and update any consuming code or references. Never leave a project-referenced asset only at the default `$CODEX_HOME/generated_images/...` path.
+16. For batches or multi-asset requests, persist every requested deliverable final in the workspace unless the user explicitly asked to keep outputs preview-only. Discarded variants do not need to be kept unless requested.
+17. If the user explicitly chooses or confirms the CLI fallback, then use the fallback-only docs for model, quality, size, `input_fidelity`, masks, output format, output paths, and network setup.
+18. Always report the final saved path(s) for any workspace-bound asset(s), plus the final prompt or prompt set and whether the built-in tool or fallback CLI mode was used.
+
+## Transparent image requests
+
+Transparent-image requests still use built-in `image_gen` first. Because the built-in tool does not expose a true transparent-background control, create a removable chroma-key source image and then convert the key color to alpha locally.
+
+Default sequence:
+
+exec
+/bin/zsh -lc "sed -n '1,260p' dock-apply-v5.html" in /Users/shinnomika/git/Form-link-page
+ succeeded in 0ms:
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>声の人間ドック 申し込み | ボイストレーナーみか</title>
+<meta name="description" content="あなたの声を測ります。年に1回の、声の総合健診。9,800円（年1回・自動更新）。受付は9月11日(金)12:00から9月18日(金)23:59まで、先着30名。">
+<meta name="robots" content="noindex">
+<!-- =====================================================================
+  声の人間ドック 申込ページ v5（2026-09-08 19:2x みかさん「v3とv4の間・トップの絵は誰のサービスか分からない」→太めゴシック＋角丸控えめ＋みかさんの写真）
+  原稿: 02_Contents/工場/2026-09/20260911_申込ページ/申込ページ_AI-DRAFT.md (v2.10・みかさんGO済み)
+  ⚠️ 文言はv2.10のまま。変えたのは構成・見た目・絵だけ
+  絵: img/dock/*.png（Codex GPT Image 2・公式キャラ）／img/henka_1nen.png（既存・1年の変化）
+  CTA: Stripe決済リンク（声の人間ドック・毎年自動更新 ¥9,800/年）
+===================================================================== -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800&family=Shippori+Mincho:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --coral:#E8815B; --coral-deep:#C9663F; --coral-soft:#FDEFE8; --coral-line:#F3DDD2; --coral-pale:#FBF4EF;
+    --green:#6FA98C; --green-soft:#EAF4EE;
+    --bg:#FFFDFB; --ink:#3D3535; --ink-soft:#8C7A73; --card:#fff;
+    --shadow:0 1px 0 rgba(61,53,53,.06), 0 8px 24px rgba(61,53,53,.05);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--ink);line-height:1.9;font-size:15.5px;-webkit-font-smoothing:antialiased}
+  img{max-width:100%;display:block}
+  .wrap{max-width:960px;margin:0 auto;padding:0 20px}
+  .sec{padding:64px 0}
+  .sec.alt{background:#fff}
+  .sec.peach{background:var(--coral-pale)}
+  .kicker{display:inline-block;color:var(--coral-deep);font-size:12.5px;font-weight:500;letter-spacing:.24em;padding:0 0 6px;margin-bottom:12px;border-bottom:1px solid var(--coral)}
+  h2{font-family:'Noto Sans JP',sans-serif;font-size:26px;font-weight:800;line-height:1.55;margin:0 0 10px;letter-spacing:.03em}
+  h2 .em{color:var(--coral-deep)}
+  .sub{color:var(--ink-soft);font-size:14.5px;margin:0 0 28px}
+  .center{text-align:center}
+  /* ヒーロー */
+  .hero{position:relative;overflow:hidden;background:var(--bg);padding:64px 0 56px}
+  .hero .grid{display:grid;grid-template-columns:1.25fr .75fr;gap:40px;align-items:center}
+  .mutter{font-size:15px;color:var(--ink-soft);line-height:2;margin:0 0 14px;padding-left:14px;border-left:3px solid var(--coral-line)}
+  .tags{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
+  .tag{display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:50%;background:var(--coral);color:#fff;font-weight:900;font-size:14px;font-family:'Shippori Mincho',serif;box-shadow:0 6px 16px rgba(232,129,91,.28)}
+  .tag.g{background:var(--green)}
+  h1{font-family:'Noto Sans JP',sans-serif;font-size:42px;font-weight:800;line-height:1.3;margin:0 0 8px;letter-spacing:.04em}
+  h1 small{display:block;font-size:15px;font-weight:500;color:var(--coral-deep);margin-bottom:8px;letter-spacing:.2em;font-family:'Noto Sans JP',sans-serif}
+  .lead{font-size:18px;font-weight:700;margin:0 0 18px}
+  .term{display:inline-block;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);padding:10px 2px;font-size:14px;font-weight:500;line-height:1.8;letter-spacing:.04em}
+  .term b{color:var(--coral-deep)}
+  .hero-img{border-radius:18px;overflow:hidden;background:#fff;box-shadow:var(--shadow)}
+  .hero-img figure{margin:0}
+  .hero-img figcaption{padding:10px 14px;font-size:13px;color:var(--ink-soft);background:#fff;text-align:center}
+  .hero-img img{aspect-ratio:4/5;object-fit:cover;width:100%}
+  /* ボタン */
+  .cta{display:block;text-align:center;background:var(--coral);color:#fff;text-decoration:none;font-weight:800;font-size:17px;padding:18px 24px;border-radius:12px;box-shadow:0 8px 20px rgba(232,129,91,.28);transition:background .15s;font-family:'Noto Sans JP',sans-serif;letter-spacing:.08em}
+  .cta:hover{background:var(--coral-deep)}
+  .cta-note{text-align:center;font-size:12.5px;color:var(--ink-soft);margin:8px 0 0}
+  /* お悩み3枚 */
+  .cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .ncard{background:#fff;border-radius:14px;padding:26px 22px;border:1px solid #EFE7E2;box-shadow:var(--shadow);text-align:left;position:relative}
+  .ncard .num{font-family:'Shippori Mincho',serif;font-size:34px;color:var(--coral-deep);line-height:1;margin:0 0 12px;display:block}
+  .ncard img{width:150px;height:150px;object-fit:cover;border-radius:50%;margin:6px auto 14px;background:var(--coral-pale)}
+  .ncard p{margin:0;font-weight:500;font-size:15.5px;line-height:1.9}
+  .after{margin:30px auto 0;max-width:640px;padding:0;font-size:16px;font-weight:700;letter-spacing:.02em}
+  /* 解決策 */
+  .solve{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+  .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px}
+  .pill{background:transparent;border-top:1px solid var(--ink);padding:14px 4px 6px;text-align:left}
+  .pill .ic{display:none}
+  .pill b{display:block;font-family:'Noto Sans JP',sans-serif;font-weight:800;font-size:17px;margin-bottom:6px;letter-spacing:.06em}
+  .pill span{font-size:13px;color:var(--ink-soft);line-height:1.7;display:block}
+  .who{margin-top:22px;font-size:13.5px;color:var(--ink-soft)}
+  /* 受け取るもの */
+  .report{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+  .report figure{margin:0;background:#fff;border-radius:14px;padding:12px;border:1px solid #EFE7E2;box-shadow:var(--shadow)}
+  .report figcaption{text-align:center;font-size:12.5px;color:var(--ink-soft);margin-top:8px}
+  .items{list-style:none;margin:0;padding:0}
+  .items li{background:transparent;border-bottom:1px solid #EFE7E2;padding:14px 4px 14px 44px;margin:0;position:relative;font-size:14.5px}
+  .items li::before{content:attr(data-n);position:absolute;left:4px;top:12px;font-family:'Shippori Mincho',serif;font-size:22px;color:var(--coral-deep)}
+  .items li b{display:block;font-size:15.5px;margin-bottom:2px}
+  .note{font-size:12.5px;color:var(--ink-soft);line-height:1.8}
+  /* 流れ */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;position:relative}
+  .step{background:#fff;border-radius:14px;padding:22px 14px 18px;text-align:center;border:1px solid #EFE7E2;box-shadow:var(--shadow);position:relative}
+  .step .n{font-family:'Shippori Mincho',serif;font-size:28px;color:var(--coral-deep);margin:0 0 6px;line-height:1}
+  .step p{margin:0;font-weight:700;font-size:14.5px;line-height:1.7}
+  .step small{display:block;color:var(--ink-soft);font-weight:400;font-size:12.5px;margin-top:4px}
+  /* 料金 */
+  .price{max-width:560px;margin:0 auto;background:#fff;border-radius:18px;padding:36px 28px;text-align:center;border:1.5px solid var(--coral-line);box-shadow:var(--shadow)}
+  .price .anchor{font-size:14px;color:var(--ink-soft);margin:0 0 4px}
+  .price .anchor s{font-size:24px;font-weight:700;text-decoration-thickness:3px;margin-left:6px}
+  .price .amount{font-family:'Shippori Mincho',serif;font-size:54px;font-weight:600;color:var(--coral-deep);line-height:1.1;letter-spacing:.02em}
+  .price .amount span{font-size:18px;font-weight:700;color:var(--ink);margin-left:4px;font-family:'Noto Sans JP',sans-serif}
+  .price .amount-note{font-weight:700;margin:4px 0 14px}
+  .price .sub{font-size:13.5px;color:var(--ink-soft);margin:0 0 20px;line-height:1.9}
+  /* 先着 */
+  .bonus{max-width:640px;margin:26px auto 0;background:transparent;border-left:3px solid var(--coral);padding:4px 0 4px 18px;position:relative}
+  .bonus .badge{display:inline-block;color:var(--coral-deep);font-weight:700;font-size:13.5px;letter-spacing:.14em;margin-bottom:6px}
+  .bonus p{margin:0;font-size:14.5px}
+  /* FAQ */
+  .faq{max-width:720px;margin:0 auto}
+  details{background:transparent;border-bottom:1px solid #EFE7E2;margin:0;padding:0 4px}
+  summary{cursor:pointer;list-style:none;font-weight:700;padding:16px 28px 16px 0;position:relative;font-size:15.5px}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"＋";position:absolute;right:0;top:14px;color:var(--coral-deep);font-weight:400;font-size:20px}
+  details[open] summary::after{content:"−"}
+  details p{margin:0 0 16px;font-size:14.5px;color:#4d4444}
+  .year{max-width:720px;margin:28px auto 0;text-align:center}
+  .year img{border-radius:6px}
+  /* 締め */
+  .closing{background:#4A3F3C;color:#fff;padding:64px 0;text-align:center}
+  .closing h2{color:#fff;font-size:28px}
+  .closing .note{color:rgba(255,255,255,.9);font-size:14px;margin-bottom:22px}
+  .closing .cta{background:var(--coral);color:#fff;max-width:420px;margin:0 auto}
+  footer{text-align:center;font-size:12.5px;color:var(--ink-soft);padding:28px 20px 40px}
+  footer a{color:inherit}
+  @media(max-width:760px){
+    .sec{padding:46px 0}
+    .hero{padding:40px 0 36px}
+    .hero .grid,.solve,.report{grid-template-columns:1fr;gap:22px}
+    .hero-img{order:-1;max-width:260px;margin:0 auto}
+    h1{font-size:31px}
+    h1 small{font-size:17px}
+    .cards3,.pillars,.steps{grid-template-columns:1fr}
+    .steps{grid-template-columns:1fr 1fr}
+    .ncard{padding:20px 18px}
+    h2{font-size:22px}
+    .price .amount{font-size:46px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ヒーロー: 左=独り言3行→商品名→約束→受付、右=絵。独り言は「読者の頭の中の言葉」なので小さく灰色、商品名を主役に -->
+<section class="hero">
+  <div class="wrap">
+    <div class="grid">
+      <div>
+        <p class="mutter">こんな声だっけ？<br>声が老けた気がする。<br>喉に、なにか引っかかる感じがある。</p>
+                <h1><small>年に1回の、声の総合健診</small>声の人間ドック</h1>
+        <p class="lead">あなたの声を、測ります。</p>
+        <div class="term">受付: 9月11日(金)12:00 〜 9月18日(金)23:59<br><b>先着30名</b></div>
+        <p style="margin:14px 0 0;font-size:14px"><a href="#price" style="color:var(--coral-deep);font-weight:700">料金・申し込みへ ↓</a></p>
+      </div>
+      <div class="hero-img"><figure><img src="img/dock/mika.jpg" alt="ボイストレーナーみか"><figcaption>ボイストレーナーみか（ボイストレーナー歴20年目・Udemy講師）</figcaption></figure></div>
+    </div>
+  </div>
+</section>
+
+<!-- お悩み: 3つの独り言を1枚ずつ絵にする（読者が自分の場面を見つける場所） -->
+<section class="sec alt">
+  <div class="wrap">
+    <div class="center"><span class="kicker">こんな声、ありませんか</span></div>
+    <h2 class="center">最近、<span class="em">自分の声</span>が気になる。</h2>
+    <p class="sub center">気になってはいる。でも、どうすればいいか分からないまま、毎日その声で話しています。</p>
+    <div class="cards3">
+      <div class="ncard"><span class="num">01</span><p>最近、声が老けてきた気がする。</p></div>
+      <div class="ncard"><span class="num">02</span><p>喉に、なにか引っかかった感じで話している。</p></div>
+      <div class="ncard"><span class="num">03</span><p>録音した自分の声を聞いて、「こんな声だったっけ」と思った。</p></div>
+    </div>
+    <p class="after center">自分の声のことを、じつは一番知らないのは自分です。</p>
+  </div>
+</section>
+
+<!-- 解決策: 見出しを主張に、3本柱（測る・聴く・整える）で「何をするか」を一目で -->
+<section class="sec peach">
+  <div class="wrap">
+    <div class="center"><span class="kicker">声の人間ドックとは</span></div>
+    <h2 class="center">声にも、<span class="em">健康診断</span>があっていい。</h2>
+    <p class="sub center">そう思って、健康診断の声バージョンを作りました。</p>
+    <div class="solve">
+      <div>
+        <p>身体と同じで、声も放っておくと、気づかないうちに変わります。<br>ヨガや運動のように、ふだんの声に一度、意識を向ける。<br>スカッと声が出るのは、それだけで気持ちのいいものです。</p>
+        <p>声の人間ドックは、声を録って送るだけの総合健診です。<br>検査結果の数値と、20年聴いてきたわたしの耳で、あなたの声のいまを1枚のレポートにまとめます。</p>
+        <p class="who">ボイストレーナーみか（ボイストレーナー歴20年目・Udemy講師）</p>
+      </div>
+      <div class="pillars" style="margin-top:0">
+        <div class="pill"><div class="ic">📱</div><b>録る</b><span>録音はスマホでできます<br>（専用の機材は要りません）</span></div>
+        <div class="pill"><div class="ic">🏠</div><b>送る</b><span>オンラインで完結します</span></div>
+        <div class="pill"><div class="ic">📄</div><b>届く</b><span>あなたの声のいまを<br>1枚のレポートに</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 受け取るもの: 見本を大きく。3項目は番号で -->
+<section class="sec alt">
+  <div class="wrap">
+    <div class="center"><span class="kicker">受け取るもの</span></div>
+    <h2 class="center">分析結果レポート</h2>
+    <p class="sub center">10月末までにお届けします</p>
+    <div class="report">
+      <figure><img src="img/dock_report_sample.png" alt="分析結果レポートの見本"><figcaption>レポートの見本です</figcaption></figure>
+      <div>
+        <ul class="items">
+          <li data-n="1"><b>検査結果</b>声の高さ・声量の安定・語尾・響き・澄み具合・明るさ・話す速さ・間・抑揚・息継ぎ。ひとつずつ数値で</li>
+          <li data-n="2"><b>所見</b>検査結果をもとに、あなたの声の状態を詳しくお伝えします</li>
+          <li data-n="3"><b>今年の処方箋</b>日常の中でできる、ボイストレーナーからのアドバイスをひとつ</li>
+        </ul>
+        <p class="note">※ 数値は、録音環境の影響を受けます。静かなところでの録音をおすすめします。<br>※ 本検査は医療機関の検査ではありません。喉の痛み・違和感が続く場合は耳鼻咽喉科の受診をおすすめします。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 受診の流れ: 4つの丸番号 -->
+<section class="sec peach">
+  <div class="wrap">
+    <div class="center"><span class="kicker">受診の流れ</span></div>
+    <h2 class="center">録って、送るだけ。</h2>
+    <p class="sub center">&nbsp;</p>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><p>申し込む</p></div>
+      <div class="step"><div class="n">2</div><p>受診キットが届く<small>録音の手順のご案内</small></p></div>
+      <div class="step"><div class="n">3</div><p>9月30日(水)までに<br>録音を提出する</p></div>
+      <div class="step"><div class="n">4</div><p>10月末までに、<br>分析結果レポートが届く</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 料金: 定価の打ち消し線→今年の価格→自動更新の説明→申込 -->
+<section class="sec alt" id="price">
+  <div class="wrap">
+    <div class="center"><span class="kicker">料金</span></div>
+    <div class="price">
+      <p class="anchor">2027年からの新規受付 <s>12,800円</s></p>
+      <div class="amount">9,800<span>円（年1回・税込）</span></div>
+      <p class="amount-note">今年お申し込みの方は、この価格です</p>
+      <p class="sub">今年受診された方は、来年からもずっと9,800円のまま据え置きです。<br>お支払いは毎年の自動更新です。次回の決済日の前日までに、いつでも解約できます。</p>
+      <a class="cta" href="https://buy.stripe.com/8x29ASfxRgYF7q8cTNaAw0f">声の人間ドックに申し込む</a>
+      <p class="cta-note">クレジットカード決済（Stripe）</p>
+    </div>
+    <div class="bonus">
+      <span class="badge">先着10名の方へ</span>
+      <p>レポートとは別に、「あなたの声の分析」を音声でお届けします。<br>Voicyでやっている「◯◯さんの声の分析」の、あなた版です。5〜10分ほど、あなたの声について話した音声をお届けします。</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ + 1年の変化の絵 -->
+<section class="sec peach">
+  <div class="wrap">
+    <div class="center"><span class="kicker">よくある質問</span></div>
+    <h2 class="center">&nbsp;</h2>
+    <div class="faq">
+      <details open><summary>受けたら声は良くなりますか？</summary><p>受けただけで良くなるわけではありません。ですが、改善点が見えます。今年の処方箋を1つお付けするので、取り組んでみてください。声は、変わっていきます。</p></details>
+      <details><summary>なぜ年に1回なのですか？</summary><p>健康診断と同じ形にしています。声は1年でも変わります。だから毎年、同じ条件で測るのがおすすめです。1年後にもう一度録ると、その1年で何が変わったかが見えます。</p></details>
+      <details><summary>録音がうまくできるか不安です</summary><p>受診キットの手順どおりに録って送るだけで大丈夫です。上手に話す必要はありません。ふだんの声を聴かせてください。</p></details>
+    </div>
+    <div class="year"><img src="img/henka_1nen.webp" alt="1年前の声の波形と、いまの声の波形" onerror="this.src='img/henka_1nen.png'"></div>
+  </div>
+</section>
+
+<!-- 締め -->
+<section class="closing">
+  <div class="wrap">
+    <h2>あなたの今の声、残しておきましょう。</h2>
+    <p class="note">受付は9月18日(金)23:59までです。</p>
+    <a class="cta" href="https://buy.stripe.com/8x29ASfxRgYF7q8cTNaAw0f">声の人間ドックに申し込む</a>
+
+exec
+/bin/zsh -lc 'git status --short' in /Users/shinnomika/git/Form-link-page
+ succeeded in 2523ms:
+2026-09-08 19:23:02.932 xcodebuild[97115:1660494]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-09-08 19:23:03.207 xcodebuild[97115:1660493] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-WXtpNAop' (errno=Operation not permitted)
+2026-09-08 19:23:03.782 xcodebuild[97119:1660512]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-09-08 19:23:03.934 xcodebuild[97119:1660511] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+?? dock-start.html
+?? dock-tokuten.html
+?? img/dock/_codex_v6.log
+?? img/dock/_copy_v2_11.txt
+?? img/dock/hero.png
+?? img/dock/nayami1.png
+?? img/dock/nayami2.png
+?? img/dock/nayami3.png
+?? video/koe_bunseki_promo_16x9_v1.mp4
+
+codex
+前回版はコピーがかなり改変されていて、指定外フォントや未使用指定の画像も混ざっています。v6 はコピーを原稿順に戻し、本人写真とレポート見本、4点の統一イラストだけで組み直す方針です。
+exec
+/bin/zsh -lc "sed -n '260,520p' dock-apply-v5.html" in /Users/shinnomika/git/Form-link-page
+ succeeded in 0ms:
+    <a class="cta" href="https://buy.stripe.com/8x29ASfxRgYF7q8cTNaAw0f">声の人間ドックに申し込む</a>
+  </div>
+</section>
+
+<footer>
+  <a href="https://voice-mika.com/legal/">特定商取引法に基づく表記</a><br>
+  Experisent
+</footer>
+
+</body>
+</html>
+
+exec
+/bin/zsh -lc "find . -maxdepth 1 -name 'dock-apply-v6.html' -print" in /Users/shinnomika/git/Form-link-page
+ succeeded in 0ms:
+exec
+/bin/zsh -lc 'ls -ld . img/dock && test -w .; echo root_writable=$?; test -w img/dock; echo dock_writable=$?' in /Users/shinnomika/git/Form-link-page
+ succeeded in 0ms:
+drwxr-xr-x  25 shinnomika  staff  800 Sep  8 19:10 .
+drwxr-xr-x  13 shinnomika  staff  416 Sep  8 19:22 img/dock
+root_writable=1
+dock_writable=1
+
+codex
+既存のトップ画像は色味は合っていますが、人物の目が幼く寄っています。要件の「幼いキャラにしない」に合わせるなら、本来は再生成したいところです。
+codex
+これから `dock-apply-v6.html` を追加します。原稿本文は表示テキストとして順番どおりに残し、装飾ラベルだけを短い日本語に絞ります。
+2026-09-08T10:26:59.600284Z ERROR codex_core::tools::router: error=patch rejected: writing is blocked by read-only sandbox; rejected by user approval settings
+codex
+作成はブロックされました。現在の環境が `read-only` で、`dock-apply-v6.html` の追加パッチが拒否されています。
+
+確認済み:
+- 指定コピー: `img/dock/_copy_v2_11.txt`
+- 既存素材: `img/dock/mika.jpg`, `img/dock_report_sample.png`
+- 使用予定の絵: `img/dock/hero.jpg`, `img/dock/nayami1.jpg`, `img/dock/nayami2.jpg`, `img/dock/nayami3.jpg`
+
+書き込み可能な状態で再実行されれば、同じ内容で `dock-apply-v6.html` を追加できます。
+tokens used
+71,739
+作成はブロックされました。現在の環境が `read-only` で、`dock-apply-v6.html` の追加パッチが拒否されています。
+
+確認済み:
+- 指定コピー: `img/dock/_copy_v2_11.txt`
+- 既存素材: `img/dock/mika.jpg`, `img/dock_report_sample.png`
+- 使用予定の絵: `img/dock/hero.jpg`, `img/dock/nayami1.jpg`, `img/dock/nayami2.jpg`, `img/dock/nayami3.jpg`
+
+書き込み可能な状態で再実行されれば、同じ内容で `dock-apply-v6.html` を追加できます。
