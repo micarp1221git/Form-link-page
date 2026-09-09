@@ -5,78 +5,138 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex">
 <title>録音の準備ができました｜声の人間ドック</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
-  :root{--coral:#E8815B;--cream:#FFF8F5;--ink:#3D3535;--line:#F0D9CF}
+  :root{--coral:#E8815B;--paper:#FFF8F5;--ink:#3D3535;--mist:#F0EEEC;--line:#DED8D5}
   *{box-sizing:border-box}
-  body{margin:0;background:var(--cream);color:var(--ink);font-family:"Noto Sans JP",sans-serif;line-height:1.9;font-size:16px}
-  .wrap{max-width:640px;margin:0 auto;padding:32px 20px 64px}
-  h1{font-size:22px;margin:0 0 8px;line-height:1.5}
-  .lead{margin:0 0 28px}
-  h2{font-size:17px;margin:32px 0 10px;padding-left:10px;border-left:4px solid var(--coral)}
-  .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 18px}
-  .task{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px 18px;font-size:18px;line-height:2.1}
-  .task p{margin:0 0 18px}.task p:last-child{margin:0}
-  ul{padding-left:1.3em;margin:8px 0}
-  .btn{display:block;text-align:center;background:var(--coral);color:#fff;text-decoration:none;font-weight:700;font-size:18px;padding:16px;border-radius:999px;margin:18px 0 6px}
-  .small{font-size:14px;color:#6b5f5f}
-  /* 2026-09-09 みかさん「すぐ録音しなきゃダメっていう感じがすごいする」→ 焦らせない一枚を最初に置く */
-  .notice{border-left:4px solid var(--coral);margin:0 0 28px}
-  .notice p{margin:0 0 8px}.notice p:last-child{margin:0}
-  .sign{margin-top:36px;font-size:14px}
+  body{margin:0;background:#fff;color:var(--ink);font-family:"Noto Sans JP",sans-serif;
+       font-size:15px;font-weight:500;line-height:1.95;letter-spacing:.035em}
+  img{display:block;max-width:100%}
+  .wrap{width:min(720px,calc(100% - 40px));margin-inline:auto}
+
+  /* 申込ページと同じ帯・同じ見出しの型 */
+  .hero{position:relative;isolation:isolate;overflow:hidden;background:var(--paper);padding:52px 0 46px}
+  .hero::before{content:"";position:absolute;z-index:-1;width:380px;height:380px;border-radius:50%;
+                top:-220px;right:-110px;background:#f7d6c8}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;color:var(--coral);
+           font-size:12px;font-weight:800;letter-spacing:.15em}
+  .eyebrow::before{content:"";width:24px;height:2px;background:var(--coral)}
+  h1{margin:14px 0 12px;font-size:clamp(26px,4.6vw,38px);line-height:1.4;letter-spacing:.06em;font-weight:800}
+  .lead{margin:0;font-size:15px;line-height:2.0;font-weight:700}
+
+  .section{padding:44px 0}
+  .section.mist{background:var(--mist)}
+  h2{margin:0 0 16px;font-size:clamp(20px,3vw,26px);line-height:1.5;letter-spacing:.05em;font-weight:800}
+  h2 .num{display:inline-grid;place-items:center;width:30px;height:30px;margin-right:11px;
+          border-radius:50%;background:var(--coral);color:#fff;font-size:14px;line-height:1;vertical-align:2px}
+
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 22px}
+  .section.mist .card{border-color:#e3ded9}
+  .card p{margin:0 0 12px}.card p:last-child{margin:0}
+  ul{padding-left:1.25em;margin:10px 0}
+  li{margin:6px 0}
+
+  /* 焦らせないための一枚 */
+  .notice{border-left:5px solid var(--coral);background:#fff;border-radius:0 14px 14px 0}
+
+  /* 読む文 */
+  .task{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px 22px;
+        font-size:17px;line-height:2.15}
+  .task p{margin:0 0 20px}.task p:last-child{margin:0}
+  .script-note{margin:0 0 14px;font-size:14px;line-height:1.9;color:#5B5250}
+  .script-note strong{color:var(--ink)}
+
+  .btn{display:block;text-align:center;background:var(--coral);color:#fff;text-decoration:none;
+       font-weight:800;font-size:17px;padding:17px;border-radius:999px;margin:20px 0 10px;
+       box-shadow:0 7px 0 rgba(200,102,64,.28)}
+  .small{font-size:13px;line-height:1.85;color:#6D6462}
+  .sign{margin:0;padding:34px 0 56px;font-size:14px;font-weight:700;text-align:center}
+  .contact{margin-top:10px;font-size:13px;color:#6D6462}
+  @media (max-width:430px){
+    .task{font-size:16px;line-height:2.05;padding:20px 17px}
+    .hero{padding:40px 0 36px}
+    .section{padding:36px 0}
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <h1>録音の準備ができました</h1>
-  <p class="lead">声の人間ドックにお申し込みいただき、ありがとうございます。<br>ここから、あなたの声を録っていただきます。このページだけ見れば終わるようにしてあります。</p>
 
-  <div class="card notice">
-    <p><strong>いま録っても、あとで録っても大丈夫です。</strong></p>
-    <p>この場ですぐ録って送ることもできますし、<strong>同じご案内をメールでもお送りしています</strong>ので、落ち着いたときに開いていただいて構いません。静かな部屋で録れるときが、いちばんいいタイミングです。</p>
-    <p class="small">提出の締め切りは 9月30日（水）です。</p>
+<section class="hero">
+  <div class="wrap">
+    <p class="eyebrow">お申し込みありがとうございます</p>
+    <h1>録音の準備ができました</h1>
+    <p class="lead">ここから、あなたの声を録っていただきます。<br>このページだけ見れば終わるようにしてあります。</p>
   </div>
+</section>
 
-  <h2>録りかた</h2>
-  <div class="card">
-    <p>スマホの、いつもの録音アプリで大丈夫です。</p>
-    <ul>
-      <li>静かな部屋で</li>
-      <li>マイクに近づきすぎない（30センチくらい離してください）</li>
-      <li>上手に読もうとしない</li>
-    </ul>
-    <p>3つめが、いちばん大事です。アナウンサーのように読むと、あなたの普段の声が測れません。仕事で話しているときの調子で、そのまま読んでください。</p>
+<section class="section">
+  <div class="wrap">
+    <div class="card notice">
+      <p><strong>いま録っても、あとで録っても大丈夫です。</strong></p>
+      <p>この場ですぐ録って送ることもできますし、<strong>同じご案内をメールでもお送りしています</strong>ので、落ち着いたときに開いていただいて構いません。静かな部屋で録れるときが、いちばんいいタイミングです。</p>
+      <p class="small">提出の締め切りは 9月30日（水）です。</p>
+    </div>
   </div>
+</section>
 
-  <h2>読んでいただく文</h2>
-  <div class="task">
-    <p>おはようございます。今日もよろしくお願いします。</p>
-    <p>では、さっそく始めます。<br>本日のデータは三種類、パソコンの画面でも共有しています。</p>
-    <p>先週いただいたご質問について、順番に確認しながら進めていきますので、<br>気になるところがあれば、途中でも遠慮なく声をかけてください。</p>
-    <p>新規事業の進捗状況を、四半期ごとにまとめました。</p>
-    <p>以上です。ありがとうございました。</p>
+<section class="section mist">
+  <div class="wrap">
+    <h2><span class="num">1</span>録りかた</h2>
+    <div class="card">
+      <p>スマホの、いつもの録音アプリで大丈夫です。</p>
+      <ul>
+        <li>静かな部屋で</li>
+        <li>マイクに近づきすぎない（30センチくらい離してください）</li>
+        <li>上手に読もうとしない</li>
+      </ul>
+      <p>3つめが、いちばん大事です。アナウンサーのように読むと、あなたの普段の声が測れません。仕事で話しているときの調子で、そのまま読んでください。</p>
+    </div>
   </div>
-  <p class="small">読み終わるまで、30秒から40秒ほどです。</p>
+</section>
 
-  <h2>送りかた</h2>
-  <div class="card">
-    <p>録れたら、下のボタンから送ってください。ボタンの先のページでは、その場で録ることもできます（課題文が画面に出ます）。</p>
-    <a class="btn" href="https://micarp1221git.github.io/voice-karte-form/dock.html">＞＞ 録音を送る</a>
-    <p class="small">ファイルの形式は、スマホがそのまま作るもので大丈夫です。変換していただく必要はありません。<br>録音の提出は、9月30日（水）までにお願いします。</p>
+<section class="section">
+  <div class="wrap">
+    <h2><span class="num">2</span>読んでいただく文</h2>
+    <p class="script-note">あえて少し言いにくい言葉を入れています。<br><strong>言い間違えても、噛んでも、そのままで大丈夫です。</strong></p>
+    <div class="task">
+      <p>おはようございます。今日もよろしくお願いします。</p>
+      <p>では、さっそく始めます。<br>本日のデータは三種類、パソコンの画面でも共有しています。</p>
+      <p>先週いただいたご質問について、順番に確認しながら進めていきますので、<br>気になるところがあれば、途中でも遠慮なく声をかけてください。</p>
+      <p>新規事業の進捗状況を、四半期ごとにまとめました。</p>
+      <p>以上です。ありがとうございました。</p>
+    </div>
+    <p class="small" style="margin-top:10px;">読み終わるまで、30秒から40秒ほどです。</p>
   </div>
+</section>
 
-  <h2>届くまで</h2>
-  <div class="card"><p>10月末までに、分析結果レポートをお届けします。</p></div>
-
-  <h2>うまく録れなかったとき</h2>
-  <div class="card">
-    <p>録り直して大丈夫です。何度でも。</p>
-    <p>言いよどんでも、噛んでも、そのまま送っていただいて構いません。そこも含めて、いつものあなたの声です。</p>
-    <p>聞き返す必要はありません。聴くのは、わたしの仕事です。</p>
-    <p>それでは、お待ちしています。</p>
+<section class="section mist">
+  <div class="wrap">
+    <h2><span class="num">3</span>送りかた</h2>
+    <div class="card">
+      <p>録れたら、下のボタンから送ってください。ボタンの先のページでは、その場で録ることもできます（読む文が画面に出ます）。</p>
+      <a class="btn" href="https://micarp1221git.github.io/voice-karte-form/dock.html">＞＞ 録音を送る</a>
+      <p class="small">ファイルの形式は、スマホがそのまま作るもので大丈夫です。変換していただく必要はありません。<br>録音の提出は、9月30日（水）までにお願いします。</p>
+    </div>
   </div>
+</section>
 
-  <p class="sign">ボイストレーナーみか</p>
-</div>
+<section class="section">
+  <div class="wrap">
+    <h2>届くまで</h2>
+    <div class="card"><p>10月末までに、分析結果レポートをお届けします。</p></div>
+
+    <h2 style="margin-top:34px;">うまく録れなかったとき</h2>
+    <div class="card">
+      <p>録り直して大丈夫です。何度でも。</p>
+      <p>言いよどんでも、噛んでも、そのまま送っていただいて構いません。そこも含めて、いつものあなたの声です。</p>
+      <p>聞き返す必要はありません。聴くのは、わたしの仕事です。</p>
+      <p>それでは、お待ちしています。</p>
+      <p class="contact">ご不明な点は、このメールへの返信か <a href="mailto:mail@info.voice-mika.com">mail@info.voice-mika.com</a> までお願いします。</p>
+    </div>
+  </div>
+</section>
+
+<p class="sign">ボイストレーナーみか</p>
+
 </body>
 </html>
