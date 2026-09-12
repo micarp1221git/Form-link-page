@@ -248,5 +248,11 @@
     <section class="closing"><div class="wrap"><h2>あなたの今の声、残しておきましょう。</h2><p>受付は9月18日(金)23:59までです。</p><a class="cta" href="https://buy.stripe.com/8x29ASfxRgYF7q8cTNaAw0f">＞＞ 声の人間ドックに申し込む</a></div></section>
   </main>
   <footer><a href="https://voice-mika.com/legal/">特定商取引法に基づく表記</a><span>Experisent</span></footer>
+
+  <script>
+  // 2026-09-12: 入口の経路（?f=）をStripeの client_reference_id に乗せる（申込がどの入口から来たかをStripe側に残す・ページの見た目は変わらない）
+  (function(){try{var f=new URLSearchParams(location.search).get('f');if(!f)return;f=f.replace(/[^A-Za-z0-9_-]/g,'').slice(0,40);if(!f)return;
+  document.querySelectorAll('a.cta[href^="https://buy.stripe.com/"]').forEach(function(a){var u=new URL(a.href);u.searchParams.set('client_reference_id','f_'+f);a.href=u.toString();});}catch(e){}})();
+  </script>
 </body>
 </html>
