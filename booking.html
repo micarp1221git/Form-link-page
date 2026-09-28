@@ -655,6 +655,8 @@
   /* ▲▲▲ ここだけ書き換えればOK ▲▲▲ */
 
   // URLの ?type= から種別IDを取得（無ければ個別相談）
+  // 2026-09-28 経路（?f=）を予約データに渡す（どこから来た申込かを数えるため・画面は変わらない。GAS側の保存は別途）
+  var SOURCE_F = (new URLSearchParams(location.search).get('f') || '').replace(/[^a-zA-Z0-9_\-]/g, '').slice(0, 30);
   var TYPE_ID = (new URLSearchParams(location.search).get('type') || 'consult')
                   .replace(/[^a-zA-Z0-9_\-]/g, '');
 
@@ -935,7 +937,8 @@
       date: state.selDate,
       time: state.selTime,
       name: state.name,
-      email: state.email
+      email: state.email,
+      f: SOURCE_F
     }, onBooked, function () {
       showLoading(false);
       $('doBook').disabled = false;
