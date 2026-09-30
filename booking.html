@@ -991,7 +991,8 @@
       action: 'hold',
       type: TYPE_ID,
       date: state.selDate,
-      time: state.selTime
+      time: state.selTime,
+      f: SOURCE_F
     }, onHeld, function () {
       showLoading(false);
       $('doHold').disabled = false;
@@ -1057,5 +1058,6 @@
   /* ---------- 開始 ---------- */
   init();
 </script>
+<script>/* 訪問の計測（2026-09-30・媒体別ダッシュボード）: ページ名と ?f= だけを作業台へ。名前・メールは送らない。失敗しても何も起きない */try{var q=new URLSearchParams(location.search);navigator.sendBeacon('https://sagyoudai.micarp1221.workers.dev/api/beacon',JSON.stringify({p:'booking',f:q.get('f')||'',t:q.get('type')||''}))}catch(e){}</script>
 </body>
 </html>
