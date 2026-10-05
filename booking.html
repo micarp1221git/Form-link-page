@@ -564,7 +564,7 @@
       </div>
       <p class="policy">
         確定後、確認メールをお送りします（Zoomリンク記載）。<br>
-        ご予約の変更・キャンセルは mail@info.voice-mika.com までご連絡ください。
+        ご予約の変更・キャンセルは mail@voice-mika.com までご連絡ください。
       </p>
       <button type="button" class="btn btn-primary" id="doBook">この内容で予約を確定する</button>
       <button type="button" class="btn btn-ghost" data-back="form">&#8249; 入力に戻る</button>
@@ -597,7 +597,7 @@
           <p class="done-text" style="font-size:12px; margin-top:10px;">
             決済が完了すると、ご予約確定メール（Zoomリンク記載）が自動で届きます。<br>
             ※45分以内にお手続きが完了しない場合、仮押さえは解除されます。<br>
-            うまく進めない場合は mail@info.voice-mika.com までご連絡ください。
+            うまく進めない場合は mail@voice-mika.com までご連絡ください。
           </p>
         </div>
 
@@ -610,7 +610,7 @@
           <p class="done-text" style="font-size:12px; margin-top:10px;">
             決済ページが開かなかった場合は、
             <a id="holdPayRetry" href="#" target="_blank" rel="noopener">こちらからもう一度お試しください</a>。<br>
-            うまく進めない場合は mail@info.voice-mika.com までご連絡ください。
+            うまく進めない場合は mail@voice-mika.com までご連絡ください。
           </p>
         </div>
 
@@ -624,7 +624,7 @@
              style="text-decoration:none; box-sizing:border-box;">お支払いへ進む</a>
           <p class="done-text" style="font-size:12px; margin-top:10px;">
             ※お支払いが完了しなくてもご予約は確保されています。<br>
-            うまく進めない場合は mail@info.voice-mika.com までご連絡ください。
+            うまく進めない場合は mail@voice-mika.com までご連絡ください。
           </p>
         </div>
       </div>
@@ -774,7 +774,7 @@
     if (!dates.length) {
       $('fatalMsg').innerHTML =
         '申し訳ありません、現在ご予約いただける枠がありません。<br>' +
-        'お手数ですが mail@info.voice-mika.com までお問い合わせください。';
+        'お手数ですが mail@voice-mika.com までお問い合わせください。';
       $('fatal').classList.add('on');
       return;
     }
@@ -1026,7 +1026,7 @@
         $('doneTextDefault').style.display = '';
         $('doneTextDefault').innerHTML =
           '決済ページの設定に問題があるようです。<br>' +
-          'お手数ですが mail@info.voice-mika.com までご連絡ください。';
+          'お手数ですが mail@voice-mika.com までご連絡ください。';
       }
       showView('done');
       return;
