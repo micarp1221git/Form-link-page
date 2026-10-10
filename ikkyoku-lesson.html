@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+  <meta name="description" content="渾身の1曲レッスン｜忘年会・新年会までに、大好きな1曲を一緒に仕上げる45分。大阪のスタジオで1対1。">
+  <meta name="robots" content="noindex">
+  <title>渾身の1曲レッスン｜ボイストレーナーみか</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* 声の人間ドック（dock-apply.html）と同じ家族。色・書体・目印は揃え、ページの役割だけ変える */
+    :root { --coral:#e8815b; --coral-deep:#c96c4a; --ink:#3d3535; --sub:#6d6462; --paper:#fff8f5; --mist:#f0eeec; --line:#ded8d5; --blush:#f7d6c8; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+    body { margin:0; min-width:320px; color:var(--ink); background:#fff; font-family:"Noto Sans JP", sans-serif; font-size:15px; font-weight:500; line-height:1.95; letter-spacing:.035em; overflow-x:hidden; }
+    img { display:block; max-width:100%; height:auto; }
+    a { color:inherit; }
+    h1,h2,h3,p,ul,ol { margin-top:0; }
+    /* 日本語の折り返し: 文節で折る（1文字だけ次の行に落ちるのを防ぐ） */
+    h1,h2,h3,.lead,.catch,.future-list li,.voice-quote,.closing p,.ba-intro,.ba-who,.turn p,.worry p,.menu-list span,.flow-card p,.qa p,.cta-note,.price-after { word-break:auto-phrase; text-wrap:pretty; }
+    .wrap { width:min(1040px, calc(100% - 48px)); margin-inline:auto; }
+    .narrow { width:min(720px, calc(100% - 48px)); margin-inline:auto; }
+    .eyebrow { display:inline-flex; align-items:center; gap:9px; margin-bottom:14px; color:var(--coral); font-size:12px; font-weight:800; letter-spacing:.15em; }
+    .eyebrow::before { content:""; width:24px; height:2px; background:var(--coral); }
+    h2 { margin-bottom:22px; font-size:clamp(25px, 3.8vw, 40px); line-height:1.5; letter-spacing:.06em; font-weight:800; }
+    h2 .l { display:block; }
+    .section { padding:104px 0; }
+    .center { text-align:center; }
+
+    /* ---------- ヒーロー ---------- */
+    .hero { position:relative; isolation:isolate; overflow:hidden; background:var(--paper); }
+    .hero::before { content:""; position:absolute; z-index:-1; width:460px; height:460px; border-radius:50%; top:-250px; right:-110px; background:var(--blush); }
+    .hero::after { content:""; position:absolute; z-index:-1; width:180px; height:180px; border-radius:50%; bottom:-90px; left:5%; border:38px solid #f3dfd7; }
+    .nav { height:72px; display:flex; align-items:center; justify-content:space-between; }
+    .brand { font-size:13px; font-weight:800; letter-spacing:.13em; }
+    .nav-cta { background:var(--coral); color:#fff; border-radius:999px; padding:10px 22px; font-size:13px; font-weight:800; text-decoration:none; box-shadow:0 3px 10px rgba(232,129,91,.28); }
+    .hero-grid { display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:4%; padding:28px 0 84px; }
+    .catch { margin:6px 0 14px; font-size:clamp(16px, 1.9vw, 20px); font-weight:700; line-height:1.8; letter-spacing:.05em; }
+    h1 { margin:0 0 14px; font-size:clamp(34px, 5.2vw, 56px); line-height:1.2; letter-spacing:.09em; font-weight:800; white-space:nowrap; }
+    .lead { margin-bottom:22px; font-size:16px; font-weight:700; line-height:2; }
+    .spec { display:flex; flex-wrap:wrap; gap:0; margin:0 0 26px; padding:0; list-style:none; border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); }
+    .spec li { padding:9px 16px 9px 0; margin-right:16px; font-size:13px; font-weight:700; line-height:1.6; position:relative; }
+    .spec li + li::before { content:""; position:absolute; left:-16px; top:50%; width:1px; height:14px; transform:translateY(-50%); background:var(--line); }
+    .spec b { font-size:18px; letter-spacing:.04em; }
+    .hero-art { position:relative; }
+    .hero-art img { width:100%; }
+    .profile { display:flex; align-items:center; gap:13px; margin-top:22px; font-size:13px; font-weight:700; line-height:1.5; }
+    .profile img { width:60px; height:60px; object-fit:cover; border-radius:50%; border:2px solid #fff; box-shadow:0 2px 8px rgba(61,53,53,.12); }
+
+    /* ---------- ボタン ---------- */
+    .cta { display:flex; align-items:center; justify-content:center; gap:10px; width:100%; max-width:480px; min-height:64px; margin-inline:auto; padding:12px 24px; border-radius:3px; color:#fff; background:var(--coral); box-shadow:0 6px 0 var(--coral-deep); font-size:16px; font-weight:800; letter-spacing:.08em; line-height:1.5; text-decoration:none; transition:transform .15s, box-shadow .15s; }
+    .cta::after { content:""; width:8px; height:8px; border-top:2px solid currentColor; border-right:2px solid currentColor; transform:rotate(45deg); }
+    .cta:hover { transform:translateY(3px); box-shadow:0 3px 0 var(--coral-deep); }
+    .hero .cta { margin-left:0; }
+    .cta-note { margin:16px 0 0; color:var(--sub); font-size:12px; font-weight:700; text-align:center; }
+    .cta-block { position:relative; z-index:1; margin-top:52px; }
+
+    /* ---------- 不安な未来 ---------- */
+    .worry-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:20px; margin-top:40px; }
+    .worry { overflow:hidden; border:1px solid #eee8e5; background:var(--paper); }
+    .worry img { width:100%; aspect-ratio:1; object-fit:cover; }
+    .worry p { margin:0; padding:18px 18px 22px; font-weight:700; line-height:1.75; }
+    .turn { max-width:640px; margin:48px auto 0; font-size:16px; line-height:2.1; }
+    .turn strong { font-weight:800; background:linear-gradient(transparent 62%, #fadccf 62%); }
+
+    /* ---------- 憧れの未来 ---------- */
+    .future { position:relative; overflow:hidden; background:var(--mist); }
+    .future::after { content:""; position:absolute; right:-60px; bottom:-70px; width:220px; height:220px; border:32px solid #f7ddd2; border-radius:50%; }
+    .future-grid { position:relative; z-index:1; display:grid; grid-template-columns:1.05fr .95fr; align-items:center; gap:6%; }
+    .future-art { background:#fff; padding:14px; }
+    .future-list { list-style:none; margin:26px 0 0; padding:0; }
+    .future-list li { display:flex; gap:14px; padding:15px 0; border-top:1px solid #d8d2cf; font-weight:700; line-height:1.75; }
+    .future-list li:last-child { border-bottom:1px solid #d8d2cf; }
+    .future-list li::before { content:""; flex:none; width:13px; height:7px; margin-top:.7em; border-left:2px solid var(--coral); border-bottom:2px solid var(--coral); transform:rotate(-45deg); }
+
+    /* ---------- Before-After ---------- */
+    .ba-intro { max-width:640px; margin:0 auto 40px; }
+    .ba-grid { display:grid; grid-template-columns:1fr 1fr; gap:0; border:1px solid var(--line); }
+    .ba { padding:30px 30px 32px; }
+    .ba + .ba { border-left:1px solid var(--line); background:var(--paper); }
+    .ba-label { display:inline-block; margin-bottom:12px; font-size:13px; font-weight:800; letter-spacing:.16em; }
+    .ba-label.after { color:var(--coral); }
+    .ba-label small { margin-left:8px; color:var(--sub); font-size:11px; letter-spacing:.06em; }
+    .ba h3 { margin-bottom:12px; font-size:18px; line-height:1.6; font-weight:800; }
+    .voice-quote { margin:0; padding-left:14px; border-left:3px solid var(--line); color:var(--sub); font-size:14px; line-height:1.9; }
+    .ba + .ba .voice-quote { border-left-color:#f2b9a2; }
+    .ba-who { margin:26px auto 0; max-width:640px; font-size:14px; }
+    .ba-intro p { margin-bottom:12px; }
+    .ba audio { display:block; width:100%; height:44px; margin-top:6px; }
+    .ba-who { text-align:center; }
+    .ba-wow { margin:0 0 14px; font-size:20px; font-weight:800; }
+    .ba-end { margin:18px 0 0; font-size:clamp(20px,2.6vw,26px); font-weight:800; letter-spacing:.06em; }
+    .listen { display:flex; align-items:center; justify-content:center; gap:12px; width:100%; max-width:420px; min-height:58px; margin:28px auto 0; padding:10px 22px; border:2px solid var(--ink); border-radius:3px; background:#fff; font-size:15px; font-weight:800; letter-spacing:.06em; text-decoration:none; }
+    .listen::before { content:""; width:0; height:0; border-left:11px solid var(--coral); border-top:7px solid transparent; border-bottom:7px solid transparent; }
+    .listen:hover { background:var(--paper); }
+
+    /* ---------- すること ---------- */
+    .menu { background:var(--paper); }
+    .menu-list { counter-reset:m; list-style:none; max-width:700px; margin:36px auto 0; padding:0; }
+    .menu-list li { counter-increment:m; display:grid; grid-template-columns:52px 1fr; gap:6px 18px; padding:22px 0; border-top:1px solid var(--line); }
+    .menu-list li:last-child { border-bottom:1px solid var(--line); }
+    .menu-list li::before { content:counter(m, decimal-leading-zero); grid-row:span 2; color:var(--coral); font-size:26px; font-weight:800; line-height:1.3; letter-spacing:.04em; }
+    .menu-list b { font-size:16px; font-weight:800; line-height:1.6; }
+    .menu-list span { color:var(--sub); font-size:14px; line-height:1.85; }
+
+    /* ---------- 流れ ---------- */
+    .flow-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:22px; margin-top:40px; }
+    .flow-card { position:relative; background:var(--paper); padding:14px 14px 22px; }
+    .flow-card:not(:last-child)::after { content:""; position:absolute; right:-15px; top:42%; z-index:2; width:18px; height:18px; border-right:1px solid var(--coral); border-top:1px solid var(--coral); transform:rotate(45deg); background:#fff; }
+    .flow-num { position:absolute; top:8px; left:8px; z-index:1; display:grid; place-items:center; width:30px; height:30px; border-radius:50%; color:#fff; background:var(--coral); font-size:12px; font-weight:800; }
+    .flow-card img { width:100%; aspect-ratio:1; object-fit:cover; }
+    .flow-card img.zoom { object-position:12% center; }
+    .flow-card h3 { margin:14px 0 4px; font-size:16px; font-weight:800; line-height:1.6; }
+    .flow-card p { margin:0; color:var(--sub); font-size:13px; line-height:1.8; }
+
+    /* ---------- 料金 ---------- */
+    .price-box { max-width:720px; margin:auto; padding:56px clamp(22px,6vw,72px); border:1px solid var(--line); background:var(--paper); text-align:center; }
+    .price-name { margin-bottom:6px; font-size:18px; font-weight:800; letter-spacing:.1em; }
+    .price-line { margin:0 0 26px; font-size:clamp(40px, 6vw, 54px); font-weight:800; line-height:1.2; letter-spacing:.02em; }
+    .price-line small { margin-left:4px; font-size:.38em; letter-spacing:.08em; }
+    .price-spec { list-style:none; max-width:420px; margin:0 auto 30px; padding:0; text-align:left; }
+    .price-spec li { display:flex; justify-content:space-between; gap:16px; padding:11px 0; border-top:1px solid var(--line); font-size:14px; font-weight:700; }
+    .price-spec li:last-child { border-bottom:1px solid var(--line); }
+    .price-spec li span:first-child { color:var(--sub); font-weight:500; }
+    .price-after { margin:22px 0 0; color:var(--sub); font-size:13px; }
+
+    /* ---------- FAQ ---------- */
+    .faq { background:var(--mist); }
+    .faq-list { max-width:760px; margin:36px auto 0; }
+    .qa { padding:24px 0; border-top:1px solid #d6d0cd; }
+    .qa:last-child { border-bottom:1px solid #d6d0cd; }
+    .qa p { margin:0; }
+    .qa p + p { margin-top:10px; color:var(--ink); }
+    .qa b { margin-right:.4em; color:var(--coral); }
+    .qa .q { font-weight:800; }
+
+    /* ---------- 締め ---------- */
+    .closing { position:relative; overflow:hidden; padding:104px 0; background:var(--coral); color:#fff; text-align:center; }
+    .closing::before, .closing::after { content:""; position:absolute; border-radius:50%; border:32px solid rgba(255,255,255,.17); }
+    .closing::before { width:260px; height:260px; left:-150px; top:-100px; }
+    .closing::after { width:300px; height:300px; right:-190px; bottom:-180px; }
+    .closing .wrap { position:relative; z-index:1; }
+    .closing p { margin-bottom:30px; font-weight:700; }
+    .closing .cta { background:#fff; color:var(--coral); box-shadow:0 6px 0 rgba(90,55,44,.23); }
+    footer { padding:28px 24px 96px; background:var(--ink); color:#fff; text-align:center; font-size:12px; letter-spacing:.07em; }
+    footer a { margin-right:18px; text-underline-offset:3px; }
+
+    /* ---------- スマホの下に出る予約バー ---------- */
+    .sticky { position:fixed; left:0; right:0; bottom:0; z-index:20; display:none; padding:10px 16px calc(10px + env(safe-area-inset-bottom)); background:rgba(255,255,255,.96); border-top:1px solid var(--line); box-shadow:0 -4px 16px rgba(61,53,53,.08); transform:translateY(110%); transition:transform .25s; }
+    .sticky.on { transform:none; }
+    .sticky a { display:flex; align-items:center; justify-content:center; min-height:50px; border-radius:3px; background:var(--coral); color:#fff; font-size:15px; font-weight:800; letter-spacing:.06em; text-decoration:none; }
+
+    @media (max-width:760px) {
+      body { font-size:14px; }
+      .wrap, .narrow { width:calc(100% - 32px); }
+      .section { padding:72px 0; }
+      h2 { font-size:24px; }
+      .nav { height:60px; }
+      .nav-cta { padding:8px 16px; font-size:12px; }
+      .hero-grid { grid-template-columns:1fr; padding:12px 0 56px; gap:0; }
+      .hero-art { order:2; margin:26px -6px 0; }
+      .catch { font-size:16px; }
+      h1 { font-size:min(32px, 8.2vw); letter-spacing:.04em; }
+      .lead { font-size:15px; }
+      .spec li { padding-right:12px; margin-right:12px; }
+      .spec li + li::before { left:-12px; }
+      .worry-grid { grid-template-columns:1fr; gap:12px; margin-top:28px; }
+      .worry { display:grid; grid-template-columns:112px 1fr; align-items:center; }
+      .worry img { height:112px; }
+      .worry p { padding:10px 14px; font-size:14px; }
+      .turn { font-size:15px; margin-top:36px; }
+      .future-grid { grid-template-columns:1fr; gap:30px; }
+      .future-art { order:-1; padding:8px; }
+      .ba-grid { grid-template-columns:1fr; }
+      .ba { padding:24px 20px 26px; }
+      .ba + .ba { border-left:0; border-top:1px solid var(--line); }
+      .menu-list li { grid-template-columns:40px 1fr; gap:4px 12px; }
+      .menu-list li::before { font-size:20px; }
+      .menu-list b { font-size:15px; }
+      .flow-grid { grid-template-columns:1fr; gap:14px; }
+      .flow-card { display:grid; grid-template-columns:104px 1fr; gap:0 14px; align-items:center; padding:10px; }
+      .flow-card img { grid-row:span 2; }
+      .flow-card h3 { margin:0 0 2px; font-size:15px; }
+      .flow-card:not(:last-child)::after { display:none; }
+      .flow-num { width:26px; height:26px; font-size:11px; top:4px; left:4px; }
+      .price-box { padding:42px 18px; }
+      .cta { min-height:58px; font-size:15px; }
+      .closing { padding:76px 0; }
+      .sticky { display:block; }
+    }
+    .about { background:#fff; }
+    .about-grid { display:grid; grid-template-columns:220px 1fr; gap:40px; align-items:center; max-width:880px; }
+    .about-photo { width:220px; height:264px; object-fit:cover; border-radius:18px; box-shadow:0 6px 20px rgba(61,53,53,.12); }
+    .about h2 { margin:6px 0 10px; }
+    .about-nums { font-size:15px; font-weight:800; color:var(--coral); margin-bottom:14px; }
+    .about-list { margin:0; padding-left:1.2em; font-size:15px; line-height:1.9; }
+    iframe.voicy { width:100%; height:230px; border:0; border-radius:12px; background:#fff; }
+    @media (max-width:720px) { .about-grid { grid-template-columns:1fr; gap:20px; text-align:center; } .about-photo { margin:0 auto; width:180px; height:216px; } .about-list { display:inline-block; text-align:left; } }
+    .price-get { list-style:none; margin:18px 0 0; padding:16px 18px; background:#fff; border-radius:12px; text-align:left; font-size:14px; line-height:1.8; }
+    .price-get li { position:relative; padding-left:1.4em; word-break:auto-phrase; text-wrap:pretty; }
+    .price-get li::before { content:"✓"; position:absolute; left:0; color:var(--coral); font-weight:800; }
+  </style>
+</head>
+<body>
+  <!-- 下書き（2026-10-10・未公開・どこからもリンクしていない）。
+       未定＝日程・値段・スタジオ（梅田か心斎橋）・予約ページ（type未作成）。ボタンの行き先は #apply のまま。
+       Before-After はりこさんのモニターを撮ってから入れる。 -->
+  <main>
+    <section class="hero">
+      <div class="wrap nav"><span class="brand">ボイストレーナーみか</span><a class="nav-cta js-book" href="#apply">予約する</a></div>
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="catch">「今年は、この1曲で歌いたい」</p>
+          <h1>渾身の1曲レッスン</h1>
+          <p class="lead">忘年会・新年会までに、<br>あなたの大好きな1曲を、一緒に仕上げる45分。</p>
+          <ul class="spec">
+            <li><b>45</b>分</li>
+            <li>1対1</li>
+            <li>大阪のスタジオ</li>
+          </ul>
+          <a class="cta js-book" href="#apply">日時を選んで予約する</a>
+        </div>
+        <div class="hero-art"><img src="img/dock/v7_hero.jpg" width="1400" height="788" alt="歌う人に、まわりの人が笑顔で耳を傾けている線画イラスト"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="center"><p class="eyebrow">こんな方へ</p>
+          <h2><span class="l">若い曲を盛り上げるより、</span><span class="l">あの1曲を、ちゃんと歌いたい。</span></h2></div>
+        <div class="turn">
+          <p>年末年始は、カラオケに行く季節です。</p>
+          <p>新しい曲をテンション高く歌う人もいれば、<br><strong>大好きなあの1曲を、誰よりも上手く歌えるようになりたい</strong>人もいます。</p>
+          <p>このレッスンは、その「1曲」のためにあります。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section future">
+      <div class="wrap future-grid">
+        <div>
+          <p class="eyebrow">その先に</p>
+          <h2><span class="l">「え、その曲、</span><span class="l">歌えるんだ！」</span></h2>
+          <ul class="future-list">
+            <li>マイクが回ってきたら、迷わずあの曲を入れられる</li>
+            <li>サビの高いところまで、気持ちよく歌い切れる</li>
+            <li>何曲歌っても、のどがつらくならない</li>
+          </ul>
+          <div class="cta-block" style="margin-top:36px"><a class="cta js-book" href="#apply">日時を選んで予約する</a></div>
+        </div>
+        <div class="future-art"><img src="img/dock/v7_hero.jpg" width="1400" height="788" alt="歌い終えた人に、まわりの人が拍手している線画イラスト" loading="lazy"></div>
+      </div>
+    </section>
+
+    <section class="section about">
+      <div class="wrap about-grid">
+        <img class="about-photo" src="img/dock/mika.jpg" width="746" height="900" alt="ボイストレーナーみか">
+        <div>
+          <p class="eyebrow">プロフィール</p>
+          <h2>ボイストレーナーみか</h2>
+          <p class="about-nums">ボイストレーナー歴20年／累計生徒数1,000人超え／累計レッスン2万回超え</p>
+          <ul class="about-list">
+            <li>歌ヘタ出身のボイストレーナーです</li>
+            <li>歌声も話し声も、どちらも見られます</li>
+            <li>音声配信を6年継続・Udemy講師</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section menu">
+      <div class="narrow">
+        <div class="center"><p class="eyebrow">レッスンの中身</p>
+          <h2><span class="l">あなたの1曲だけを見る、</span><span class="l">45分。</span></h2></div>
+        <ol class="menu-list">
+          <li><b>歌いたい曲を、先に教えてもらう</b><span>キーを変えて歌いたい方は、そのキーも。当日までに、その曲を聴きこんでおきます。</span></li>
+          <li><b>まず一度、歌ってもらう</b><span>どこで苦しくなるのか、どこがもったいないのかを、その場で聴き分けます。</span></li>
+          <li><b>その曲のための声を、一緒に整える</b><span>息の吸いどころ、高いところの出し方、キー。伴奏はわたしのピアノで、あなたに合わせて弾きます。</span></li>
+          <li><b>仕上げに、もう一度歌う</b><span>最初と比べて、変わったところを一緒に確かめます。</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="center"><p class="eyebrow">流れ</p><h2>受講の流れ</h2></div>
+        <div class="flow-grid">
+          <article class="flow-card"><span class="flow-num">1</span><img src="img/dock/v7_flow_apply.jpg" width="700" height="700" alt="スマホで申し込みをする線画イラスト" loading="lazy"><h3>日時を選んで申し込む</h3><p>空いている時間を選んで、お申し込みください。</p></article>
+          <article class="flow-card"><span class="flow-num">2</span><img src="img/dock/v7_flow_record.jpg" width="700" height="700" alt="スマホでメッセージを送る線画イラスト" loading="lazy"><h3>歌いたい曲を知らせる</h3><p>曲名と、キーを変えたい方はそのキーを教えてください。</p></article>
+          <article class="flow-card"><span class="flow-num">3</span><img src="img/dock/v7_hero.jpg" width="1400" height="788" alt="スタジオでレッスンを受ける線画イラスト" loading="lazy"><h3>スタジオで45分</h3><p>大阪のスタジオで、1対1で仕上げます。</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section faq">
+      <div class="wrap">
+        <div class="center"><h2>よくある質問</h2></div>
+        <div class="faq-list">
+          <div class="qa"><p class="q"><b>Q.</b>歌に自信がなくても大丈夫ですか？</p><p><b>A.</b>大丈夫です。わたし自身、歌ヘタ出身のボイストレーナーです。</p></div>
+          <div class="qa"><p class="q"><b>Q.</b>キーを変えて歌いたいです。</p><p><b>A.</b>はい、歓迎です。申し込みのあとに曲を教えていただくとき、変えたいキーも一緒にお知らせください。</p></div>
+          <div class="qa"><p class="q"><b>Q.</b>伴奏はどうなりますか？</p><p><b>A.</b>わたしがピアノで、あなたのキーに合わせて弾きます。</p></div>
+          <div class="qa"><p class="q"><b>Q.</b>撮影はありますか？</p><p><b>A.</b>撮影したい方だけです。撮らせていただいた方は、ご本人の了承のうえでYouTubeでご紹介することがあります。撮らなくても、レッスンの中身は同じです。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="apply" style="padding-top:0">
+      <div class="wrap price-box">
+        <p class="eyebrow">料金</p>
+        <p class="price-name">渾身の1曲レッスン</p>
+        <p class="price-line">（未定）</p>
+        <ul class="price-spec">
+          <li><span>時間</span><span>45分</span></li>
+          <li><span>形</span><span>1対1</span></li>
+          <li><span>場所</span><span>大阪のスタジオ（未定: 梅田か心斎橋）</span></li>
+          <li><span>日程</span><span>（未定）</span></li>
+        </ul>
+        <a class="cta js-book" href="#apply">日時を選んで予約する</a>
+      </div>
+    </section>
+
+    <section class="closing">
+      <div class="wrap">
+        <h2><span class="l">あなたの1曲、</span><span class="l">聴かせてください。</span></h2>
+        <p>スタジオでお会いできるのを、楽しみにしています。</p>
+        <a class="cta js-book" href="#apply">日時を選んで予約する</a>
+      </div>
+    </section>
+  </main>
+  <footer><a href="https://voice-mika.com/legal/">特定商取引法に基づく表記</a><span>Experisent</span></footer>
+  <div class="sticky" id="sticky"><a class="js-book" href="#apply">日時を選んで予約する</a></div>
+
+  <script>
+  (function(){
+    // 入口の印: ページに ?f= があればそれを、無ければ f=soudan のまま予約ページへ渡す
+    try{
+      var f=new URLSearchParams(location.search).get('f');
+      if(f){f=f.replace(/[^A-Za-z0-9_-]/g,'').slice(0,40);}
+      if(f){document.querySelectorAll('a.js-book').forEach(function(a){var u=new URL(a.href);u.searchParams.set('f',f);a.href=u.toString();});}
+    }catch(e){}
+    // スマホの予約バー: ヒーローのボタンが見えなくなったら出し、料金・締めのボタンが見えている間は隠す
+    try{
+      var bar=document.getElementById('sticky'); if(!bar||!('IntersectionObserver' in window)) return;
+      var heroBtn=document.querySelector('.hero .cta'); var shown={};
+      var targets=[heroBtn].concat([].slice.call(document.querySelectorAll('#apply .cta, .closing .cta, .future .cta')));
+      var io=new IntersectionObserver(function(es){es.forEach(function(e){shown[targets.indexOf(e.target)]=e.isIntersecting;});
+        var heroGone=!shown[0]&&heroBtn.getBoundingClientRect().bottom<0; var other=Object.keys(shown).some(function(k){return k!=='0'&&shown[k];});
+        bar.classList.toggle('on',heroGone&&!other);},{threshold:0});
+      targets.forEach(function(t){if(t)io.observe(t);});
+    }catch(e){}
+  })();
+  </script>
+</body>
+</html>
