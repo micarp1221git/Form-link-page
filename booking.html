@@ -480,7 +480,7 @@
       <div class="type-name" id="typeName"></div>
       <div class="type-meta">
         <span class="chip">&#9200; <span id="typeDur"></span>分</span>
-        <span class="chip">&#128249; Zoom</span>
+        <span class="chip" id="chipPlace">&#128249; Zoom</span>
         <span class="chip">1対1</span>
       </div>
       <div class="type-desc" id="typeDesc"></div>
@@ -762,6 +762,16 @@
     $('head').style.display = 'block';
     $('steps').style.display = 'flex';
 
+    // 対面の種別（場所あり）は「Zoom」の表示を場所に置き換える（2026-10-15 渾身の1曲レッスン）
+    state.place = 'Zoom';
+    if (state.type.location) {
+      state.place = String(state.type.location).split('（')[0];
+      $('chipPlace').textContent = '\uD83D\uDCCD ' + state.place;
+      document.querySelectorAll('.policy, .done-text').forEach(function (el) {
+        el.innerHTML = el.innerHTML.replace('（Zoomリンク記載）', '');
+      });
+    }
+
     // 決済つき種別はステップ名を差し替え（入力/確認 → 仮押さえ/決済）
     if (state.type.flow === 'payment') {
       var dots = document.querySelectorAll('.step-dot');
@@ -771,6 +781,13 @@
 
     // 空きが1日もない場合
     var dates = Object.keys(state.days).sort();
+    if (!dates.length && state.type.location) {
+      $('fatalMsg').innerHTML =
+        'スタジオの日程は、決まりしだいこのページに出ます。<br>' +
+        'もうしばらくお待ちください。';
+      $('fatal').classList.add('on');
+      return;
+    }
     if (!dates.length) {
       $('fatalMsg').innerHTML =
         '申し訳ありません、現在ご予約いただける枠がありません。<br>' +
@@ -899,7 +916,7 @@
     // 決済つき種別（フロー=payment）は入力の代わりに仮押さえ確認へ
     setTimeout(function () {
       if (state.type && state.type.flow === 'payment') {
-        $('phType').textContent = state.type.name + '（' + state.type.durationMin + '分・Zoom）';
+        $('phType').textContent = state.type.name + '（' + state.type.durationMin + '分・' + (state.place || 'Zoom') + '）';
         $('phWhen').textContent = jaDateFull(state.selDate) + ' ' + state.selTime + '〜';
         showView('payhold');
       } else {
@@ -920,7 +937,7 @@
 
     state.name = name;
     state.email = email;
-    $('cType').textContent = state.type.name + '（' + state.type.durationMin + '分・Zoom）';
+    $('cType').textContent = state.type.name + '（' + state.type.durationMin + '分・' + (state.place || 'Zoom') + '）';
     $('cWhen').textContent = jaDateFull(state.selDate) + ' ' + state.selTime + '〜';
     $('cName').textContent = name;
     $('cEmail').textContent = email;
