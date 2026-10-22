@@ -352,6 +352,10 @@
     color: var(--ink-soft);
     margin-bottom: 18px;
   }
+  /* 種別ごとの決まり（キャンセル・撮影）＝確定ボタンの直前だけに出す（2026-10-23 みかさん「予約検討段階で辞める理由を置かない」） */
+  .terms { font-size: 12px; line-height: 1.8; color: var(--ink-soft); text-align: left; margin: -6px 0 18px; }
+  .terms p { margin: 0 0 6px; }
+  .terms .t-h { font-weight: 700; margin-bottom: 2px; }
 
   /* ---------- ボタン ---------- */
   .btn {
@@ -547,6 +551,7 @@
         お名前・メールアドレスは<b>決済ページで</b>ご入力いただきます。<br>
         決済完了後、ご予約確定メール（Zoomリンク記載）が自動で届きます。
       </p>
+      <div class="terms" data-terms></div>
       <button type="button" class="btn btn-primary" id="doHold">この日時で仮押さえして決済へ進む</button>
       <button type="button" class="btn btn-ghost" data-back="time">&#8249; 時間を選び直す</button>
     </section>
@@ -566,6 +571,7 @@
         確定後、確認メールをお送りします（Zoomリンク記載）。<br>
         ご予約の変更・キャンセルは mail@voice-mika.com までご連絡ください。
       </p>
+      <div class="terms" data-terms></div>
       <button type="button" class="btn btn-primary" id="doBook">この内容で予約を確定する</button>
       <button type="button" class="btn btn-ghost" data-back="form">&#8249; 入力に戻る</button>
     </section>
@@ -762,6 +768,14 @@
     $('head').style.display = 'block';
     $('steps').style.display = 'flex';
 
+    // 種別ごとの決まり（確定ボタンの直前・2026-10-23）
+    var TERMS = {
+      'karaoke-studio': '<p class="t-h">キャンセルについて</p><p>10日前までのご連絡は全額返金／9日前〜前日は5,000円を返金（スタジオ代のみ差し引かせていただきます）／当日は返金なし</p><p>※撮影OKの方は練習風景を撮らせていただき、ご本人の了承のうえでSNSでご紹介することがあります。</p>',
+      'karaoke-online': '<p class="t-h">キャンセルについて</p><p>前日までのご連絡は全額返金／当日は返金なし</p><p>※撮影OKの方は練習風景を撮らせていただき、ご本人の了承のうえでSNSでご紹介することがあります。</p>'
+    };
+    document.querySelectorAll('[data-terms]').forEach(function (el) {
+      if (TERMS[TYPE_ID]) { el.innerHTML = TERMS[TYPE_ID]; } else { el.parentNode.removeChild(el); }
+    });
     // 対面の種別（場所あり）は「Zoom」の表示を場所に置き換える（2026-10-15 渾身の1曲レッスン）
     state.place = 'Zoom';
     if (state.type.location) {
