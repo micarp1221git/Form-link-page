@@ -1042,6 +1042,10 @@
       $('doneTextDefault').style.display = 'none';
       $('payBlock').style.display = 'none';
       var pay = res.hold.paymentLink;
+      // 2026-10-27: Stripeの支払いリンクには仮予約IDを渡す（支払い後、その枠だけが確定する＝同時に申し込んでも入れ替わらない）
+      if (pay && /^https:\/\/buy\.stripe\.com\//.test(pay) && res.hold.id) {
+        pay += (pay.indexOf('?') < 0 ? '?' : '&') + 'client_reference_id=' + encodeURIComponent(res.hold.id);
+      }
       if (pay && /^https?:\/\//.test(pay)) {
         $('holdPayBtn').href = pay;
         $('holdPayRetry').href = pay;
