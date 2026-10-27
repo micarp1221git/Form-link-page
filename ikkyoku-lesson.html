@@ -44,6 +44,8 @@
     .spec li { padding:9px 16px 9px 0; margin-right:16px; font-size:13px; font-weight:700; line-height:1.6; position:relative; }
     .spec li + li::before { content:""; position:absolute; left:-16px; top:50%; width:1px; height:14px; transform:translateY(-50%); background:var(--line); }
     .spec b { font-size:18px; letter-spacing:.04em; }
+    .spec { align-items:center; }
+    .spec-where span { display:block; }
     .hero-art { position:relative; }
     .hero-art img { width:100%; }
     .profile { display:flex; align-items:center; gap:13px; margin-top:22px; font-size:13px; font-weight:700; line-height:1.5; }
@@ -221,7 +223,7 @@
           <ul class="spec">
             <li><b>45</b>分</li>
             <li>1対1</li>
-            <li>大阪は11/20(金)のみ／Zoom</li>
+            <li class="spec-where"><span>大阪リアル開催は11/20(金)のみ</span><span>Zoom開催</span></li>
           </ul>
           <a class="cta js-book" href="#apply">日時を選んで予約する</a>
         </div>
