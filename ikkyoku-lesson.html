@@ -204,6 +204,10 @@
     @media (max-width:720px) { .about-grid { grid-template-columns:1fr; gap:20px; text-align:center; } .about-photo { margin:0 auto; width:180px; height:216px; } .about-list { display:inline-block; text-align:left; } }
     .price-get { list-style:none; margin:18px 0 0; padding:16px 18px; background:#fff; border-radius:12px; text-align:left; font-size:14px; line-height:1.8; }
     .price-get li { position:relative; padding-left:1.4em; word-break:auto-phrase; text-wrap:pretty; }
+    .ba-videos { display:grid; grid-template-columns:1fr 1fr; gap:24px; max-width:960px; margin:36px auto 0; }
+    .yt { position:relative; aspect-ratio:16/9; background:var(--mist); }
+    .yt iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+    @media (max-width:760px) { .ba-videos { grid-template-columns:1fr; gap:16px; margin-top:28px; } }
     .price-get li::before { content:"✓"; position:absolute; left:0; color:var(--coral); font-weight:800; }
   </style>
 </head>
@@ -257,6 +261,18 @@
           <div class="cta-block" style="margin-top:36px"><a class="cta js-book" href="#apply">日時を選んで予約する</a></div>
         </div>
         <div class="future-art"><img src="img/ikkyoku/future.jpg" width="1672" height="941" alt="カラオケで歌い終えた女性に、友人たちが拍手している線画イラスト" loading="lazy"></div>
+      </div>
+    </section>
+
+    <!-- 11/5 みかさんGO: Before-After はYouTube（限定公開）に置いて埋め込む（曲の権利があるので音声をページに直接置かない） -->
+    <section class="section ba-video">
+      <div class="wrap">
+        <div class="center"><p class="eyebrow">Before / After</p>
+          <h2><span class="l">聞きくらべて</span><span class="l">みてください。</span></h2></div>
+        <div class="ba-videos">
+          <div class="yt"><iframe src="https://www.youtube-nocookie.com/embed/5jNqXbH4aGo?rel=0" title="Before / After（りこさん）" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
+          <div class="yt"><iframe src="https://www.youtube-nocookie.com/embed/OXijchJxAik?rel=0" title="Before / After（Oさん）" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
+        </div>
       </div>
     </section>
 
