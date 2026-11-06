@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>受講枠の仮押さえ</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎙️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&family=Shippori+Mincho:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .kari { padding: 72px 24px; max-width: 420px; margin: 0 auto; }
+  .kari-lead { font-size: 15px; margin-bottom: 36px; text-align: center; }
+  .field { margin-bottom: 26px; }
+  .field label { display: block; font-size: 13px; color: var(--green); margin-bottom: 8px; letter-spacing: 0.1em; }
+  .field input {
+    width: 100%; padding: 13px 14px;
+    border: 1px solid var(--line); border-radius: 10px;
+    background: #fff; font-size: 16px; font-family: var(--sans); color: var(--ink);
+  }
+  .done { text-align: center; font-size: 15px; padding: 40px 0; display: none; }
+  .kari-note { font-size: 13px; color: var(--note); text-align: center; margin-top: 22px; }
+</style>
+</head>
+<body>
+<main class="page">
+  <section class="kari">
+    <p class="label">受講枠の仮押さえ</p>
+    <h2 class="h2">お名前と、<wbr>始めたい日を<wbr>教えてください。</h2>
+    <p class="kari-lead">受講枠をお取り置きしておきます。</p>
+
+    <form id="kari-form">
+      <div class="field">
+        <label for="name">お名前（ハンドルネームでOK）</label>
+        <input id="name" name="name" type="text" required autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="start">始めたい日</label>
+        <input id="start" name="start" type="text" required placeholder="">
+      </div>
+      <button class="btn btn-solid" type="submit" style="width:100%; border:none; cursor:pointer; font-family:var(--sans);">この内容で仮押さえする</button>
+    </form>
+
+    <p class="done" id="done">仮押さえしました。<br>お待ちしていますね。</p>
+    <p class="kari-note">日付まで正確にわからなくても構いません。<br>何月だけでも大丈夫です。</p>
+  </section>
+</main>
+<script>
+  // 受け口（GASのURL）が決まったらここに入れる。空のあいだは送信せず、完了表示だけ出す（公開前の見た目確認用）
+  const RECEIVER_URL = "";
+
+  // 記入例＝2ヶ月後の15日（古くならないように毎回作る）
+  const d = new Date();
+  d.setMonth(d.getMonth() + 2);
+  document.getElementById("start").placeholder = `例）${d.getFullYear()}年${d.getMonth() + 1}月15日`;
+
+  document.getElementById("kari-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const body = new URLSearchParams(new FormData(e.target));
+    if (RECEIVER_URL) {
+      try { await fetch(RECEIVER_URL, { method: "POST", body }); } catch (_) {}
+    }
+    e.target.style.display = "none";
+    document.getElementById("done").style.display = "block";
+  });
+</script>
+</body>
+</html>
