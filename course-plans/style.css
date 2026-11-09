@@ -164,3 +164,4 @@ h1, h2, h3, .headline { word-break: auto-phrase; text-wrap: balance; line-break:
   html { scroll-behavior: auto !important; }
 }
 html { scroll-behavior: smooth; }
+.tokuten-split { margin-top: 10px; max-width: 320px; margin-left: auto; margin-right: auto; }
