@@ -797,6 +797,16 @@
 
     // 空きが1日もない場合
     var dates = Object.keys(state.days).sort();
+    // 2026-11-11 みかさん「大阪スタジオの申し込みをもう受け付けない。オフライン枠は埋まりました。Zoomはまだ空きがある、と案内」
+    if (!dates.length && TYPE_ID === 'karaoke-studio') {
+      var zf = new URLSearchParams(location.search).get('f');
+      $('fatalMsg').innerHTML =
+        '大阪スタジオ（11/20）の枠は埋まりました。<br>ありがとうございます。<br><br>' +
+        'Zoomは、まだ空きがあります。<br>' +
+        '<a href="booking.html?type=karaoke-online' + (zf ? '&f=' + encodeURIComponent(zf) : '') + '">Zoomの空き枠を見る</a>';
+      $('fatal').classList.add('on');
+      return;
+    }
     if (!dates.length && state.type.location) {
       $('fatalMsg').innerHTML =
         'スタジオの日程は、決まりしだいこのページに出ます。<br>' +
