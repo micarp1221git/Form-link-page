@@ -666,7 +666,15 @@
                   .replace(/[^a-zA-Z0-9_\-]/g, '');
   // 2026-11-08 みかさん「申し込み受付は11/10(火)まで」→同日21:57「Zoomは Voicyと同じタイミングで」＝Zoomは11/26(木)まで（Voicyストアの販売最終日）: 渾身の1曲レッスン（スタジオ・Zoom）は締め切りを過ぎたら枠を出さない
   var CLOSE_AT = { 'karaoke-studio': '2026-11-10T23:59:59+09:00', 'karaoke-online': '2026-11-26T23:59:59+09:00' };
-  function openDays(d) { return (CLOSE_AT[TYPE_ID] && Date.now() > Date.parse(CLOSE_AT[TYPE_ID])) ? {} : d; }
+  // 2026-11-11 みかさん「あちゃ。LPのほうの12月閉じておいて」: 受付は11/26までだが、レッスンの日に12月（12/2〜12/11）が出ていた。
+  //   この日付より後のレッスン日は出さない（渾身の1曲レッスンは11月の企画）
+  var LAST_DAY = { 'karaoke-online': '2026-11-30', 'karaoke-studio': '2026-11-20' };
+  function openDays(d) {
+    if (CLOSE_AT[TYPE_ID] && Date.now() > Date.parse(CLOSE_AT[TYPE_ID])) return {};
+    var last = LAST_DAY[TYPE_ID]; if (!last) return d;
+    var out = {}; Object.keys(d || {}).forEach(function (k) { if (k <= last) out[k] = d[k]; });
+    return out;
+  }
 
   /* GASを fetch で呼ぶ。credentials:'omit' で Googleのログインcookieを一切送らない
      ため、訪問者が複数Googleアカウントにログインしていても「アカウント振り分け」
