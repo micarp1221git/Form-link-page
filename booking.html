@@ -801,8 +801,7 @@
     if (!dates.length && TYPE_ID === 'karaoke-studio') {
       var zf = new URLSearchParams(location.search).get('f');
       $('fatalMsg').innerHTML =
-        '大阪スタジオ（11/20）の枠は埋まりました。<br>ありがとうございます。<br><br>' +
-        'Zoomは、まだ空きがあります。<br>' +
+        '大阪スタジオの枠は埋まりました。<br><br>' +
         '<a href="booking.html?type=karaoke-online' + (zf ? '&f=' + encodeURIComponent(zf) : '') + '">Zoomの空き枠を見る</a>';
       $('fatal').classList.add('on');
       return;
