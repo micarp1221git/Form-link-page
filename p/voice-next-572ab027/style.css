@@ -1,0 +1,12 @@
+:root { --bg:#F4F0EA; --ink:#2A2726; --sub:#77706B; }
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } }
+body { margin:0; background:var(--bg); color:var(--ink); font-family:"Hiragino Sans","Noto Sans JP",sans-serif; }
+main { max-width:560px; margin:0 auto; background:#F6F2EC; }
+.part { position:relative; line-height:0; }
+.part img { display:block; width:100%; height:auto; }
+.hit { position:absolute; display:block; border-radius:2px; }
+.hit:focus-visible { outline:3px solid #B8735A; outline-offset:2px; }
+.notes { padding:4px 6% 40px; }
+.notes p { margin:0 0 6px; font-size:13px; line-height:1.8; color:var(--sub); letter-spacing:.02em; }
