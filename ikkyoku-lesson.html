@@ -217,6 +217,10 @@
     .yt { position:relative; aspect-ratio:16/9; background:var(--mist); }
     .yt iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
     @media (max-width:760px) { .ba-videos { grid-template-columns:1fr; gap:16px; margin-top:28px; } }
+    /* 11/19 縦の動画（ショート）2本。横の2本の下に並べる */
+    .ba-videos.tate { max-width:620px; margin-top:24px; }
+    .yt.tate { aspect-ratio:9/16; }
+    @media (max-width:760px) { .ba-videos.tate { grid-template-columns:1fr 1fr; gap:10px; margin-top:16px; } }
     .price-get li::before { content:"✓"; position:absolute; left:0; color:var(--coral); font-weight:800; }
   </style>
 </head>
@@ -283,6 +287,11 @@
         <div class="ba-videos">
           <div class="yt"><iframe src="https://www.youtube-nocookie.com/embed/A3bgouNHBBQ?rel=0" title="Before / After（りこさん）" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
           <div class="yt"><iframe src="https://www.youtube-nocookie.com/embed/OXijchJxAik?rel=0" title="Before / After（Oさん）" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
+        </div>
+        <!-- 11/19 みかさん「ララさんとまなみさんのビフォーアフター動画も入れておいて」 -->
+        <div class="ba-videos tate">
+          <div class="yt tate"><iframe src="https://www.youtube-nocookie.com/embed/Qur_p1kTVlQ?rel=0" title="Before / After（ララさん）" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
+          <div class="yt tate"><iframe src="https://www.youtube-nocookie.com/embed/UnKx9avCNzs?rel=0" title="Before / After（マナミさん）" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
         </div>
       </div>
     </section>
