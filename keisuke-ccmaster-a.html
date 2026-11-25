@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>かゆい所に手が届く道具を、自分で作る｜Claude Code 基礎マスターコース</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--coral:#e8815b;--ink:#3d3535;--paper:#fff8f5;--mist:#f0eeec;--line:#ded8d5;--sub:#6f6563}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font-family:"Noto Sans JP",sans-serif;font-weight:400;line-height:1.85;font-size:16px;word-break:keep-all;overflow-wrap:anywhere;line-break:strict}
+img{display:block;max-width:100%;height:auto}
+.wrap{max-width:720px;margin:0 auto;padding:0 22px}
+section,header{padding:64px 0}
+section+section{border-top:1px solid var(--line)}
+h1{font-weight:700;font-size:clamp(30px,8.2vw,48px);line-height:1.4;letter-spacing:.01em;margin:18px 0 20px}
+h2{font-weight:700;font-size:clamp(22px,5.6vw,30px);line-height:1.45;margin-bottom:22px}
+h3{font-weight:700;font-size:17px;line-height:1.5;margin-bottom:6px}
+.pr{display:inline-block;font-size:12px;color:var(--sub);border:1px solid var(--line);padding:2px 8px;line-height:1.6;background:#fff}
+.lead-small{font-size:14px;color:var(--sub);margin-top:22px}
+header p{font-size:16px}
+.fig{margin:28px 0}
+.fig img{width:100%;background:#fff;border:1px solid var(--line)}
+.course{margin:6px 0 26px;padding-left:14px;border-left:3px solid var(--coral);font-size:15px;line-height:1.8}
+.course strong{font-weight:700;font-size:17px}
+.btn{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;max-width:440px;background:var(--ink);color:#fff;text-decoration:none;font-weight:700;font-size:17px;padding:18px 22px;border-radius:6px}
+.btn:hover{opacity:.9}
+.btn-sub{display:inline-block;color:var(--ink);text-decoration:none;font-weight:700;border:1.5px solid var(--ink);padding:14px 22px;border-radius:6px;margin-top:20px}
+#made .intro,#easy .intro{color:var(--sub);margin:-10px 0 28px}
+.items{display:grid;gap:36px}
+.item img{width:100%;aspect-ratio:4/3;object-fit:cover;background:#fff;border:1px solid var(--line);margin-bottom:14px}
+.item h3{display:flex;align-items:center;gap:10px}
+.item h3::before{content:"";width:18px;height:2px;background:var(--coral);flex:none}
+#easy ul{list-style:none;margin-bottom:28px}
+#easy li{padding:12px 0 12px 26px;border-bottom:1px solid var(--line);position:relative}
+#easy li::before{content:"";position:absolute;left:2px;top:22px;width:12px;height:6px;border-left:2px solid var(--coral);border-bottom:2px solid var(--coral);transform:rotate(-45deg)}
+blockquote{margin-top:34px;padding:22px 0 4px 22px;border-left:3px solid var(--coral)}
+blockquote p{font-size:clamp(20px,5.2vw,26px);font-weight:700;line-height:1.6}
+blockquote cite{display:block;font-style:normal;font-size:13px;color:var(--sub);margin-top:10px}
+dl{display:grid;grid-template-columns:7.5em 1fr;border-top:1px solid var(--line)}
+dt,dd{padding:14px 0;border-bottom:1px solid var(--line);font-size:15px}
+dt{color:var(--sub);font-weight:500;padding-right:12px}
+.note{font-size:13px;color:var(--sub);margin-top:18px;line-height:1.8}
+#cta{background:#fff}
+#cta>.wrap>p{font-size:17px}
+.gift{border:1.5px solid var(--ink);padding:20px 22px;margin:28px 0 26px;background:var(--paper)}
+.gift-label{font-size:13px;font-weight:700;color:var(--coral);letter-spacing:.06em}
+.gift-main{font-size:19px;font-weight:700;line-height:1.6;margin:4px 0 8px}
+.gift-note{font-size:13px;color:var(--sub)}
+#cta .pr{margin-bottom:8px}
+#claim p{font-size:15px}
+footer{padding:28px 0 48px;font-size:12px;color:var(--sub)}
+@media (min-width:760px){
+  section,header{padding:88px 0}
+  .items{grid-template-columns:1fr 1fr;gap:44px 36px}
+  header .fig{margin:36px 0}
+}
+#wish ul.wish{list-style:none;margin:0 0 28px}
+#wish li{padding:14px 0 14px 18px;border-bottom:1px solid var(--line);position:relative}
+#wish li::before{content:"";position:absolute;left:0;top:26px;width:8px;height:8px;border-radius:50%;background:var(--line)}
+.turn{font-size:18px;font-weight:700;line-height:1.7}
+#answer{background:#fff}
+#answer p+p{margin-top:16px}
+.say{display:flex;align-items:flex-start;gap:16px;margin-top:44px}
+.say img{width:72px;height:72px;border-radius:50%;object-fit:cover;flex:none;border:1px solid var(--line)}
+.bubble{flex:1;min-width:0;position:relative;background:#fff;border:1.5px solid var(--ink);border-radius:14px;padding:16px 18px;font-size:clamp(17px,4.6vw,22px);font-weight:700;line-height:1.6}
+.bubble::before{content:"";position:absolute;left:-9px;top:24px;width:14px;height:14px;background:#fff;border-left:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);transform:rotate(45deg)}
+.nw{white-space:nowrap}
+.off{font-size:15px;line-height:1.6;margin:0 0 12px}
+.off strong{font-size:22px;color:var(--coral);font-weight:700}
+.gift hr{border:0;border-top:1px dashed var(--line);margin:16px 0}
+</style>
+</head>
+<body>
+
+<!-- 1 つかむ -->
+<header>
+<div class="wrap">
+  <p class="pr">PR｜このページには紹介リンクが含まれます</p>
+  <p class="lead-small">ボイストレーナーみかが紹介する講座</p>
+  <h1>かゆい所に<br>手が届く道具を、<br>自分で作る。</h1>
+  <p>プログラミング未経験から、<br>AIと一緒に自分のアプリを作る<br>1ヶ月の講座</p>
+  <figure class="fig"><img src="img/ccmaster/fv.jpg" alt="" width="1200" height="800"></figure>
+  <p class="course"><strong>Claude Code 基礎マスターコース（2期）</strong><br>けいすけさんの1ヶ月の短期集中講座<br>2026年12月</p>
+  <p class="off">このページの紹介リンクからで<br><strong>1万円引き</strong>になります</p>
+  <a class="btn" href="https://brain-market.com/u/kei/a/bxAzM3YjMgoTZsNWa0JXY?from=b5gzM1AzMgojclNXd" rel="sponsored noopener" target="_blank">講座の申し込みページを見る →</a>
+</div>
+</header>
+
+<!-- 2 悩み -->
+<section id="wish">
+<div class="wrap">
+  <h2>「あったらいいのに」が、<br>毎日ある。</h2>
+  <ul class="wish">
+    <li>子どもに「こんなゲーム<br>あったらいいのに」と言われる</li>
+    <li>献立は決めたのに、<br>段取りで夕飯の時間が押す</li>
+    <li>予約の日にち合わせで、<br>やりとりが何往復もする</li>
+    <li>探したアプリは、<br>どれもちょっとだけ惜しい</li>
+  </ul>
+  <p class="turn">自分で作れたらいいのに。<br>でも、プログラミングなんて無理。</p>
+</div>
+</section>
+
+<!-- 3 解決 -->
+<section id="answer">
+<div class="wrap">
+  <h2>作れます。<br>AIに話しかけながら。</h2>
+  <p><span class="nw">Claude Code</span>（AI）に、<br>ふだんの言葉で頼むと、<br>アプリを作ってくれます。</p>
+  <p>けいすけさんの講座は、その使い方を、<br>作っている画面を見ながら<br>1ヶ月で学ぶ講座です。</p>
+</div>
+</section>
+
+<!-- 4 声・実績 -->
+<section id="made">
+<div class="wrap">
+  <h2>わたしも、作れました。</h2>
+  <div class="items">
+  <div class="item">
+    <img src="img/ccmaster/made-kids.jpg" alt="" width="1200" height="900">
+    <h3>子どものために</h3>
+    <p>子どもが「やりたい」と言った<br>音ゲーを作りました。</p>
+  </div>
+  <div class="item">
+    <img src="img/ccmaster/made-cook.jpg" alt="" width="1200" height="900">
+    <h3>家事が楽になる</h3>
+    <p>献立を決めたら、<br>切る順番まで出してくれるアプリ。<br>ごはんが時間どおりにできるように<br>なりました。</p>
+  </div>
+  <div class="item">
+    <img src="img/ccmaster/made-yoyaku.jpg" alt="" width="1200" height="900">
+    <h3>事務作業が減る</h3>
+    <p>カレンダーの空いている所から<br>選んでもらう予約の仕組み。<br>ポチポチ押してもらうだけで、<br>日程が決まります。</p>
+  </div>
+  <div class="item">
+    <img src="img/ccmaster/made-matome.jpg" alt="" width="1200" height="900">
+    <h3>自分の仕事が速くなる</h3>
+    <p>レッスンのあと、<br>内容をまとめてくれる道具。<br>次のレッスンの準備に使っています。</p>
+  </div>
+  </div>
+  <div class="say">
+    <img src="img/ccmaster/mika.jpg" alt="ボイストレーナーみか" width="96" height="96">
+    <p class="bubble">初回の講座だけで、<br><span class="nw">お釣りが来るほど</span><span class="nw">でした。</span></p>
+  </div>
+</div>
+</section>
+
+<!-- 5 特徴 -->
+<section id="easy">
+<div class="wrap">
+  <h2>難しそう？<br>でも大丈夫。</h2>
+  <figure class="fig"><img src="img/ccmaster/easy.jpg" alt="" width="1200" height="800"></figure>
+  <ul>
+    <li>プログラミング未経験を<br>想定した講座です</li>
+    <li>初回は、<span class="nw">Claude Code</span>を<br>使えるようにするところから</li>
+    <li>けいすけさんが作っている画面を、<br>そのまま見ながら進みます</li>
+    <li>分からないことは、<br>いつでも質問できます</li>
+  </ul>
+</div>
+</section>
+
+<!-- 6 講座の内容 -->
+<section id="about">
+<div class="wrap">
+  <h2>講座の内容</h2>
+  <dl>
+    <dt>講座</dt><dd><span class="nw">Claude Code</span><br>基礎マスターコース（2期）</dd>
+    <dt>講師</dt><dd>けいすけさん</dd>
+    <dt>期間</dt><dd>2026年12月1日〜31日</dd>
+    <dt>ライブ</dt><dd>夜22時から、1回だいたい1時間・全9回</dd>
+    <dt>12月のテーマ</dt><dd>自分専用の<br>超カスタマイズダッシュボードを<br>作ろう！</dd>
+    <dt>質問</dt><dd>受講者専用のDiscordの部屋と、講座用のLINEオープンチャット</dd>
+    <dt>準備</dt><dd><span class="nw">Claude Code</span>か<span class="nw">Codex</span>の<br>有料プラン</dd>
+  </dl>
+  <p class="note">※参加すれば必ずアプリが完成する、というものではありません。<br>※日程と内容は講座ページのとおりです（2026年11月25日時点）。</p>
+</div>
+</section>
+
+<!-- 7 申し込み -->
+<section id="cta">
+<div class="wrap">
+  <h2>一緒に、作っていきましょう。</h2>
+  <p>わたしも2期に参加します。</p>
+  <figure class="fig"><img src="img/ccmaster/cta.jpg" alt="" width="1200" height="800"></figure>
+  <div class="gift">
+    <p class="gift-label">紹介リンク特典 1</p>
+    <p class="gift-main">講座が1万円引きになります</p>
+    <p class="gift-note">このページの紹介リンクから<br>お申し込みいただくと、1万円引きです。</p>
+    <hr>
+    <p class="gift-label">紹介リンク特典 2</p>
+    <p class="gift-main">1期の初回アーカイブ動画を<br>プレゼントします</p>
+    <p class="gift-note">2期の募集期間中に、<br>このページの紹介リンクから<br>お申し込みの方が対象です。</p>
+  </div>
+  <p class="pr">PR｜紹介リンク</p>
+  <a class="btn" href="https://brain-market.com/u/kei/a/bxAzM3YjMgoTZsNWa0JXY?from=b5gzM1AzMgojclNXd" rel="sponsored noopener" target="_blank">講座の申し込みページを見る →</a>
+</div>
+</section>
+
+<!-- 8 特典の受け取り -->
+<section id="claim">
+<div class="wrap">
+  <h2>お申し込みのあとに</h2>
+  <p>下のボタンからメールを送ってください。<br>お名前と、Brainで買った日を書くだけです。<br>お礼と、動画のリンクをお返しします。</p>
+  <a class="btn-sub" href="mailto:mail@info.voice-mika.com?subject=%E3%80%90%E7%89%B9%E5%85%B8%E5%8F%97%E3%81%91%E5%8F%96%E3%82%8A%E3%80%91Claude%20Code%20%E5%9F%BA%E7%A4%8E%E3%83%9E%E3%82%B9%E3%82%BF%E3%83%BC%E3%82%B3%E3%83%BC%E3%82%B9&amp;body=%E3%81%8A%E5%90%8D%E5%89%8D%EF%BC%9A%0D%0ABrain%E3%81%A7%E8%B3%BC%E5%85%A5%E3%81%97%E3%81%9F%E6%97%A5%EF%BC%9A%0D%0A">プレゼントを受け取る</a>
+</div>
+</section>
+
+</body>
+</html>
