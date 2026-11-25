@@ -59,30 +59,62 @@ footer{padding:28px 0 48px;font-size:12px;color:var(--sub)}
   .items{grid-template-columns:1fr 1fr;gap:44px 36px}
   header .fig{margin:36px 0}
 }
+#wish ul.wish{list-style:none;margin:0 0 28px}
+#wish li{padding:14px 0 14px 18px;border-bottom:1px solid var(--line);position:relative}
+#wish li::before{content:"";position:absolute;left:0;top:26px;width:8px;height:8px;border-radius:50%;background:var(--line)}
+.turn{font-size:18px;font-weight:700;line-height:1.7}
+#answer{background:#fff}
+#answer p+p{margin-top:16px}
+.say{display:flex;align-items:flex-start;gap:16px;margin-top:44px}
+.say img{width:72px;height:72px;border-radius:50%;object-fit:cover;flex:none;border:1px solid var(--line)}
+.bubble{flex:1;min-width:0;position:relative;background:#fff;border:1.5px solid var(--ink);border-radius:14px;padding:16px 18px;font-size:clamp(17px,4.6vw,22px);font-weight:700;line-height:1.6}
+.bubble::before{content:"";position:absolute;left:-9px;top:24px;width:14px;height:14px;background:#fff;border-left:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);transform:rotate(45deg)}
 .nw{white-space:nowrap}
 .noimg .fig,.noimg .item img{display:none}
 </style>
 </head>
 <body class="noimg">
 
-<!-- 場所A ファーストビュー -->
+<!-- 1 つかむ -->
 <header>
 <div class="wrap">
   <p class="pr">PR｜このページには紹介リンクが含まれます</p>
   <p class="lead-small">ボイストレーナーみかが紹介する講座</p>
   <h1>かゆい所に<br>手が届く道具を、<br>自分で作る。</h1>
-  <p>人が作ったアプリは、どこか惜しい。<br>だったら、自分の暮らしに<br>合わせて作ればいい。</p>
+  <p>プログラミング未経験から、<br>AIと一緒に自分のアプリを作る<br>1ヶ月の講座</p>
   <figure class="fig"><img src="img/ccmaster/fv.png" alt="" width="1200" height="800"></figure>
   <p class="course"><strong>Claude Code 基礎マスターコース（2期）</strong><br>けいすけさんの1ヶ月の短期集中講座<br>2026年12月</p>
-  <a class="btn" href="https://brain-market.com/u/kei/a/bxAzM3YjMgoTZsNWa0JXY?from=b5gzM1AzMgojclNXd" rel="sponsored noopener" target="_blank">講座ページをのぞいてみる →</a>
+  <a class="btn" href="https://brain-market.com/u/kei/a/bxAzM3YjMgoTZsNWa0JXY?from=b5gzM1AzMgojclNXd" rel="sponsored noopener" target="_blank">講座の申し込みページを見る →</a>
 </div>
 </header>
 
-<!-- 場所B わたしが作って、楽になった物 -->
+<!-- 2 悩み -->
+<section id="wish">
+<div class="wrap">
+  <h2>「あったらいいのに」が、<br>毎日ある。</h2>
+  <ul class="wish">
+    <li>子どもに「こんなゲーム<br>あったらいいのに」と言われる</li>
+    <li>献立は決めたのに、<br>段取りで夕飯の時間が押す</li>
+    <li>予約の日にち合わせで、<br>やりとりが何往復もする</li>
+    <li>探したアプリは、<br>どれもちょっとだけ惜しい</li>
+  </ul>
+  <p class="turn">自分で作れたらいいのに。<br>でも、プログラミングなんて無理。</p>
+</div>
+</section>
+
+<!-- 3 解決 -->
+<section id="answer">
+<div class="wrap">
+  <h2>作れます。<br>AIに話しかけながら。</h2>
+  <p><span class="nw">Claude Code</span>（AI）に、<br>ふだんの言葉で頼むと、<br>アプリを作ってくれます。</p>
+  <p>けいすけさんの講座は、その使い方を、<br>作っている画面を見ながら<br>1ヶ月で学ぶ講座です。</p>
+</div>
+</section>
+
+<!-- 4 声・実績 -->
 <section id="made">
 <div class="wrap">
-  <h2>わたしが作って、楽になった物</h2>
-  <p class="intro">どれも、AIに話しかけながら作りました。</p>
+  <h2>わたしも、作れました。</h2>
   <div class="items">
   <div class="item">
     <img src="img/ccmaster/made-kids.png" alt="" width="1200" height="900">
@@ -105,28 +137,28 @@ footer{padding:28px 0 48px;font-size:12px;color:var(--sub)}
     <p>レッスンのあと、<br>内容をまとめてくれる道具。<br>次のレッスンの準備に使っています。</p>
   </div>
   </div>
+  <div class="say">
+    <img src="img/ccmaster/mika.jpg" alt="ボイストレーナーみか" width="96" height="96">
+    <p class="bubble">初回の講座だけで、<br><span class="nw">お釣りが来るほど</span><span class="nw">でした。</span></p>
+  </div>
 </div>
 </section>
 
-<!-- 場所C 難しそう、の前に -->
+<!-- 5 特徴 -->
 <section id="easy">
 <div class="wrap">
-  <h2>「難しそう」と思ったら</h2>
+  <h2>難しそう？<br>でも大丈夫。</h2>
   <figure class="fig"><img src="img/ccmaster/easy.png" alt="" width="1200" height="800"></figure>
   <ul>
-    <li>プログラミング未経験でも大丈夫です</li>
-    <li>けいすけさんが作っている画面を、<br>そのまま見ながら学べます</li>
-    <li>分からないことは、いつでも相談できます</li>
-    <li>見逃しても、アーカイブで見返せます</li>
+    <li>プログラミング未経験を<br>想定した講座です</li>
+    <li>初回は、<span class="nw">Claude Code</span>を<br>使えるようにするところから</li>
+    <li>けいすけさんが作っている画面を、<br>そのまま見ながら進みます</li>
+    <li>分からないことは、<br>いつでも質問できます</li>
   </ul>
-  <blockquote>
-    <p>初回の講座だけで、<br>元取れるどころかお釣りがくる。</p>
-    <cite>1期に参加した ボイストレーナーみか</cite>
-  </blockquote>
 </div>
 </section>
 
-<!-- 場所D 講座の内容 -->
+<!-- 6 講座の内容 -->
 <section id="about">
 <div class="wrap">
   <h2>講座の内容</h2>
@@ -136,14 +168,14 @@ footer{padding:28px 0 48px;font-size:12px;color:var(--sub)}
     <dt>期間</dt><dd>2026年12月1日〜31日</dd>
     <dt>ライブ</dt><dd>夜22時から、1回だいたい1時間・全9回</dd>
     <dt>12月のテーマ</dt><dd>自分専用の<br>超カスタマイズダッシュボードを<br>作ろう！</dd>
-    <dt>相談</dt><dd>受講者専用のDiscordの部屋と、講座用のLINEオープンチャット</dd>
+    <dt>質問</dt><dd>受講者専用のDiscordの部屋と、講座用のLINEオープンチャット</dd>
     <dt>準備</dt><dd><span class="nw">Claude Code</span>か<span class="nw">Codex</span>の<br>有料プラン</dd>
   </dl>
   <p class="note">※参加すれば必ずアプリが完成する、というものではありません。<br>※日程と内容は講座ページのとおりです（2026年11月25日時点）。</p>
 </div>
 </section>
 
-<!-- 場所E 申し込み -->
+<!-- 7 申し込み -->
 <section id="cta">
 <div class="wrap">
   <h2>一緒に、作っていきましょう。</h2>
@@ -155,11 +187,11 @@ footer{padding:28px 0 48px;font-size:12px;color:var(--sub)}
     <p class="gift-note">2期の募集期間中に、<br>このページの紹介リンクから<br>お申し込みの方が対象です。</p>
   </div>
   <p class="pr">PR｜紹介リンク</p>
-  <a class="btn" href="https://brain-market.com/u/kei/a/bxAzM3YjMgoTZsNWa0JXY?from=b5gzM1AzMgojclNXd" rel="sponsored noopener" target="_blank">講座ページをのぞいてみる →</a>
+  <a class="btn" href="https://brain-market.com/u/kei/a/bxAzM3YjMgoTZsNWa0JXY?from=b5gzM1AzMgojclNXd" rel="sponsored noopener" target="_blank">講座の申し込みページを見る →</a>
 </div>
 </section>
 
-<!-- 場所F プレゼントの受け取り -->
+<!-- 8 特典の受け取り -->
 <section id="claim">
 <div class="wrap">
   <h2>お申し込みのあとに</h2>
