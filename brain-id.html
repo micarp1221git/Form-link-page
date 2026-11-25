@@ -6,53 +6,41 @@
 <title>BrainのIDの見つけ方</title>
 <meta name="robots" content="noindex">
 <style>
-:root{--navy:#24375a;--ink:#2f3440;--sub:#5f6470;--paper:#fbfaf6;--orange:#ec7a3a;--line:#d9d5ca}
+:root{--navy:#24375a;--ink:#2f3440;--sub:#5f6470;--paper:#fbfaf6;--orange:#ec5a28;--line:#d9d5ca}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--paper);color:var(--ink);font-family:"Hiragino Sans","Noto Sans JP",sans-serif;line-height:1.8;font-size:16px;word-break:keep-all;overflow-wrap:anywhere}
+img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff}
 .wrap{max-width:520px;margin:0 auto;padding:36px 16px 56px}
 h1{font-size:22px;color:var(--navy);line-height:1.5;margin-bottom:8px}
 .lead{color:var(--sub);font-size:14px;margin-bottom:28px}
-.step{margin-bottom:30px}
-.step h2{font-size:17px;margin-bottom:10px}
+.step{margin-bottom:32px}
+.step h2{font-size:17px;line-height:1.6;margin-bottom:10px}
 .step h2 span{display:inline-block;background:var(--navy);color:#fff;font-size:13px;padding:0 9px;margin-right:8px;border-radius:3px}
-.phone{background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden}
-.bar{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line)}
-.logo{font-weight:700;font-size:18px;color:#999}
-.icons{display:flex;gap:14px;align-items:center}
-.dot{width:22px;height:22px;border-radius:50%;border:2px solid #bbb}
-.me{width:36px;height:36px;border-radius:50%;background:#d9cfc6;outline:4px solid var(--orange);outline-offset:3px}
-.menu{padding:16px 18px}
-.idbox{border:3px solid var(--orange);border-radius:8px;padding:10px 12px;margin-bottom:12px}
-.idbox b{font-size:19px;font-family:Menlo,monospace}
-.idbox small{display:block;color:#999;font-size:13px}
-.row{color:#888;font-size:15px;padding:8px 0;border-top:1px solid #eee}
-.note{font-size:14px;color:var(--sub);margin-top:8px}
+.note{font-size:14px;color:var(--sub);margin-top:10px}
+.note b{color:var(--orange)}
 .back{display:block;text-align:center;background:var(--navy);color:#fff;text-decoration:none;font-weight:700;padding:16px;border-radius:4px;margin-top:10px}
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>BrainのIDの見つけ方</h1>
-  <p class="lead">スマホのBrainで、2回押すだけです。</p>
+  <p class="lead">Brainにログインした画面で見られます。</p>
 
   <div class="step">
-    <h2><span>1</span>右上の丸い写真を押す</h2>
-    <div class="phone">
-      <div class="bar"><span class="logo">Brain</span><span class="icons"><i class="dot"></i><i class="dot"></i><i class="me"></i></span></div>
-    </div>
+    <h2><span>1</span>右上の丸いアイコンを押す</h2>
+    <img src="img/brain-id/step1.jpg" alt="Brainの画面の右上にある丸いアイコン" width="1302" height="170">
   </div>
 
   <div class="step">
-    <h2><span>2</span>いちばん上の英数字がIDです</h2>
-    <div class="phone">
-      <div class="menu">
-        <div class="idbox"><b>abcd123</b><small>プロフィールを見る ＞</small></div>
-        <div class="row">記事を書く</div>
-        <div class="row">自分の記事</div>
-        <div class="row">購入した記事</div>
-      </div>
-    </div>
-    <p class="note">「abcd123」のところに、あなたのIDが出ます。<br>それをメールの「BrainのID」の所に書いてください。</p>
+    <h2><span>2</span>メニューのいちばん上の英数字がIDです</h2>
+    <img src="img/brain-id/step2.jpg" alt="メニューのいちばん上に出るIDと、プロフィールを見る" width="1320" height="420">
+    <p class="note">この見本では <b>micarp</b> がIDです。<br>あなたの画面では、ここにあなたのIDが出ます。</p>
+  </div>
+
+  <div class="step">
+    <h2><span>3</span>「プロフィールを見る」からも分かります</h2>
+    <img src="img/brain-id/step3.jpg" alt="プロフィールの名前の下に出るID" width="1302" height="320">
+    <p class="note">名前の下に出る英数字が、同じIDです。</p>
   </div>
 
   <a class="back" href="keisuke-ccmaster.html#claim">特典の受け取りに戻る</a>
