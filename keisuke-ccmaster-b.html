@@ -67,11 +67,12 @@ dt,dd{padding:12px 10px;border-bottom:1px solid var(--line);font-size:14px}
 dt{color:var(--navy);font-weight:700;background:#f4f2ea}
 dl>*:nth-last-child(-n+2){border-bottom:0}
 .small{font-size:13px;color:var(--sub);margin-top:14px;line-height:1.8}
-.back{margin-top:26px;border:2px solid var(--navy);background:#fff;padding:18px 20px}
-.back-t{font-weight:700;color:var(--navy);font-size:17px;line-height:1.6}
-.back-s{font-size:13px;color:var(--sub);margin-top:6px}
-.back-link{display:inline-block;margin-top:10px;font-weight:700;color:var(--navy)}
 .btn-claim{background:var(--navy);box-shadow:0 3px 0 #15233d;margin-top:22px}
+.apply{margin-top:26px;border:3px solid var(--orange);background:#fff;padding:22px 18px}
+.apply-h{font-family:"Klee One",cursive;font-weight:600;font-size:22px;line-height:1.5;color:var(--navy);margin-bottom:8px}
+.apply-s{font-size:14px;color:var(--ink);margin-bottom:18px}
+.claim-s{font-weight:700;color:var(--navy);margin-top:22px;font-size:15px}
+.apply .btn-claim{margin-top:8px}
 .gift{background:#fff;border:1.5px dashed var(--navy);padding:20px;margin:26px 0 24px}
 .gift .tag{display:inline-block;background:var(--yellow);font-weight:700;font-size:13px;padding:2px 10px;margin-bottom:6px}
 .gift .main{font-family:"Klee One",cursive;font-weight:600;font-size:21px;line-height:1.5;color:var(--navy)}
@@ -104,7 +105,7 @@ dl>*:nth-last-child(-n+2){border-bottom:0}
     </ul>
   </div>
   <p class="off">このページの紹介リンクからで <strong>1万円引き</strong></p>
-  <a class="btn" href="https://brain-market.com/u/kei/a/bxAzM3YjMgoTZsNWa0JXY?from=b5gzM1AzMgojclNXd" rel="sponsored noopener" target="_blank">講座の申し込みページを見る →</a>
+  <a class="btn" href="#apply">申し込みと特典を見る ↓</a>
 </div>
 </header>
 
@@ -206,21 +207,14 @@ dl>*:nth-last-child(-n+2){border-bottom:0}
     <p class="main">1期の初回アーカイブ動画を<br>プレゼントします</p>
     <p class="sm">2期の募集期間中に、<br>このページの紹介リンクから<br>お申し込みの方が対象です。</p>
   </div>
-  <a class="btn" href="https://brain-market.com/u/kei/a/bxAzM3YjMgoTZsNWa0JXY?from=b5gzM1AzMgojclNXd" rel="sponsored noopener" target="_blank">講座の申し込みページを見る →</a>
-  <p class="small">PR｜紹介リンク</p>
-  <div class="back">
-    <p class="back-t">申し込んだら、<br>このページに戻ってきてください</p>
-    <p class="back-s">申し込みページは別のタブで開きます。<br>特典の受け取りは、このすぐ下です。</p>
-    <a class="back-link" href="#claim">特典の受け取りへ ↓</a>
+  <div class="apply" id="apply">
+    <p class="apply-h">講座申込み後に、<br>こちらをお忘れなく！</p>
+    <p class="apply-s">申し込みページは別のタブで開きます。<br>申し込みが終わったら、このページに戻って<br>下の「特典の受け取りはこちら」を押してください。</p>
+    <a class="btn" href="https://brain-market.com/u/kei/a/bxAzM3YjMgoTZsNWa0JXY?from=b5gzM1AzMgojclNXd" rel="sponsored noopener" target="_blank">講座の申し込みページを見る →</a>
+    <p class="small">PR｜紹介リンク</p>
+    <p class="claim-s" id="claim">特典は、このボタンから受け取れます</p>
+    <a class="btn btn-claim" href="mailto:mail@info.voice-mika.com?subject=%E3%80%90%E7%89%B9%E5%85%B8%E5%8F%97%E3%81%91%E5%8F%96%E3%82%8A%E3%80%91Claude%20Code%20%E5%9F%BA%E7%A4%8E%E3%83%9E%E3%82%B9%E3%82%BF%E3%83%BC%E3%82%B3%E3%83%BC%E3%82%B9&amp;body=%E3%81%8A%E5%90%8D%E5%89%8D%EF%BC%9A%0D%0ABrain%E3%81%AEID%EF%BC%9A%0D%0A%EF%BC%88ID%E3%81%AE%E8%A6%8B%E3%81%A4%E3%81%91%E6%96%B9%20https%3A%2F%2Fmicarp1221git.github.io%2FForm-link-page%2Fbrain-id.html%20%EF%BC%89%0D%0A">特典の受け取りはこちら →</a>
   </div>
-</div>
-</section>
-
-<section id="claim">
-<div class="wrap">
-  <h2>講座申込み後に、<br>こちらをお忘れなく！</h2>
-  <p>1期の初回アーカイブ動画は、<br>下のボタンから受け取れます。</p>
-  <a class="btn btn-claim" href="mailto:mail@info.voice-mika.com?subject=%E3%80%90%E7%89%B9%E5%85%B8%E5%8F%97%E3%81%91%E5%8F%96%E3%82%8A%E3%80%91Claude%20Code%20%E5%9F%BA%E7%A4%8E%E3%83%9E%E3%82%B9%E3%82%BF%E3%83%BC%E3%82%B3%E3%83%BC%E3%82%B9&amp;body=%E3%81%8A%E5%90%8D%E5%89%8D%EF%BC%9A%0D%0ABrain%E3%81%AEID%EF%BC%9A%0D%0A%EF%BC%88ID%E3%81%AE%E8%A6%8B%E3%81%A4%E3%81%91%E6%96%B9%20https%3A%2F%2Fmicarp1221git.github.io%2FForm-link-page%2Fbrain-id.html%20%EF%BC%89%0D%0A">特典の受け取りはこちら →</a>
 </div>
 </section>
 
