@@ -825,6 +825,15 @@
       $('fatal').classList.add('on');
       return;
     }
+    // 2026-11-27 みかさん: 満席の月の受け皿（無料個別相談）。来月の枠はメルマガでいちばんに知らせる
+    if (!dates.length && TYPE_ID === 'consult') {
+      $('fatalMsg').innerHTML =
+        '今月の無料個別相談の枠は埋まりました。<br>' +
+        '来月の枠は、メルマガでいちばんにお知らせします。<br><br>' +
+        '<a href="https://experisent.systeme.io/b8067cff?f=' + encodeURIComponent('full-' + (SOURCE_F || 'direct')) + '">メルマガに登録する（無料）</a>';
+      $('fatal').classList.add('on');
+      return;
+    }
     if (!dates.length) {
       $('fatalMsg').innerHTML =
         '申し訳ありません、現在ご予約いただける枠がありません。<br>' +
